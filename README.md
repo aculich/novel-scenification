@@ -28,6 +28,7 @@ The project analyzes manually tagged HTML files to track the development of scen
 - `count_tags.py`: The main script for processing tagged HTML files
 - `data/input/`: Directory containing HTML files with manual tagging
 - `data/counts/`: Directory where CSV output files are stored
+- [`data/tag_counts_summary.xlsx`](https://raw.githubusercontent.com/aculich/novel-scenification/main/data/tag_counts_summary.xlsx): Excel summary file of all tag counts and analysis (direct download link)
 
 ## Requirements
 
