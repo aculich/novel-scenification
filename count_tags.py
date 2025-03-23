@@ -20,6 +20,7 @@ from collections import Counter
 import os
 import glob
 from openpyxl.styles import Font, Border, Side, Alignment, PatternFill
+from urllib.parse import quote
 
 def parse_html_to_csv(html_file, csv_file):
     # Read and parse the HTML file
@@ -107,6 +108,27 @@ def parse_html_to_csv(html_file, csv_file):
     
     # Save to CSV
     df.to_csv(csv_file, index=False)
+
+def create_markdown_summary(summary_data):
+    """Generate a markdown summary file with links to the input files."""
+    markdown_content = "# Tag Counts Summary\n\n"
+    markdown_content += "| Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |\n"
+    markdown_content += "|-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|\n"
+    
+    for row in summary_data:
+        # Extract the actual name from the HYPERLINK formula
+        sheet_name = row['Sheet'].split('"')[3]  # Get the original name from the formula
+        # URL encode the filename for the GitHub link
+        encoded_filename = quote(f"{sheet_name}.html")
+        # Create the GitHub link with encoded filename
+        github_link = f"[{sheet_name}](https://raw.githubusercontent.com/aculich/novel-scenification/refs/heads/main/data/input/{encoded_filename})"
+        
+        markdown_content += f"| {github_link} | {row['Total_Tags']} | {row['Total_Words']} | {row['Chapter_Count']} | {row['SceneAction_Count']} | {row['SceneAction_Words']} | {row['SceneDia_Count']} | {row['SceneDia_Words']} | {row['Dialogue_Count']} | {row['Dialogue_Words']} |\n"
+    
+    # Ensure data directory exists
+    os.makedirs('data', exist_ok=True)
+    with open('data/SUMMARY.md', 'w', encoding='utf-8') as f:
+        f.write(markdown_content)
 
 def create_excel_summary():
     counts_dir = "data/counts"
@@ -215,6 +237,9 @@ def create_excel_summary():
         mask = summary_df[numeric_columns].sum(axis=1) > 0
         summary_df = summary_df[mask]
         
+        # Generate markdown summary before writing to Excel
+        create_markdown_summary(summary_data)
+        
         summary_df.to_excel(writer, sheet_name='Summary', index=False)
         
         # Apply formatting to the summary sheet
@@ -281,6 +306,268 @@ def create_excel_summary():
         workbook = writer.book
         workbook._sheets.insert(0, workbook._sheets.pop(workbook._sheets.index(worksheet)))
 
+def get_current_git_commit():
+    """Get the current git commit hash."""
+    import subprocess
+    try:
+        result = subprocess.run(['git', 'rev-parse', 'HEAD'], 
+                              capture_output=True, text=True, check=True)
+        return result.stdout.strip()
+    except subprocess.CalledProcessError:
+        return None
+
+def analyze_scene_complexity(scene_tag):
+    """Analyze the complexity of a scene based on its internal structure."""
+    # Count unique tag types
+    unique_tags = set(tag.name for tag in scene_tag.find_all())
+    # Count total nested tags
+    total_tags = len(scene_tag.find_all())
+    # Count words
+    words = len([w for w in re.split(r'\s+', scene_tag.get_text().strip()) if w])
+    # Calculate complexity score (can be adjusted)
+    return {
+        'score': len(unique_tags) * 2 + total_tags + words/100,
+        'unique_tags': unique_tags,
+        'total_tags': total_tags,
+        'words': words,
+        'text': scene_tag.prettify()
+    }
+
+def find_interesting_excerpts(scene_tag, scene_type):
+    """Find interesting excerpts from a scene including opening, transitions, rich dialog sections, and ending."""
+    excerpts = []
+    
+    # Helper function to truncate text to a reasonable length while preserving tag structure
+    def truncate_html(html_text, max_words=175):  # Increased from 50 to 175 to match screenshot example
+        soup = BeautifulSoup(html_text, 'html.parser')
+        words = soup.get_text().split()
+        if len(words) <= max_words:
+            return html_text
+        
+        # Find a good breakpoint near max_words
+        text = ' '.join(words[:max_words])
+        # Find the last complete sentence if possible
+        last_period = text.rfind('.')
+        if last_period > len(text) * 0.6:  # If we can find a period in the latter half
+            text = text[:last_period+1]
+        return html_text[:html_text.find(text) + len(text)] + "..."
+    
+    # Get the full scene text
+    scene_text = str(scene_tag)
+    
+    # Find rich dialog sections (sections with multiple tag types and interesting content)
+    dialog_sections = []
+    for dia in scene_tag.find_all('dia', recursive=False):
+        # Look at the immediate context
+        context = dia
+        # Try to expand context to include nearby dialog if available
+        parent = dia.parent
+        if parent and parent != scene_tag:  # Only expand if we have a non-root parent
+            siblings = list(parent.find_all('dia', recursive=False))
+            if len(siblings) > 1:
+                dia_index = siblings.index(dia)
+                start_idx = max(0, dia_index - 1)
+                end_idx = min(len(siblings), dia_index + 2)
+                context = parent
+                # Only keep content between the dialogs we want
+                for child in list(context.children):
+                    if isinstance(child, BeautifulSoup.Tag) and child.name == 'dia' and child not in siblings[start_idx:end_idx]:
+                        child.decompose()
+        
+        tags_in_context = set(tag.name for tag in context.find_all())
+        
+        # Calculate richness score based on:
+        # - Number of unique tag types
+        # - Presence of interesting tags (m, chnoneameintro, trigger)
+        # - Length of the dialog (prefer medium-length)
+        interesting_tags = {'m', 'chnoneameintro', 'trigger'}
+        score = (
+            len(tags_in_context) * 2 +  # Weight for tag variety
+            len(tags_in_context & interesting_tags) * 3 +  # Extra weight for interesting tags
+            min(len(context.get_text().split()) / 50, 3)  # Length score, max 3 points
+        )
+        
+        if score >= 4:  # Only keep sections with good scores
+            dialog_sections.append({
+                'text': str(context),
+                'score': score,
+                'tag_count': len(tags_in_context)
+            })
+    
+    if dialog_sections:
+        # Sort by score and take the top ones
+        dialog_sections.sort(key=lambda x: x['score'], reverse=True)
+        for section in dialog_sections[:2]:  # Take up to 2 best sections
+            # Truncate to reasonable length
+            text = truncate_html(section['text'])
+            if len(text) > 150:  # Increased minimum length to ensure rich content
+                excerpts.append({
+                    'type': 'rich_dialog',
+                    'text': text,
+                    'description': 'Rich Dialog Section with Multiple Tag Types'
+                })
+    
+    # Find transitions with triggers (if any)
+    triggers = scene_tag.find_all('trigger')
+    if triggers:
+        # Get context around the most interesting trigger
+        trigger_contexts = []
+        for trigger in triggers:
+            context = trigger.parent
+            tags_in_context = set(tag.name for tag in context.find_all())
+            if len(tags_in_context) >= 2:  # Only if there are multiple tag types
+                trigger_contexts.append({
+                    'text': str(context),
+                    'tag_count': len(tags_in_context)
+                })
+        
+        if trigger_contexts:
+            # Take the richest trigger context
+            trigger_contexts.sort(key=lambda x: x['tag_count'], reverse=True)
+            text = truncate_html(trigger_contexts[0]['text'])
+            if len(text) > 50:
+                excerpts.append({
+                    'type': 'transition',
+                    'text': text,
+                    'description': 'Scene Transition'
+                })
+    
+    # Only include opening/ending if they have interesting tags
+    def is_interesting_section(text):
+        soup = BeautifulSoup(text, 'html.parser')
+        tags = set(tag.name for tag in soup.find_all())
+        return len(tags) >= 2  # At least 2 different tag types
+    
+    # Check opening
+    opening_match = re.search(r'<' + scene_type + r'[^>]*>.*?(<.*?</.*?>)', scene_text, re.DOTALL)
+    if opening_match and is_interesting_section(opening_match.group(0)):
+        text = truncate_html(opening_match.group(0))
+        if len(text) > 50:
+            excerpts.append({
+                'type': 'opening',
+                'text': text,
+                'description': 'Scene Opening'
+            })
+    
+    # Check ending
+    ending_match = re.search(r'(<.*?</.*?>)[^<]*</' + scene_type + '>', scene_text, re.DOTALL)
+    if ending_match and is_interesting_section(ending_match.group(0)):
+        text = truncate_html(ending_match.group(0))
+        if len(text) > 50:
+            excerpts.append({
+                'type': 'ending',
+                'text': text,
+                'description': 'Scene Ending'
+            })
+    
+    return excerpts
+
+def find_rich_samples(html_file):
+    """Find rich samples from a given HTML file."""
+    with open(html_file, 'r', encoding='utf-8') as f:
+        content = f.readlines()
+        soup = BeautifulSoup(''.join(content), 'html.parser')
+    
+    samples = []
+    # Look for SceneAction and SceneDia tags
+    for scene_type in ['sceneaction', 'scenedia']:
+        scenes = soup.find_all(scene_type, recursive=False)  # Only get top-level scenes
+        if not scenes:
+            continue
+            
+        # Analyze complexity of each scene
+        analyzed_scenes = []
+        for scene in scenes:
+            analysis = analyze_scene_complexity(scene)
+            
+            # Get the raw scene text and clean it up
+            scene_text = str(scene)
+            opening_tag = f"<{scene_type}"
+            closing_tag = f"</{scene_type}>"
+            
+            # Find the scene in the original content
+            start_line = None
+            end_line = None
+            
+            # Look for opening tag
+            for i, line in enumerate(content, 1):
+                if opening_tag.lower() in line.lower():
+                    start_line = i
+                    break
+            
+            if start_line is not None:
+                # Look for closing tag after start line
+                for i, line in enumerate(content[start_line-1:], start_line):
+                    if closing_tag.lower() in line.lower():
+                        end_line = i
+                        break
+            
+            # Only include scenes where we found both start and end lines
+            if start_line is not None and end_line is not None:
+                analysis['start_line'] = start_line
+                analysis['end_line'] = end_line
+                analysis['scene_type'] = scene_type
+                analysis['excerpts'] = find_interesting_excerpts(scene, scene_type)
+                analyzed_scenes.append(analysis)
+        
+        # Sort by complexity score and take the top one
+        if analyzed_scenes:
+            analyzed_scenes.sort(key=lambda x: x['score'], reverse=True)
+            samples.append(analyzed_scenes[0])
+    
+    return samples
+
+def create_samples_markdown(commit_hash=None):
+    """Generate a markdown file with rich samples from each input file."""
+    if not commit_hash:
+        commit_hash = get_current_git_commit()
+    
+    markdown_content = "# Rich Scene Samples\n\n"
+    markdown_content += "This document contains particularly rich examples of scene markup from each text, "
+    markdown_content += "showing complex interactions between different types of scenes and their components. "
+    markdown_content += "For each scene, we show interesting excerpts including openings, transitions, rich dialog sections, and endings.\n\n"
+    
+    input_dir = "data/input"
+    html_files = glob.glob(os.path.join(input_dir, "*.html"))
+    
+    for html_file in html_files:
+        base_name = os.path.basename(html_file)
+        markdown_content += f"## {base_name}\n\n"
+        
+        samples = find_rich_samples(html_file)
+        if not samples:
+            markdown_content += "No complex scenes found in this file.\n\n"
+            continue
+        
+        for sample in samples:
+            # Create the GitHub permalink
+            encoded_filename = quote(base_name)
+            if commit_hash:
+                file_link = f"https://github.com/aculich/novel-scenification/blob/{commit_hash}/data/input/{encoded_filename}#L{sample['start_line']}-L{sample['end_line']}"
+            else:
+                file_link = f"https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename}#L{sample['start_line']}-L{sample['end_line']}"
+            
+            markdown_content += f"### Complex {sample['scene_type'].title()} (Lines {sample['start_line']}-{sample['end_line']})\n\n"
+            markdown_content += f"[View full scene on GitHub]({file_link})\n\n"
+            markdown_content += f"**Complexity Metrics:**\n"
+            markdown_content += f"- Unique tag types: {len(sample['unique_tags'])}\n"
+            markdown_content += f"- Total nested tags: {sample['total_tags']}\n"
+            markdown_content += f"- Word count: {sample['words']}\n"
+            markdown_content += f"- Tag types present: {', '.join(sorted(sample['unique_tags']))}\n\n"
+            
+            # Add excerpts
+            markdown_content += "**Interesting Excerpts:**\n\n"
+            for excerpt in sample['excerpts']:
+                markdown_content += f"*{excerpt['description']}:*\n"
+                markdown_content += "```html\n"
+                markdown_content += excerpt['text']
+                markdown_content += "\n```\n\n"
+    
+    # Ensure data directory exists
+    os.makedirs('data', exist_ok=True)
+    with open('data/SAMPLES.md', 'w', encoding='utf-8') as f:
+        f.write(markdown_content)
+
 def process_all_files():
     input_dir = "data/input"
     output_dir = "data/counts"
@@ -303,10 +590,14 @@ def process_all_files():
         parse_html_to_csv(html_file, csv_file)
         print(f"Output saved to: {csv_file}\n")
     
-    # After processing all files, create Excel summary
+    # After processing all files, create Excel summary and samples
     print("\nCreating Excel summary file...")
     create_excel_summary()
     print("Excel summary file created at: data/tag_counts_summary.xlsx")
+    
+    print("\nGenerating rich samples documentation...")
+    create_samples_markdown()
+    print("Rich samples documentation created at: data/SAMPLES.md")
 
 if __name__ == "__main__":
     process_all_files()
