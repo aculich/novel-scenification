@@ -409,7 +409,7 @@ def find_interesting_excerpts(scene_tag, scene_type):
         return None, None
     
     # Helper function to truncate text to a reasonable length while preserving tag structure
-    def truncate_html(html_text, max_words=175):
+    def truncate_html(html_text, max_words=500):
         soup = BeautifulSoup(html_text, 'html.parser')
         words = soup.get_text().split()
         if len(words) <= max_words:
@@ -430,26 +430,35 @@ def find_interesting_excerpts(scene_tag, scene_type):
     for dia in scene_tag.find_all('dia', recursive=False):
         context = dia
         parent = dia.parent
+        
+        # Try to expand context to include nearby dialogs for richer context
         if parent and parent != scene_tag:
             siblings = list(parent.find_all('dia', recursive=False))
             if len(siblings) > 1:
                 dia_index = siblings.index(dia)
-                start_idx = max(0, dia_index - 1)
-                end_idx = min(len(siblings), dia_index + 2)
+                # Get 2 dialogs before and 2 after if available
+                start_idx = max(0, dia_index - 2)
+                end_idx = min(len(siblings), dia_index + 3)
                 context = parent
                 for child in list(context.children):
                     if isinstance(child, Tag) and child.name == 'dia' and child not in siblings[start_idx:end_idx]:
                         child.decompose()
         
+        # Count tag variety and interesting tags
         tags_in_context = set(tag.name for tag in context.find_all())
-        interesting_tags = {'m', 'chnoneameintro', 'trigger'}
+        interesting_tags = {'m', 'chnameintro', 'chnonameintro', 'trigger', 'i', 'monologue', 'fidquotes', 'blend', 'quotedlit', 'metaphor', 'reportedspeechquotes'}
+        dialog_length = len(context.get_text().split())
+        
+        # Calculate score based on tag variety, interesting tags, and optimal length
         score = (
-            len(tags_in_context) * 2 +
-            len(tags_in_context & interesting_tags) * 3 +
-            min(len(context.get_text().split()) / 50, 3)
+            len(tags_in_context) * 4 +                            # Reward tag variety (increased weight)
+            len(tags_in_context & interesting_tags) * 5 +         # Bonus for interesting tags (increased weight)
+            min(dialog_length / 100, 6) +                         # Reward reasonable length (increased cap)
+            (1 if 'trigger' in tags_in_context else 0) * 4        # Extra bonus for trigger tags (increased)
         )
         
-        if score >= 4:
+        # Only include if score is high enough and length is reasonable
+        if score >= 5 and dialog_length > 80:                     # Reduced minimum length requirement
             excerpt_text = str(context)
             start_line, end_line = find_excerpt_lines(excerpt_text)
             dialog_sections.append({
@@ -464,7 +473,7 @@ def find_interesting_excerpts(scene_tag, scene_type):
         dialog_sections.sort(key=lambda x: x['score'], reverse=True)
         for section in dialog_sections[:2]:
             text = truncate_html(section['text'])
-            if len(text) > 150:
+            if len(text) > 100:                                   # Reduced minimum length threshold
                 # Make sure we have start/end lines
                 start_line, end_line = section['start_line'], section['end_line']
                 if not start_line or not end_line:
@@ -498,7 +507,7 @@ def find_interesting_excerpts(scene_tag, scene_type):
         if trigger_contexts:
             trigger_contexts.sort(key=lambda x: x['tag_count'], reverse=True)
             text = truncate_html(trigger_contexts[0]['text'])
-            if len(text) > 50:
+            if len(text) > 40:                                    # Reduced minimum length threshold
                 start_line, end_line = trigger_contexts[0]['start_line'], trigger_contexts[0]['end_line']
                 if not start_line or not end_line:
                     start_line, end_line = find_excerpt_lines(text)
@@ -514,13 +523,14 @@ def find_interesting_excerpts(scene_tag, scene_type):
     def is_interesting_section(text):
         soup = BeautifulSoup(text, 'html.parser')
         tags = set(tag.name for tag in soup.find_all())
-        return len(tags) >= 2
+        interesting_tags = {'m', 'chnameintro', 'chnonameintro', 'trigger', 'i', 'monologue', 'fidquotes', 'blend', 'quotedlit', 'metaphor', 'reportedspeechquotes'}  # Added more interesting tags
+        return len(tags) >= 2 or len(tags & interesting_tags) >= 1
     
     # Check opening
     opening_match = re.search(r'<' + scene_type + r'[^>]*>.*?(<.*?</.*?>)', scene_text, re.DOTALL)
     if opening_match and is_interesting_section(opening_match.group(0)):
         text = truncate_html(opening_match.group(0))
-        if len(text) > 50:
+        if len(text) > 40:                                        # Reduced minimum length threshold
             start_line, end_line = find_excerpt_lines(text)
             if not start_line:
                 # Fallback: find the opening tag
@@ -542,7 +552,7 @@ def find_interesting_excerpts(scene_tag, scene_type):
     ending_match = re.search(r'(<.*?</.*?>)[^<]*</' + scene_type + '>', scene_text, re.DOTALL)
     if ending_match and is_interesting_section(ending_match.group(0)):
         text = truncate_html(ending_match.group(0))
-        if len(text) > 50:
+        if len(text) > 40:                                        # Reduced minimum length threshold
             start_line, end_line = find_excerpt_lines(text)
             if not end_line:
                 # Fallback: find the closing tag
