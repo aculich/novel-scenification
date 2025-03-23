@@ -313,10 +313,17 @@ def create_excel_summary():
         workbook = writer.book
         workbook._sheets.insert(0, workbook._sheets.pop(workbook._sheets.index(worksheet)))
 
-def get_current_git_commit():
-    """Get the current git commit hash."""
+def get_current_git_commit(specified_ref=None):
+    """Get the current git commit hash or use specified ref."""
     import subprocess
+    
+    if specified_ref:
+        # If a specific ref was provided, use it directly
+        # This could be a branch name, tag, or commit hash
+        return specified_ref
+        
     try:
+        # Otherwise get the current HEAD commit hash
         result = subprocess.run(['git', 'rev-parse', 'HEAD'], 
                               capture_output=True, text=True, check=True)
         return result.stdout.strip()
@@ -698,5 +705,22 @@ def process_all_files():
     create_readme()
     print("README.md generated from template with summaries")
 
+def main():
+    """Process all HTML files and generate summary files."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Process HTML files and generate tag count summaries.")
+    parser.add_argument("--commit", help="Git commit, branch, or tag to use for GitHub links (e.g. 'main', 'HEAD', or a specific commit hash)")
+    args = parser.parse_args()
+    
+    # Get the commit hash (or specified ref) for GitHub links
+    commit_hash = get_current_git_commit(args.commit)
+    
+    # Process all files and create Excel summary
+    create_excel_summary()
+    
+    # Create README.md from template
+    create_readme()
+
 if __name__ == "__main__":
-    process_all_files()
+    main()

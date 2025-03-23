@@ -6,7 +6,7 @@ This document contains particularly rich examples of scene markup from each text
 
 ### Complex Scenedia (Lines 60-484)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
 
 **Complexity Metrics:**
 - Unique tag types: 18
@@ -44,7 +44,7 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 
 ### Complex Sceneaction (Lines 7-23)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L7-L23)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L7-L23)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -70,7 +70,7 @@ leave them when they were seated; but he promised to return before they would wi
 
 ### Complex Scenedia (Lines 29-37)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L29-L37)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L29-L37)
 
 **Complexity Metrics:**
 - Unique tag types: 12
@@ -98,7 +98,7 @@ in stature than Sophia, but the graces of her person prevented her from being in
 
 ### Complex Sceneaction (Lines 225-255)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Colburn%201_2_13824.html#L225-L255)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Colburn%201_2_13824.html#L225-L255)
 
 **Complexity Metrics:**
 - Unique tag types: 12
@@ -133,7 +133,7 @@ defended on either hand by reefs of rock, upon ...
 
 ### Complex Scenedia (Lines 68-108)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Colburn%201_2_13824.html#L68-L108)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Colburn%201_2_13824.html#L68-L108)
 
 **Complexity Metrics:**
 - Unique tag types: 5
@@ -169,7 +169,7 @@ self upon Bently’s couch, <diaq>"I am the best natured fellow in the universe,
 
 ### Complex Sceneaction (Lines 13-177)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Cunningham%201_2_12439.html#L13-L177)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Cunningham%201_2_12439.html#L13-L177)
 
 **Complexity Metrics:**
 - Unique tag types: 11
@@ -204,7 +204,7 @@ honey; and hill, wood, and dale, showed that summer had fulfilled all the purpos
 
 ### Complex Scenedia (Lines 191-398)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Cunningham%201_2_12439.html#L191-L398)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Cunningham%201_2_12439.html#L191-L398)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -232,7 +232,7 @@ wisdom. This sword and dagger, robe and cup, are t...
 
 ### Complex Sceneaction (Lines 71-159)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Norris%201_7_12512.html#L71-L159)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Norris%201_7_12512.html#L71-L159)
 
 **Complexity Metrics:**
 - Unique tag types: 17
@@ -266,7 +266,7 @@ While he spoke, he fortunately recollected he was now alone; and pronouncing a v
 
 ### Complex Scenedia (Lines 5-53)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Norris%201_7_12512.html#L5-L53)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Norris%201_7_12512.html#L5-L53)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -303,7 +303,7 @@ The girl stood to consider. <diam>"So sure as I’m alive,” <m>she replied</m>
 
 ### Complex Sceneaction (Lines 5-130)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Helena%201_20_12500.html#L5-L130)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Helena%201_20_12500.html#L5-L130)
 
 **Complexity Metrics:**
 - Unique tag types: 28
@@ -334,7 +334,7 @@ On perusing the letter, the duke turned pale, and his countenance expressed an e
 
 ### Complex Sceneaction (Lines 51-59)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html#L51-L59)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html#L51-L59)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -366,7 +366,7 @@ On perusing the letter, the duke turned pale, and his countenance expressed an e
 
 ### Complex Scenedia (Lines 20-38)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html#L20-L38)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html#L20-L38)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -393,7 +393,7 @@ On perusing the letter, the duke turned pale, and his countenance expressed an e
 
 ### Complex Sceneaction (Lines 175-223)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html#L175-L223)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html#L175-L223)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -441,7 +441,7 @@ and Miss Bryant was retired to her own apartment. <trigger>About three o'clock</
 
 ### Complex Scenedia (Lines 56-145)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html#L56-L145)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html#L56-L145)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -472,7 +472,7 @@ and Miss Bryant was retired to her own apartment. <trigger>About three o'clock</
 
 ### Complex Sceneaction (Lines 90-104)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Anon_Master%20Passion%201_6_11555.html#L90-L104)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Anon_Master%20Passion%201_6_11555.html#L90-L104)
 
 **Complexity Metrics:**
 - Unique tag types: 10
@@ -506,7 +506,7 @@ When the lesson was over, the whole party repaired again to the garden. Helena h
 
 ### Complex Scenedia (Lines 111-201)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Anon_Master%20Passion%201_6_11555.html#L111-L201)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Anon_Master%20Passion%201_6_11555.html#L111-L201)
 
 **Complexity Metrics:**
 - Unique tag types: 11
@@ -535,7 +535,7 @@ When the lesson was over, the whole party repaired again to the garden. Helena h
 
 ### Complex Sceneaction (Lines 5-106)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Harvey%201_3_13500.html#L5-L106)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Harvey%201_3_13500.html#L5-L106)
 
 **Complexity Metrics:**
 - Unique tag types: 12
@@ -567,7 +567,7 @@ Dorothea now displayed the combined fare of her larder, dairy, and cellar —- s
 
 ### Complex Scenedia (Lines 246-400)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Harvey%201_3_13500.html#L246-L400)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Harvey%201_3_13500.html#L246-L400)
 
 **Complexity Metrics:**
 - Unique tag types: 12
@@ -607,7 +607,7 @@ Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came o
 
 ### Complex Sceneaction (Lines 155-217)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Loudon%201_4_11057%20Erin.html#L155-L217)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Loudon%201_4_11057%20Erin.html#L155-L217)
 
 **Complexity Metrics:**
 - Unique tag types: 13
@@ -643,7 +643,7 @@ Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came o
 
 ### Complex Scenedia (Lines 225-376)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1828%20Loudon%201_4_11057%20Erin.html#L225-L376)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Loudon%201_4_11057%20Erin.html#L225-L376)
 
 **Complexity Metrics:**
 - Unique tag types: 10
@@ -672,7 +672,7 @@ possibility of resuscitating a dead body, that since that moment I have been tor
 
 ### Complex Sceneaction (Lines 448-472)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Montague%201_2_12825.html#L448-L472)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Montague%201_2_12825.html#L448-L472)
 
 **Complexity Metrics:**
 - Unique tag types: 10
@@ -719,7 +719,7 @@ would be happy to be i...
 
 ### Complex Scenedia (Lines 169-191)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1808%20Montague%201_2_12825.html#L169-L191)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1808%20Montague%201_2_12825.html#L169-L191)
 
 **Complexity Metrics:**
 - Unique tag types: 7
@@ -760,7 +760,7 @@ Nightingale who tunes her love-labored ditty.”</quotesother> Though she knew t
 
 ### Complex Sceneaction (Lines 395-410)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Wollstonecraft%201_16_12447.html#L395-L410)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Wollstonecraft%201_16_12447.html#L395-L410)
 
 **Complexity Metrics:**
 - Unique tag types: 1
@@ -796,7 +796,7 @@ One of the nuns, who had a sweet voice, was singing; Mary was struck with awe; h
 
 ### Complex Scenedia (Lines 256-507)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/d866287adcb2d57cf307645c88ada263460ed3a7/data/input/1788%20Wollstonecraft%201_16_12447.html#L256-L507)
+[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Wollstonecraft%201_16_12447.html#L256-L507)
 
 **Complexity Metrics:**
 - Unique tag types: 10
