@@ -4,7 +4,7 @@ This repository contains tools for analyzing scenes and tags in literary texts, 
 
 This repository supports the following paper, currently in preprint form being prepared for publication:
 
-> # The Scenification of the Novel in the Time of Jane Austen
+> # Scenification of the Novel in the Time of Jane Austen
 >
 > Authors: Nicholas Paige^1,*; Aaron Culich^2
 >
