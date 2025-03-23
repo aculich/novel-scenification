@@ -13,7 +13,7 @@ for efficient hierarchical nested tag and word counting in the following ways:
    - Generates compound metrics for hierarchical relationships (e.g., dialogue words within scenes)
 """
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 import pandas as pd
 import re
 from collections import Counter
@@ -111,9 +111,6 @@ def parse_html_to_csv(html_file, csv_file):
 
 def create_markdown_summary(summary_data, commit_hash=None):
     """Generate a markdown summary file with links to the input files."""
-    if not commit_hash:
-        commit_hash = get_current_git_commit()
-        
     markdown_content = "# Tag Counts Summary\n\n"
     markdown_content += "| Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |\n"
     markdown_content += "|-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|\n"
@@ -123,11 +120,8 @@ def create_markdown_summary(summary_data, commit_hash=None):
         sheet_name = row['Sheet'].split('"')[3]  # Get the original name from the formula
         # URL encode the filename for the GitHub link
         encoded_filename = quote(f"{sheet_name}.html")
-        # Create the GitHub link with commit hash
-        if commit_hash:
-            github_link = f"[{sheet_name}](https://github.com/aculich/novel-scenification/blob/{commit_hash}/data/input/{encoded_filename})"
-        else:
-            github_link = f"[{sheet_name}](https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename})"
+        # Create the GitHub link with blob/main format
+        github_link = f"[{sheet_name}](https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename})"
         
         markdown_content += f"| {github_link} | {row['Total_Tags']} | {row['Total_Words']} | {row['Chapter_Count']} | {row['SceneAction_Count']} | {row['SceneAction_Words']} | {row['SceneDia_Count']} | {row['SceneDia_Words']} | {row['Dialogue_Count']} | {row['Dialogue_Words']} |\n"
     
@@ -351,8 +345,71 @@ def find_interesting_excerpts(scene_tag, scene_type):
     """Find interesting excerpts from a scene including opening, transitions, rich dialog sections, and ending."""
     excerpts = []
     
+    # Get the original content lines for line number tracking
+    content = scene_tag.original_content
+    
+    # Helper function to find line numbers for an excerpt
+    def find_excerpt_lines(excerpt_text):
+        # Make sure we're dealing with string content
+        if not content or len(content) == 0:
+            return None, None
+            
+        # Extract first significant words for matching
+        soup = BeautifulSoup(excerpt_text, 'html.parser')
+        text_content = soup.get_text()
+        words = text_content.split()
+        if len(words) < 5:  # Too few words to match reliably
+            return None, None
+            
+        first_words = ' '.join(words[:8]).lower()
+        # Remove common HTML structure for better matching
+        cleaned_excerpt = re.sub(r'<[^>]+>', ' ', excerpt_text).strip()
+        cleaned_excerpt = re.sub(r'\s+', ' ', cleaned_excerpt).lower()
+        
+        start_line = None
+        end_line = None
+        
+        # First pass: look for exact content match
+        for i, line in enumerate(content, 1):
+            line_lower = line.lower()
+            if first_words in line_lower or cleaned_excerpt[:30] in line_lower:
+                start_line = i
+                end_line = i  # Start with single line
+                break
+        
+        # If we found the start, try to find the end
+        if start_line:
+            # For multi-line excerpts
+            remaining_content = ''.join(content[start_line:])
+            cleaned_remaining = re.sub(r'<[^>]+>', ' ', remaining_content).strip()
+            cleaned_remaining = re.sub(r'\s+', ' ', cleaned_remaining).lower()
+            
+            # Count how many lines from start
+            for i in range(min(20, len(content) - start_line)):
+                # If we find the end of the excerpt in this line
+                if i > 0 and (cleaned_excerpt[-20:] in content[start_line + i].lower()):
+                    end_line = start_line + i
+                    break
+                # As a fallback, just use a reasonable number of lines
+                if i > 3:  # At least capture a few lines
+                    end_line = start_line + i
+        
+        # If we still didn't find good bounds, use the scene bounds
+        if not start_line or not end_line:
+            for i, line in enumerate(content, 1):
+                if f"<{scene_type.lower()}" in line.lower():
+                    start_line = i
+                if f"</{scene_type.lower()}>" in line.lower():
+                    end_line = i
+                    break
+        
+        # Ensure we have valid line numbers
+        if start_line and end_line and start_line <= end_line:
+            return start_line, end_line
+        return None, None
+    
     # Helper function to truncate text to a reasonable length while preserving tag structure
-    def truncate_html(html_text, max_words=175):  # Increased from 50 to 175 to match screenshot example
+    def truncate_html(html_text, max_words=175):
         soup = BeautifulSoup(html_text, 'html.parser')
         words = soup.get_text().split()
         if len(words) <= max_words:
@@ -360,107 +417,125 @@ def find_interesting_excerpts(scene_tag, scene_type):
         
         # Find a good breakpoint near max_words
         text = ' '.join(words[:max_words])
-        # Find the last complete sentence if possible
         last_period = text.rfind('.')
-        if last_period > len(text) * 0.6:  # If we can find a period in the latter half
+        if last_period > len(text) * 0.6:
             text = text[:last_period+1]
         return html_text[:html_text.find(text) + len(text)] + "..."
     
     # Get the full scene text
     scene_text = str(scene_tag)
     
-    # Find rich dialog sections (sections with multiple tag types and interesting content)
+    # Find rich dialog sections
     dialog_sections = []
     for dia in scene_tag.find_all('dia', recursive=False):
-        # Look at the immediate context
         context = dia
-        # Try to expand context to include nearby dialog if available
         parent = dia.parent
-        if parent and parent != scene_tag:  # Only expand if we have a non-root parent
+        if parent and parent != scene_tag:
             siblings = list(parent.find_all('dia', recursive=False))
             if len(siblings) > 1:
                 dia_index = siblings.index(dia)
                 start_idx = max(0, dia_index - 1)
                 end_idx = min(len(siblings), dia_index + 2)
                 context = parent
-                # Only keep content between the dialogs we want
                 for child in list(context.children):
-                    if isinstance(child, BeautifulSoup.Tag) and child.name == 'dia' and child not in siblings[start_idx:end_idx]:
+                    if isinstance(child, Tag) and child.name == 'dia' and child not in siblings[start_idx:end_idx]:
                         child.decompose()
         
         tags_in_context = set(tag.name for tag in context.find_all())
-        
-        # Calculate richness score based on:
-        # - Number of unique tag types
-        # - Presence of interesting tags (m, chnoneameintro, trigger)
-        # - Length of the dialog (prefer medium-length)
         interesting_tags = {'m', 'chnoneameintro', 'trigger'}
         score = (
-            len(tags_in_context) * 2 +  # Weight for tag variety
-            len(tags_in_context & interesting_tags) * 3 +  # Extra weight for interesting tags
-            min(len(context.get_text().split()) / 50, 3)  # Length score, max 3 points
+            len(tags_in_context) * 2 +
+            len(tags_in_context & interesting_tags) * 3 +
+            min(len(context.get_text().split()) / 50, 3)
         )
         
-        if score >= 4:  # Only keep sections with good scores
+        if score >= 4:
+            excerpt_text = str(context)
+            start_line, end_line = find_excerpt_lines(excerpt_text)
             dialog_sections.append({
-                'text': str(context),
+                'text': excerpt_text,
                 'score': score,
-                'tag_count': len(tags_in_context)
+                'tag_count': len(tags_in_context),
+                'start_line': start_line, 
+                'end_line': end_line
             })
     
     if dialog_sections:
-        # Sort by score and take the top ones
         dialog_sections.sort(key=lambda x: x['score'], reverse=True)
-        for section in dialog_sections[:2]:  # Take up to 2 best sections
-            # Truncate to reasonable length
+        for section in dialog_sections[:2]:
             text = truncate_html(section['text'])
-            if len(text) > 150:  # Increased minimum length to ensure rich content
+            if len(text) > 150:
+                # Make sure we have start/end lines
+                start_line, end_line = section['start_line'], section['end_line']
+                if not start_line or not end_line:
+                    start_line, end_line = find_excerpt_lines(text)
+                
                 excerpts.append({
                     'type': 'rich_dialog',
                     'text': text,
-                    'description': 'Rich Dialog Section with Multiple Tag Types'
+                    'description': 'Rich Dialog Section with Multiple Tag Types',
+                    'start_line': start_line,
+                    'end_line': end_line
                 })
     
-    # Find transitions with triggers (if any)
+    # Find transitions with triggers
     triggers = scene_tag.find_all('trigger')
     if triggers:
-        # Get context around the most interesting trigger
         trigger_contexts = []
         for trigger in triggers:
             context = trigger.parent
             tags_in_context = set(tag.name for tag in context.find_all())
-            if len(tags_in_context) >= 2:  # Only if there are multiple tag types
+            if len(tags_in_context) >= 2:
+                excerpt_text = str(context)
+                start_line, end_line = find_excerpt_lines(excerpt_text)
                 trigger_contexts.append({
-                    'text': str(context),
-                    'tag_count': len(tags_in_context)
+                    'text': excerpt_text,
+                    'tag_count': len(tags_in_context),
+                    'start_line': start_line,
+                    'end_line': end_line
                 })
         
         if trigger_contexts:
-            # Take the richest trigger context
             trigger_contexts.sort(key=lambda x: x['tag_count'], reverse=True)
             text = truncate_html(trigger_contexts[0]['text'])
             if len(text) > 50:
+                start_line, end_line = trigger_contexts[0]['start_line'], trigger_contexts[0]['end_line']
+                if not start_line or not end_line:
+                    start_line, end_line = find_excerpt_lines(text)
+                    
                 excerpts.append({
                     'type': 'transition',
                     'text': text,
-                    'description': 'Scene Transition'
+                    'description': 'Scene Transition',
+                    'start_line': start_line,
+                    'end_line': end_line
                 })
     
-    # Only include opening/ending if they have interesting tags
     def is_interesting_section(text):
         soup = BeautifulSoup(text, 'html.parser')
         tags = set(tag.name for tag in soup.find_all())
-        return len(tags) >= 2  # At least 2 different tag types
+        return len(tags) >= 2
     
     # Check opening
     opening_match = re.search(r'<' + scene_type + r'[^>]*>.*?(<.*?</.*?>)', scene_text, re.DOTALL)
     if opening_match and is_interesting_section(opening_match.group(0)):
         text = truncate_html(opening_match.group(0))
         if len(text) > 50:
+            start_line, end_line = find_excerpt_lines(text)
+            if not start_line:
+                # Fallback: find the opening tag
+                for i, line in enumerate(content, 1):
+                    if f"<{scene_type.lower()}" in line.lower():
+                        start_line = i
+                        end_line = start_line + 5  # Just a few lines
+                        break
+                        
             excerpts.append({
                 'type': 'opening',
                 'text': text,
-                'description': 'Scene Opening'
+                'description': 'Scene Opening',
+                'start_line': start_line,
+                'end_line': end_line
             })
     
     # Check ending
@@ -468,10 +543,21 @@ def find_interesting_excerpts(scene_tag, scene_type):
     if ending_match and is_interesting_section(ending_match.group(0)):
         text = truncate_html(ending_match.group(0))
         if len(text) > 50:
+            start_line, end_line = find_excerpt_lines(text)
+            if not end_line:
+                # Fallback: find the closing tag
+                for i, line in enumerate(content, 1):
+                    if f"</{scene_type.lower()}>" in line.lower():
+                        end_line = i
+                        start_line = max(1, end_line - 5)  # Just a few lines
+                        break
+                        
             excerpts.append({
                 'type': 'ending',
                 'text': text,
-                'description': 'Scene Ending'
+                'description': 'Scene Ending',
+                'start_line': start_line,
+                'end_line': end_line
             })
     
     return excerpts
@@ -481,42 +567,42 @@ def find_rich_samples(html_file):
     with open(html_file, 'r', encoding='utf-8') as f:
         content = f.readlines()
         soup = BeautifulSoup(''.join(content), 'html.parser')
+        # Store the original file path and content for line number lookup
+        soup.original_file = html_file
+        soup.original_content = content
+        # Also store these on each tag
+        for tag in soup.find_all():
+            tag.original_file = html_file
+            tag.original_content = content
     
     samples = []
-    # Look for SceneAction and SceneDia tags
     for scene_type in ['sceneaction', 'scenedia']:
-        scenes = soup.find_all(scene_type, recursive=False)  # Only get top-level scenes
+        scenes = soup.find_all(scene_type, recursive=False)
         if not scenes:
             continue
             
-        # Analyze complexity of each scene
         analyzed_scenes = []
         for scene in scenes:
             analysis = analyze_scene_complexity(scene)
             
-            # Get the raw scene text and clean it up
             scene_text = str(scene)
             opening_tag = f"<{scene_type}"
             closing_tag = f"</{scene_type}>"
             
-            # Find the scene in the original content
             start_line = None
             end_line = None
             
-            # Look for opening tag
             for i, line in enumerate(content, 1):
                 if opening_tag.lower() in line.lower():
                     start_line = i
                     break
             
             if start_line is not None:
-                # Look for closing tag after start line
                 for i, line in enumerate(content[start_line-1:], start_line):
                     if closing_tag.lower() in line.lower():
                         end_line = i
                         break
             
-            # Only include scenes where we found both start and end lines
             if start_line is not None and end_line is not None:
                 analysis['start_line'] = start_line
                 analysis['end_line'] = end_line
@@ -524,7 +610,6 @@ def find_rich_samples(html_file):
                 analysis['excerpts'] = find_interesting_excerpts(scene, scene_type)
                 analyzed_scenes.append(analysis)
         
-        # Sort by complexity score and take the top one
         if analyzed_scenes:
             analyzed_scenes.sort(key=lambda x: x['score'], reverse=True)
             samples.append(analyzed_scenes[0])
@@ -533,9 +618,6 @@ def find_rich_samples(html_file):
 
 def create_samples_markdown(commit_hash=None):
     """Generate a markdown file with rich samples from each input file."""
-    if not commit_hash:
-        commit_hash = get_current_git_commit()
-    
     markdown_content = "# Scene Samples\n\n"
     markdown_content += "This document contains particularly rich examples of scene markup from each text, "
     markdown_content += "showing complex interactions between different types of scenes and their components. "
@@ -546,7 +628,10 @@ def create_samples_markdown(commit_hash=None):
     
     for html_file in html_files:
         base_name = os.path.basename(html_file)
-        markdown_content += f"## {base_name}\n\n"
+        # Create the GitHub link for the full file
+        encoded_filename = quote(base_name)
+        full_file_link = f"https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename}"
+        markdown_content += f"## [{base_name}]({full_file_link})\n\n"
         
         samples = find_rich_samples(html_file)
         if not samples:
@@ -554,25 +639,27 @@ def create_samples_markdown(commit_hash=None):
             continue
         
         for sample in samples:
-            # Create the GitHub permalink
-            encoded_filename = quote(base_name)
-            if commit_hash:
-                file_link = f"https://github.com/aculich/novel-scenification/blob/{commit_hash}/data/input/{encoded_filename}#L{sample['start_line']}-L{sample['end_line']}"
-            else:
-                file_link = f"https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename}#L{sample['start_line']}-L{sample['end_line']}"
+            # Create the GitHub link with line numbers
+            file_link = f"{full_file_link}#L{sample['start_line']}-L{sample['end_line']}"
             
             markdown_content += f"### Complex {sample['scene_type'].title()} (Lines {sample['start_line']}-{sample['end_line']})\n\n"
-            markdown_content += f"[View full scene on GitHub]({file_link})\n\n"
+            markdown_content += f"**Location:** [Lines {sample['start_line']}-{sample['end_line']}]({file_link})\n\n"
             markdown_content += f"**Complexity Metrics:**\n"
             markdown_content += f"- Unique tag types: {len(sample['unique_tags'])}\n"
             markdown_content += f"- Total nested tags: {sample['total_tags']}\n"
             markdown_content += f"- Word count: {sample['words']}\n"
             markdown_content += f"- Tag types present: {', '.join(sorted(sample['unique_tags']))}\n\n"
             
-            # Add excerpts
+            # Add excerpts with line numbers and links
             markdown_content += "**Interesting Excerpts:**\n\n"
             for excerpt in sample['excerpts']:
-                markdown_content += f"*{excerpt['description']}:*\n"
+                # Add line numbers and link if available
+                if excerpt['start_line'] and excerpt['end_line']:
+                    excerpt_link = f"{full_file_link}#L{excerpt['start_line']}-L{excerpt['end_line']}"
+                    markdown_content += f"*{excerpt['description']}:* [Lines {excerpt['start_line']}-{excerpt['end_line']}]({excerpt_link})\n"
+                else:
+                    markdown_content += f"*{excerpt['description']}:*\n"
+                    
                 markdown_content += "```html\n"
                 markdown_content += excerpt['text']
                 markdown_content += "\n```\n\n"
@@ -598,70 +685,196 @@ def create_readme():
     
     # Add links to full files
     summary_section = "\n\n## Tag Counts Summary\n\n"
-    summary_section += "[View complete tag counts summary](data/SUMMARY.md)\n\n"
+    # Use raw format for Excel file only
+    summary_section += "[View complete tag counts summary](https://github.com/aculich/novel-scenification/raw/refs/heads/main/data/tag_counts_summary.xlsx)\n\n"
     
-    # Track which files we'll show samples from
-    sample_files = set()
-    with open('data/SAMPLES.md', 'r', encoding='utf-8') as f:
-        samples_content = f.read()
-        sections = samples_content.split('\n## ')
-        for section in sections[1:]:  # Skip intro
-            if 'Complex Scene' in section:
-                # Extract filename from the section, removing .html extension if present
-                filename = section.split('\n')[0].strip()
-                if filename.endswith('.html'):
-                    filename = filename[:-5]
-                if filename:
-                    sample_files.add(filename)
+    # Add table header once
+    summary_section += "| Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |\n"
+    summary_section += "|-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|\n"
     
-    # Add excerpt from SUMMARY.md, but only for files we're showing samples from
-    with open('data/SUMMARY.md', 'r', encoding='utf-8') as f:
-        summary_content = f.read()
-        summary_lines = summary_content.split('\n')
-        # Find the table header and separator lines
-        table_start = -1
-        for i, line in enumerate(summary_lines):
-            if line.startswith('| Sheet | Total_Tags'):
-                table_start = i
-                break
+    # Flag to track if we've added any rows
+    added_rows = False
+    
+    try:
+        # Get sample files to filter rows
+        sample_files = set()
+        try:
+            with open('data/SAMPLES.md', 'r', encoding='utf-8') as samples_file:
+                samples_content = samples_file.read()
+                # Extract sample filenames from both the headings and the URLs
+                for section in samples_content.split('\n## ['):
+                    if '](' in section:
+                        file_name = section.split('](')[0]
+                        if file_name.endswith('.html'):
+                            # Store without .html extension
+                            clean_name = file_name[:-5]
+                            sample_files.add(clean_name)
+                            # Also store filename-only version
+                            base_name = os.path.basename(clean_name)
+                            sample_files.add(base_name)
+        except FileNotFoundError:
+            pass  # If no samples file, don't filter
         
-        if table_start >= 0 and len(summary_lines) >= table_start + 2:
-            # Add the table header and separator
-            summary_section += summary_lines[table_start] + "\n"  # Header
-            summary_section += summary_lines[table_start + 1] + "\n"  # Separator
+        # Read summary data directly from the Excel file
+        summary_df = pd.read_excel('data/tag_counts_summary.xlsx', sheet_name='Summary')
             
-            # Add rows only for files we're showing samples from
-            for line in summary_lines[table_start + 2:]:  # Start after header and separator
-                if not line.strip():  # Skip empty lines
-                    continue
+        # Add rows for each file
+        for _, row in summary_df.iterrows():
+            sheet_name = row['Sheet']
+            # Extract the base name from the HYPERLINK formula if present
+            if isinstance(sheet_name, str) and '=HYPERLINK' in sheet_name:
+                match = re.search(r'"([^"]+)"', sheet_name)
+                if match:
+                    base_name = match.group(1)
+                else:
+                    base_name = sheet_name
+            else:
+                base_name = sheet_name
+                
+            # Skip if we're filtering by sample files and this one isn't included
+            if sample_files:
+                # Try different formats for matching
+                match_found = False
                 for sample_file in sample_files:
-                    # Extract the filename from the markdown link format [filename](url)
-                    match = re.search(r'\[(.*?)\]', line)
-                    if match and match.group(1) == sample_file:
-                        summary_section += line + "\n"
-            summary_section += "\n[View complete tag counts summary](data/SUMMARY.md)\n\n"
+                    # Try exact match or match without extension
+                    if (base_name == sample_file or 
+                        base_name == sample_file + '.html' or
+                        sample_file in base_name):
+                        match_found = True
+                        break
+                
+                if not match_found:
+                    continue
+                
+            added_rows = True
+            # Create GitHub link for the row
+            github_link = f"[{base_name}](https://github.com/aculich/novel-scenification/blob/main/data/input/{base_name}.html)"
+            
+            # Add table row with GitHub link
+            summary_section += f"| {github_link} | {row['Total_Tags']} | {row['Total_Words']} | {row['Chapter_Count']} | {row['SceneAction_Count']} | {row['SceneAction_Words']} | {row['SceneDia_Count']} | {row['SceneDia_Words']} | {row['Dialogue_Count']} | {row['Dialogue_Words']} |\n"
+    except Exception as e:
+        # If Excel reading fails, try to use SUMMARY.md instead
+        try:
+            with open('data/SUMMARY.md', 'r', encoding='utf-8') as f:
+                summary_content = f.read()
+                summary_lines = summary_content.split('\n')
+                
+                # Find the table header and data rows
+                table_start = -1
+                for i, line in enumerate(summary_lines):
+                    if '| Sheet | Total_Tags' in line:
+                        table_start = i
+                        break
+                
+                if table_start >= 0:
+                    # Skip header and separator since we've already added them
+                    # Add data rows only
+                    for i in range(table_start + 2, len(summary_lines)):
+                        line = summary_lines[i].strip()
+                        if not line or not line.startswith('|'):
+                            continue
+                            
+                        # If filtering by sample files, check if this row should be included
+                        if sample_files:
+                            include_row = False
+                            for sample_file in sample_files:
+                                if sample_file in line:
+                                    include_row = True
+                                    break
+                                    
+                            if include_row:
+                                summary_section += line + "\n"
+                                added_rows = True
+                        else:
+                            # Include all rows if not filtering
+                            summary_section += line + "\n"
+                            added_rows = True
+        except FileNotFoundError:
+            # If both Excel and SUMMARY.md fail, don't add anything to the table
+            pass
+    
+    # If we didn't add any rows, include all rows from Excel or SUMMARY.md
+    if not added_rows:
+        try:
+            # Try again with Excel, but without filtering
+            summary_df = pd.read_excel('data/tag_counts_summary.xlsx', sheet_name='Summary')
+            
+            for _, row in summary_df.iterrows():
+                sheet_name = row['Sheet']
+                # Extract the base name from the HYPERLINK formula if present
+                if isinstance(sheet_name, str) and '=HYPERLINK' in sheet_name:
+                    match = re.search(r'"([^"]+)"', sheet_name)
+                    if match:
+                        base_name = match.group(1)
+                    else:
+                        base_name = sheet_name
+                else:
+                    base_name = sheet_name
+                    
+                # Create GitHub link for the row
+                github_link = f"[{base_name}](https://github.com/aculich/novel-scenification/blob/main/data/input/{base_name}.html)"
+                
+                # Add table row with GitHub link
+                summary_section += f"| {github_link} | {row['Total_Tags']} | {row['Total_Words']} | {row['Chapter_Count']} | {row['SceneAction_Count']} | {row['SceneAction_Words']} | {row['SceneDia_Count']} | {row['SceneDia_Words']} | {row['Dialogue_Count']} | {row['Dialogue_Words']} |\n"
+                added_rows = True
+        except Exception:
+            # If that fails, try SUMMARY.md without filtering
+            try:
+                with open('data/SUMMARY.md', 'r', encoding='utf-8') as f:
+                    summary_content = f.read()
+                    summary_lines = summary_content.split('\n')
+                    
+                    # Find the table header and data rows
+                    table_start = -1
+                    for i, line in enumerate(summary_lines):
+                        if '| Sheet | Total_Tags' in line:
+                            table_start = i
+                            break
+                    
+                    if table_start >= 0:
+                        # Add all data rows
+                        for i in range(table_start + 2, len(summary_lines)):
+                            line = summary_lines[i].strip()
+                            if not line or not line.startswith('|'):
+                                continue
+                                
+                            # Include all rows
+                            summary_section += line + "\n"
+                            added_rows = True
+            except FileNotFoundError:
+                # If everything fails, add a no data row
+                pass
+    
+    # If we still didn't add any rows, add a placeholder
+    if not added_rows:
+        summary_section += "| No data available | - | - | - | - | - | - | - | - | - |\n"
     
     # Add excerpt from SAMPLES.md
-    samples_section = "\n## Scene Samples\n\n"
+    samples_section = "\n\n## Scene Samples\n\n"
     samples_section += "[View complete samples analysis](data/SAMPLES.md)\n\n"
     
-    with open('data/SAMPLES.md', 'r', encoding='utf-8') as f:
-        samples_content = f.read()
-        # Split by sections and take introduction plus first two samples
-        sections = samples_content.split('\n## ')
-        if len(sections) > 0:
-            intro = sections[0]
-            samples = []
-            count = 0
-            for section in sections[1:]:
-                if count < 2 and 'Complex Scene' in section:
-                    samples.append(section)
-                    count += 1
-            
-            samples_section += intro + "\n"
-            if samples:
-                samples_section += "## " + "\n## ".join(samples) + "\n...\n\n"
-                samples_section += "[View all scene samples](data/SAMPLES.md)\n"
+    try:
+        with open('data/SAMPLES.md', 'r', encoding='utf-8') as f:
+            samples_content = f.read()
+            # Split by sections and take introduction plus first two samples
+            sections = samples_content.split('\n## ')
+            if len(sections) > 0:
+                intro = sections[0]
+                samples = []
+                count = 0
+                for section in sections[1:]:
+                    if count < 2 and section.strip():  # Only process non-empty sections
+                        # Keep the original formatting including line numbers and links
+                        samples.append(section)
+                        count += 1
+                
+                samples_section += intro + "\n"
+                if samples:
+                    samples_section += "## " + "\n## ".join(samples) + "\n...\n\n"
+                    samples_section += "[View all scene samples](data/SAMPLES.md)\n"
+    except FileNotFoundError:
+        # If SAMPLES.md doesn't exist, skip this section
+        pass
     
     # Combine everything
     readme_content = template_content + summary_section + samples_section
@@ -710,17 +923,10 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="Process HTML files and generate tag count summaries.")
-    parser.add_argument("--commit", help="Git commit, branch, or tag to use for GitHub links (e.g. 'main', 'HEAD', or a specific commit hash)")
     args = parser.parse_args()
     
-    # Get the commit hash (or specified ref) for GitHub links
-    commit_hash = get_current_git_commit(args.commit)
-    
-    # Process all files and create Excel summary
-    create_excel_summary()
-    
-    # Create README.md from template
-    create_readme()
+    # Process all files and generate CSV files in data/counts
+    process_all_files()
 
 if __name__ == "__main__":
     main()
