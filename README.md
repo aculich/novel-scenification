@@ -129,7 +129,21 @@ This document contains particularly rich examples of scene markup from each text
 Allen, who appeared greatly disturbed, and, coming up to his master, said in a most agitated manner, <diaq>"Thornton is coming!"</diaq>
 <diam>"Thornton!" <m>exclaimed Wilford</m>, "Thornton! and to <i>my</i> house?"</diam>
 <diam>"Ay, Thornton is coming, sure enough," <m>replied Abel</m>; "and I don’t think he is coming alone either, for I saw him standing in the green lane near Gammer Plaise’s cottage, with a couple of fellows of his own kidney, and I do think there was more of them still behind. But who cares for that?" added the old servingman stoutly; "shall I knock him down, or shut the door in his face?"</diam>
-<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to se...
+<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to see him; although, if I did so refuse, I could find a warrant for it in my own breast. Yet, I will see him. Show him into the little oak parlour, and tell your mistress, Dame Alice, what sort of a visitor we are like to have. I will prepare my mind to meet that man, if I can, with composure."</diam>
+
+#11#
+
+
+<arrivaldeparture>Abel departed</arrivaldeparture>, to obey the instructions of his master; whilst Wilford, who appeared extremely affected by the very mention of Thornton's name, paced up and down the room with an agitation of manner that was rarely seen in a man of so mild and patient a temper. <blend>He then descended</blend> to the oak parlour, where he found his wife (who had been warned by Abel of Thornton’s approach) busily engaged in putting several things away in a closet.
+
+<diam>"Alice," <m>said Wilford</m>, “you have removed it; bring the book back again, and lay it open, as it was, upon the table.”</diam>
+<diam>"Nay, do not bid me," <m>replied his wife in an imploring tone</m>; "do not bid me; consider what it is."</diam>
+<diam>"I do so," <m>answered Wilford</m>, "and therefore I command you to obey me. Shall I fear to have the service to my God in my mother tongue upon my table, because Thornton, the Suffragan Bishop of Dover, is coming to my house? Shall I deny my Master before His
+
+#12#
+
+enemies, because they are <i>my</i> enemies too? Thank God, sinner as I am, I can meet Thornton with a clear conscience. Bring back the book this moment; and what have you done with Luther <i>De Captivitate Babylonica?</i>”</diam>
+<diam>"Oh do not make me bring <i>that</i> book, I conjure you," <m>said Alice, wringing her hands</m>, "If you do, you are a lost man, though Cardinal Pole himself should plead for you. Be content, I have put t...
 ```
 
 *Scene Ending:* [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
@@ -141,7 +155,21 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 Allen, who appeared greatly disturbed, and, coming up to his master, said in a most agitated manner, <diaq>"Thornton is coming!"</diaq>
 <diam>"Thornton!" <m>exclaimed Wilford</m>, "Thornton! and to <i>my</i> house?"</diam>
 <diam>"Ay, Thornton is coming, sure enough," <m>replied Abel</m>; "and I don’t think he is coming alone either, for I saw him standing in the green lane near Gammer Plaise’s cottage, with a couple of fellows of his own kidney, and I do think there was more of them still behind. But who cares for that?" added the old servingman stoutly; "shall I knock him down, or shut the door in his face?"</diam>
-<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to se...
+<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to see him; although, if I did so refuse, I could find a warrant for it in my own breast. Yet, I will see him. Show him into the little oak parlour, and tell your mistress, Dame Alice, what sort of a visitor we are like to have. I will prepare my mind to meet that man, if I can, with composure."</diam>
+
+#11#
+
+
+<arrivaldeparture>Abel departed</arrivaldeparture>, to obey the instructions of his master; whilst Wilford, who appeared extremely affected by the very mention of Thornton's name, paced up and down the room with an agitation of manner that was rarely seen in a man of so mild and patient a temper. <blend>He then descended</blend> to the oak parlour, where he found his wife (who had been warned by Abel of Thornton’s approach) busily engaged in putting several things away in a closet.
+
+<diam>"Alice," <m>said Wilford</m>, “you have removed it; bring the book back again, and lay it open, as it was, upon the table.”</diam>
+<diam>"Nay, do not bid me," <m>replied his wife in an imploring tone</m>; "do not bid me; consider what it is."</diam>
+<diam>"I do so," <m>answered Wilford</m>, "and therefore I command you to obey me. Shall I fear to have the service to my God in my mother tongue upon my table, because Thornton, the Suffragan Bishop of Dover, is coming to my house? Shall I deny my Master before His
+
+#12#
+
+enemies, because they are <i>my</i> enemies too? Thank God, sinner as I am, I can meet Thornton with a clear conscience. Bring back the book this moment; and what have you done with Luther <i>De Captivitate Babylonica?</i>”</diam>
+<diam>"Oh do not make me bring <i>that</i> book, I conjure you," <m>said Alice, wringing her hands</m>, "If you do, you are a lost man, though Cardinal Pole himself should plead for you. Be content, I have put t...
 ```
 
 ## [1788 Anon Oswald Castle 1_6_13800 Erin.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html)
@@ -169,7 +197,15 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 
 #65#
 
-leave them when they were seated; but he promised to return before they would wish to leave the house. The play was one of Mrs. Cowley’s excellent comedies, and the third act was begun, which engaged all Sophia’s attention, when the audience were suddenly alarmed by the cry of <reportedspeechquotes>"Fire;"</reportedspeechquotes> the theatre was instantly in confusion, and the audience, by attemp...
+leave them when they were seated; but he promised to return before they would wish to leave the house. The play was one of Mrs. Cowley’s excellent comedies, and the third act was begun, which engaged all Sophia’s attention, when the audience were suddenly alarmed by the cry of <reportedspeechquotes>"Fire;"</reportedspeechquotes> the theatre was instantly in confusion, and the audience, by attempting to make their way out, rendered the scene still more frightful. --- Screams of terror and distress, -— the bursting open of doors, -- oaths and supplications, -- mixed in one dreadful tumult, terrified Sophia to agony; she jumped immediately over the benches behind her, and opening the door of the box, <exclamation>rushed instantly into the lobby!</exclamation> -— Here her situation was indeed frightful: encompassed by a crowd of people, who regarded only themselves, she vainly supplicated assistance; at length, her elegant figure attracting the attention of a party of young men, whose licentiousness, not
+
+#66#
+
+even the horror of the moment could repress; they seized her hand, and said they would protect her: the terrible imprecations they used to each other, awakened her to all the misery of her state, and the sound of protection, which had at first a little relieved her, from them, was even more dreadful than remaining unassisted. <diam>"No, no," <m>she exclaimed, endeavouring to disengage herself from them,</m> "suffer me to return to my friends, and I will share their fate."</diam> <diam>"We are your friends," <m>said they,</m> "and we will protect you."</diam> In saying this, they endeavoured to force her forward; the alarm had by this time ceased, and the lobby was almost empty: observing this, she hastily replied, <diaq>"No, there is no occasion, I thank you, gentlemen, the danger is over, and I will return to my party."</diaq> To this she received no answer, but an insolent laugh, some impertinent speeches to each other, and a continued effort to oblige her to go
+
+#67#
+
+with them. Wresting herself violently from their hold, she exclaimed, <diaq>"Unhand me, gentlemen, I will not go with you.”</diaq> A gentleman advancing, used some menacing language to these insolent fellows -— S...
 ```
 
 ### Complex Scenedia (Lines 29-37)
@@ -195,7 +231,11 @@ leave them when they were seated; but he promised to return before they would wi
 
 #80#
 
-in stature than Sophia, but the graces of her person prevented her from being insignificant. In short, she had just that kind of elegant attraction which wins the heart without consulting, or rath...
+in stature than Sophia, but the graces of her person prevented her from being insignificant. In short, she had just that kind of elegant attraction which wins the heart without consulting, or rather before it is possible to consult the reasons. They entered immediately into a very friendly conversation; and Sophia said, <diaq>“I trust, Lady Helen, you will not mortify me so cruelly, as just to shew me there exists a person so valuable as yourself, and then withdraw her from my society: will you add to the obligations I already feel half uneasy under, that of allowing me to see you often."</diaq> <diam>"On one condition;" <m>replied Lady Helen, smiling.</m></diam> <diam>“Name it;” <m>answered Sophia.</m></diam> <dia>“It is that you will not ever again mention, that horrid word <i>obligations</i>; if you do, I shall think you wish to remind <i>me</i> of those I owe <i>you</i> for admitting me; and, like you, I am very proud, and <i>hate to be obliged</i>.”</dia> Sophia returned her smile, and in the same tone promised
+
+#81#
+
+implicit obedience. <diainset1p>"My time," <m>said Lady Helen</m>, "while my father is out of town, is quite at my own disposal; and I find already, that I shall think most of that mispent, which is not passed with you: when my father is at home, I must dedicate a large part of every day to him. It is remarkabable enough," <m>added she,</m> “that but yesterday morning, I was saying to my brother <diaq>'I hear a great deal of Lady Sophia Woodville, I wish we could be introduced to her; but as we are unacquainted with Lord Marchmont’s family and most of those she visits, I fear it will not be easy.’</diaq> <diam>‘Oh,' <m>said he, smiling,</m> 'do not wish that for my sake, Helen, for I am told she is so extremely lovely, no man can withstand the power of her charms, and I wish to keep my heart awhile.'</diam>"</diainset1p> Sophia felt herself excessively confused at this recital, and with some difficulty said, <diaq>"Your Brother is by this time undeceived, if indeed, he ever <i>thought</i> thus."</diaq> Lady...
 ```
 
 ...
