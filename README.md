@@ -79,25 +79,23 @@ openpyxl>=3.0.7
 
 ## Tag Counts Summary
 
-[View complete tag counts summary](data/SUMMARY.md)
+[View complete tag counts summary](https://github.com/aculich/novel-scenification/raw/refs/heads/main/data/tag_counts_summary.xlsx)
 
 | Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |
 |-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|
-| [1828 Loudon 1_4_11057 Erin](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1828%20Loudon%201_4_11057%20Erin.html) | 307 | 14797 | 4 | 3 | 6231 | 3 | 3284 | 28 | 1191 |
-| [1828 Colburn 1_2_13824](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1828%20Colburn%201_2_13824.html) | 238 | 13695 | 2 | 4 | 4415 | 3 | 1807 | 12 | 540 |
-| [1788 Anon Helena 1_20_12500](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1788%20Anon%20Helena%201_20_12500.html) | 181 | 12157 | 20 | 3 | 13702 | 3 | 1713 | 1 | 11 |
-| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 327 | 13130 | 3 | 1 | 1259 | 5 | 7592 | 64 | 3657 |
-| [1788 Anon Oswald Castle 1_6_13800 Erin](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html) | 427 | 13861 | 7 | 3 | 3550 | 6 | 6802 | 25 | 433 |
-| [1788 Wollstonecraft 1_16_12447](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1788%20Wollstonecraft%201_16_12447.html) | 151 | 12667 | 14 | 1 | 316 | 2 | 1553 | 3 | 57 |
-| [1808 Norris 1_7_12512](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1808%20Norris%201_7_12512.html) | 329 | 12416 | 7 | 4 | 3899 | 6 | 3035 | 50 | 1089 |
-| [1828 Cunningham 1_2_12439](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1828%20Cunningham%201_2_12439.html) | 264 | 12059 | 2 | 1 | 5912 | 1 | 6042 | 2 | 174 |
-| [1788 Anon Amicable Q 1_3_13234](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html) | 327 | 13247 | 3 | 1 | 1269 | 5 | 7656 | 64 | 3686 |
-| [1808 Montague 1_2_12825](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1808%20Montague%201_2_12825.html) | 141 | 12701 | 2 | 2 | 2373 | 4 | 3439 | 3 | 127 |
-| [1828 Bray Protestant 1_2_14300 Erin](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html) | 441 | 13721 | 2 | 0 | 0 | 2 | 12295 | 1 | 95 |
-| [1808 Anon_Master Passion 1_6_11555](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1808%20Anon_Master%20Passion%201_6_11555.html) | 271 | 11527 | 6 | 4 | 3207 | 6 | 3919 | 80 | 2477 |
-| [1828 Harvey 1_3_13500](https://github.com/aculich/novel-scenification/blob/e43704545498a519f162f7de209f30f9e4931dec/data/input/1828%20Harvey%201_3_13500.html) | 280 | 12999 | 3 | 2 | 4041 | 3 | 8195 | 12 | 556 |
-
-[View complete tag counts summary](data/SUMMARY.md)
+| [1828 Loudon 1_4_11057 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20Erin.html) | 307 | 14797 | 4 | 3 | 6231 | 3 | 3284 | 28 | 1191 |
+| [1828 Colburn 1_2_13824](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824.html) | 238 | 13695 | 2 | 4 | 4415 | 3 | 1807 | 12 | 540 |
+| [1788 Anon Helena 1_20_12500](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Helena%201_20_12500.html) | 181 | 12157 | 20 | 3 | 13702 | 3 | 1713 | 1 | 11 |
+| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 327 | 13130 | 3 | 1 | 1259 | 5 | 7592 | 64 | 3657 |
+| [1788 Anon Oswald Castle 1_6_13800 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html) | 427 | 13861 | 7 | 3 | 3550 | 6 | 6802 | 25 | 433 |
+| [1788 Wollstonecraft 1_16_12447](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Wollstonecraft%201_16_12447.html) | 151 | 12667 | 14 | 1 | 316 | 2 | 1553 | 3 | 57 |
+| [1808 Norris 1_7_12512](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Norris%201_7_12512.html) | 329 | 12416 | 7 | 4 | 3899 | 6 | 3035 | 50 | 1089 |
+| [1828 Cunningham 1_2_12439](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439.html) | 264 | 12059 | 2 | 1 | 5912 | 1 | 6042 | 2 | 174 |
+| [1788 Anon Amicable Q 1_3_13234](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html) | 327 | 13247 | 3 | 1 | 1269 | 5 | 7656 | 64 | 3686 |
+| [1808 Montague 1_2_12825](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825.html) | 141 | 12701 | 2 | 2 | 2373 | 4 | 3439 | 3 | 127 |
+| [1828 Bray Protestant 1_2_14300 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html) | 441 | 13721 | 2 | 0 | 0 | 2 | 12295 | 1 | 95 |
+| [1808 Anon_Master Passion 1_6_11555](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%201_6_11555.html) | 271 | 11527 | 6 | 4 | 3207 | 6 | 3919 | 80 | 2477 |
+| [1828 Harvey 1_3_13500](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500.html) | 280 | 12999 | 3 | 2 | 4041 | 3 | 8195 | 12 | 556 |
 
 
 ## Scene Samples
@@ -108,11 +106,11 @@ openpyxl>=3.0.7
 
 This document contains particularly rich examples of scene markup from each text, showing complex interactions between different types of scenes and their components. For each scene, we show interesting excerpts including openings, transitions, rich dialog sections, and endings.
 
-## 1828 Bray Protestant 1_2_14300 Erin.html
+## [1828 Bray Protestant 1_2_14300 Erin.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html)
 
 ### Complex Scenedia (Lines 60-484)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
+**Location:** [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
 
 **Complexity Metrics:**
 - Unique tag types: 18
@@ -122,7 +120,7 @@ This document contains particularly rich examples of scene markup from each text
 
 **Interesting Excerpts:**
 
-*Scene Transition:*
+*Scene Transition:* [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
 ```html
 <scenedia><trigger>One morning</trigger>, whilst Wilford was preparing to take his usual walk round the village of Wellminster, he was surprised by the sudden entrance of his old and faithful servant, Abel
 
@@ -134,7 +132,7 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 <diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to se...
 ```
 
-*Scene Ending:*
+*Scene Ending:* [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
 ```html
 <scenedia><trigger>One morning</trigger>, whilst Wilford was preparing to take his usual walk round the village of Wellminster, he was surprised by the sudden entrance of his old and faithful servant, Abel
 
@@ -146,11 +144,11 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 <diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to se...
 ```
 
-## 1788 Anon Oswald Castle 1_6_13800 Erin.html
+## [1788 Anon Oswald Castle 1_6_13800 Erin.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html)
 
 ### Complex Sceneaction (Lines 7-23)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L7-L23)
+**Location:** [Lines 7-23](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L7-L23)
 
 **Complexity Metrics:**
 - Unique tag types: 9
@@ -160,12 +158,12 @@ Allen, who appeared greatly disturbed, and, coming up to his master, said in a m
 
 **Interesting Excerpts:**
 
-*Scene Opening:*
+*Scene Opening:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L339-L358)
 ```html
 <sceneaction>The next morning was spent in receiving visitors, who left them only time to prepare for the play, to which they had engaged to go with the Marchmonts, some time before; places were taken in the stage-box, and Sophia’s dress was remarkably elegant; she looked beautifully; the Marchmonts called for them, and she stepped into the carriage with more than usual vivacity. Lord Sandford was their only <i>escorte</i>
 ```
 
-*Scene Ending:*
+*Scene Ending:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L339-L358)
 ```html
 <sceneaction>The next morning was spent in receiving visitors, who left them only time to prepare for the play, to which they had engaged to go with the Marchmonts, some time before; places were taken in the stage-box, and Sophia’s dress was remarkably elegant; she looked beautifully; the Marchmonts called for them, and she stepped into the carriage with more than usual vivacity. Lord Sandford was their only <i>escorte</i>, who was under an engagement for part of the evening, which would oblige him to
 
@@ -176,7 +174,7 @@ leave them when they were seated; but he promised to return before they would wi
 
 ### Complex Scenedia (Lines 29-37)
 
-[View full scene on GitHub](https://github.com/aculich/novel-scenification/blob/8c05460379b0e7f17a6644691509e5c7c84f370f/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L29-L37)
+**Location:** [Lines 29-37](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L29-L37)
 
 **Complexity Metrics:**
 - Unique tag types: 12
@@ -186,12 +184,12 @@ leave them when they were seated; but he promised to return before they would wi
 
 **Interesting Excerpts:**
 
-*Scene Opening:*
+*Scene Opening:* [Lines 405-424](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L405-L424)
 ```html
 <scenedia>Sophia met her with repeated thanks for the kindness of her visit, which she said was perfectly consistent with the goodness she had shewn her the night before. —- They sat down together, Lady Helen still retained Sophia’s hand in her own, and looked on her as if she had said <speechimangined>"Have we not been acquainted these twelve months."</speechimangined>
 ```
 
-*Scene Ending:*
+*Scene Ending:* [Lines 405-424](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L405-L424)
 ```html
 <scenedia>Sophia met her with repeated thanks for the kindness of her visit, which she said was perfectly consistent with the goodness she had shewn her the night before. —- They sat down together, Lady Helen still retained Sophia’s hand in her own, and looked on her as if she had said <speechimangined>"Have we not been acquainted these twelve months."</speechimangined> Sophia also, gazed on her, and found a form, if not perfectly beautiful, perhaps more agreeable than if it had been so: her eyes expressed every thought, and as they were her most lively feature, so they scarcely allowed you to think on any other: she was lower
 
