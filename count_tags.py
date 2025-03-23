@@ -109,8 +109,11 @@ def parse_html_to_csv(html_file, csv_file):
     # Save to CSV
     df.to_csv(csv_file, index=False)
 
-def create_markdown_summary(summary_data):
+def create_markdown_summary(summary_data, commit_hash=None):
     """Generate a markdown summary file with links to the input files."""
+    if not commit_hash:
+        commit_hash = get_current_git_commit()
+        
     markdown_content = "# Tag Counts Summary\n\n"
     markdown_content += "| Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |\n"
     markdown_content += "|-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|\n"
@@ -120,8 +123,11 @@ def create_markdown_summary(summary_data):
         sheet_name = row['Sheet'].split('"')[3]  # Get the original name from the formula
         # URL encode the filename for the GitHub link
         encoded_filename = quote(f"{sheet_name}.html")
-        # Create the GitHub link with encoded filename
-        github_link = f"[{sheet_name}](https://raw.githubusercontent.com/aculich/novel-scenification/refs/heads/main/data/input/{encoded_filename})"
+        # Create the GitHub link with commit hash
+        if commit_hash:
+            github_link = f"[{sheet_name}](https://github.com/aculich/novel-scenification/blob/{commit_hash}/data/input/{encoded_filename})"
+        else:
+            github_link = f"[{sheet_name}](https://github.com/aculich/novel-scenification/blob/main/data/input/{encoded_filename})"
         
         markdown_content += f"| {github_link} | {row['Total_Tags']} | {row['Total_Words']} | {row['Chapter_Count']} | {row['SceneAction_Count']} | {row['SceneAction_Words']} | {row['SceneDia_Count']} | {row['SceneDia_Words']} | {row['Dialogue_Count']} | {row['Dialogue_Words']} |\n"
     
@@ -210,14 +216,14 @@ def create_excel_summary():
         summary_data = []
         for csv_file in csv_files:
             base_name = os.path.splitext(os.path.basename(csv_file))[0]
-            # Use the truncated sheet name for references in the summary
+            # Use the truncated sheet name for Excel references, but keep full name for display
             sheet_name = base_name[:31]
             
             # First read the CSV to get the sheet name
             df = pd.read_csv(csv_file)
             
             summary_data.append({
-                'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',
+                'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',  # Keep full name in display
                 'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
                 'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
                 'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0,
@@ -238,7 +244,8 @@ def create_excel_summary():
         summary_df = summary_df[mask]
         
         # Generate markdown summary before writing to Excel
-        create_markdown_summary(summary_data)
+        commit_hash = get_current_git_commit()
+        create_markdown_summary(summary_data, commit_hash)
         
         summary_df.to_excel(writer, sheet_name='Summary', index=False)
         
@@ -522,7 +529,7 @@ def create_samples_markdown(commit_hash=None):
     if not commit_hash:
         commit_hash = get_current_git_commit()
     
-    markdown_content = "# Rich Scene Samples\n\n"
+    markdown_content = "# Scene Samples\n\n"
     markdown_content += "This document contains particularly rich examples of scene markup from each text, "
     markdown_content += "showing complex interactions between different types of scenes and their components. "
     markdown_content += "For each scene, we show interesting excerpts including openings, transitions, rich dialog sections, and endings.\n\n"
@@ -568,6 +575,94 @@ def create_samples_markdown(commit_hash=None):
     with open('data/SAMPLES.md', 'w', encoding='utf-8') as f:
         f.write(markdown_content)
 
+def create_readme():
+    """Generate README.md from template and include summaries."""
+    try:
+        # Try to read existing README.md
+        with open('README.md', 'r', encoding='utf-8') as f:
+            existing_content = f.read()
+            
+        # Split at "## Tag Counts Summary" if it exists
+        parts = existing_content.split("## Tag Counts Summary")
+        template_content = parts[0].rstrip()  # Use everything before this section
+    except FileNotFoundError:
+        # If README.md doesn't exist, start with empty content
+        template_content = ""
+    
+    # Add links to full files
+    summary_section = "\n\n## Tag Counts Summary\n\n"
+    summary_section += "[View complete tag counts summary](data/SUMMARY.md)\n\n"
+    
+    # Track which files we'll show samples from
+    sample_files = set()
+    with open('data/SAMPLES.md', 'r', encoding='utf-8') as f:
+        samples_content = f.read()
+        sections = samples_content.split('\n## ')
+        for section in sections[1:]:  # Skip intro
+            if 'Complex Scene' in section:
+                # Extract filename from the section, removing .html extension if present
+                filename = section.split('\n')[0].strip()
+                if filename.endswith('.html'):
+                    filename = filename[:-5]
+                if filename:
+                    sample_files.add(filename)
+    
+    # Add excerpt from SUMMARY.md, but only for files we're showing samples from
+    with open('data/SUMMARY.md', 'r', encoding='utf-8') as f:
+        summary_content = f.read()
+        summary_lines = summary_content.split('\n')
+        # Find the table header and separator lines
+        table_start = -1
+        for i, line in enumerate(summary_lines):
+            if line.startswith('| Sheet | Total_Tags'):
+                table_start = i
+                break
+        
+        if table_start >= 0 and len(summary_lines) >= table_start + 2:
+            # Add the table header and separator
+            summary_section += summary_lines[table_start] + "\n"  # Header
+            summary_section += summary_lines[table_start + 1] + "\n"  # Separator
+            
+            # Add rows only for files we're showing samples from
+            for line in summary_lines[table_start + 2:]:  # Start after header and separator
+                if not line.strip():  # Skip empty lines
+                    continue
+                for sample_file in sample_files:
+                    # Extract the filename from the markdown link format [filename](url)
+                    match = re.search(r'\[(.*?)\]', line)
+                    if match and match.group(1) == sample_file:
+                        summary_section += line + "\n"
+            summary_section += "\n[View complete tag counts summary](data/SUMMARY.md)\n\n"
+    
+    # Add excerpt from SAMPLES.md
+    samples_section = "\n## Scene Samples\n\n"
+    samples_section += "[View complete samples analysis](data/SAMPLES.md)\n\n"
+    
+    with open('data/SAMPLES.md', 'r', encoding='utf-8') as f:
+        samples_content = f.read()
+        # Split by sections and take introduction plus first two samples
+        sections = samples_content.split('\n## ')
+        if len(sections) > 0:
+            intro = sections[0]
+            samples = []
+            count = 0
+            for section in sections[1:]:
+                if count < 2 and 'Complex Scene' in section:
+                    samples.append(section)
+                    count += 1
+            
+            samples_section += intro + "\n"
+            if samples:
+                samples_section += "## " + "\n## ".join(samples) + "\n...\n\n"
+                samples_section += "[View all scene samples](data/SAMPLES.md)\n"
+    
+    # Combine everything
+    readme_content = template_content + summary_section + samples_section
+    
+    # Write the README
+    with open('README.md', 'w', encoding='utf-8') as f:
+        f.write(readme_content)
+
 def process_all_files():
     input_dir = "data/input"
     output_dir = "data/counts"
@@ -598,6 +693,10 @@ def process_all_files():
     print("\nGenerating rich samples documentation...")
     create_samples_markdown()
     print("Rich samples documentation created at: data/SAMPLES.md")
+    
+    print("\nGenerating README.md...")
+    create_readme()
+    print("README.md generated from template with summaries")
 
 if __name__ == "__main__":
     process_all_files()
