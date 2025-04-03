@@ -83,19 +83,23 @@ openpyxl>=3.0.7
 
 | Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |
 |-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|
-| [1828 Loudon 1_4_11057 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20Erin.html) | 307 | 14797 | 4 | 3 | 6231 | 3 | 3284 | 28 | 1191 |
-| [1828 Colburn 1_2_13824](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824.html) | 238 | 13695 | 2 | 4 | 4415 | 3 | 1807 | 12 | 540 |
-| [1788 Anon Helena 1_20_12500](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Helena%201_20_12500.html) | 181 | 12157 | 20 | 3 | 13702 | 3 | 1713 | 1 | 11 |
-| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 327 | 13130 | 3 | 1 | 1259 | 5 | 7592 | 64 | 3657 |
-| [1788 Anon Oswald Castle 1_6_13800 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html) | 427 | 13861 | 7 | 3 | 3550 | 6 | 6802 | 25 | 433 |
-| [1788 Wollstonecraft 1_16_12447](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Wollstonecraft%201_16_12447.html) | 151 | 12667 | 14 | 1 | 316 | 2 | 1553 | 3 | 57 |
-| [1808 Norris 1_7_12512](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Norris%201_7_12512.html) | 329 | 12416 | 7 | 4 | 3899 | 6 | 3035 | 50 | 1089 |
-| [1828 Cunningham 1_2_12439](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439.html) | 264 | 12059 | 2 | 1 | 5912 | 1 | 6042 | 2 | 174 |
-| [1788 Anon Amicable Q 1_3_13234](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234.html) | 327 | 13247 | 3 | 1 | 1269 | 5 | 7656 | 64 | 3686 |
-| [1808 Montague 1_2_12825](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825.html) | 141 | 12701 | 2 | 2 | 2373 | 4 | 3439 | 3 | 127 |
-| [1828 Bray Protestant 1_2_14300 Erin](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html) | 441 | 13721 | 2 | 0 | 0 | 2 | 12295 | 1 | 95 |
-| [1808 Anon_Master Passion 1_6_11555](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%201_6_11555.html) | 271 | 11527 | 6 | 4 | 3207 | 6 | 3919 | 80 | 2477 |
-| [1828 Harvey 1_3_13500](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500.html) | 280 | 12999 | 3 | 2 | 4041 | 3 | 8195 | 12 | 556 |
+| [1828 Bray Protestant 1_2_14300 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Final%20no%20pages.html) | 434 | 13434 | 2 | 0 | 0 | 2 | 12020 | 1 | 95 |
+| [1788 Wollstonecraft 1_16_12447 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Wollstonecraft%201_16_12447%20Final%20no%20pages.html) | 154 | 12530 | 16 | 1 | 313 | 2 | 1540 | 3 | 57 |
+| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 328 | 13114 | 3 | 1 | 1259 | 5 | 7592 | 65 | 3630 |
+| [1788 Anon Amicable Q chapter 1 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%20chapter%201%20TEST.html) | 69 | 3557 | 1 | 0 | 0 | 1 | 2392 | 29 | 1893 |
+| [1808 Anon_Master Passion 1_6_11555 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%201_6_11555%20final.html) | 271 | 11450 | 6 | 4 | 3185 | 6 | 3894 | 80 | 2470 |
+| [1788 Anon Oswald Castle 1_6_13800 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Final%20no%20pages.html) | 427 | 13744 | 7 | 3 | 3523 | 6 | 6755 | 25 | 433 |
+| [1828 Loudon 1_4_11057 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20final.html) | 307 | 14696 | 4 | 3 | 6191 | 3 | 3261 | 28 | 1187 |
+| [1828 Colburn 1_2_13824 FINAL no page](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824%20FINAL%20no%20page.html) | 238 | 13594 | 2 | 4 | 4388 | 3 | 1793 | 12 | 537 |
+| [1788 Nixon 1_7_11500 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html) | 374 | 11261 | 7 | 2 | 4783 | 0 | 0 | 1 | 16 |
+| [1788 Anon Helena 1_20_12500 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Helena%201_20_12500%20Final%20no%20pages.html) | 181 | 12052 | 20 | 3 | 3195 | 3 | 1700 | 1 | 11 |
+| [1808 Anon_Master Passion Chapter 1-2 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html) | 76 | 3499 | 2 | 1 | 303 | 1 | 893 | 22 | 388 |
+| [1808 Montague 1_2_12825 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825%20Final%20no%20pages.html) | 141 | 12566 | 2 | 2 | 2351 | 4 | 3404 | 3 | 126 |
+| [1808 Norris 1_7_12512 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Norris%201_7_12512%20final%20no%20pages.html) | 331 | 12300 | 7 | 4 | 3869 | 6 | 3012 | 51 | 1087 |
+| [1828 Harvey 1_3_13500 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html) | 280 | 12876 | 3 | 2 | 4007 | 3 | 8135 | 12 | 550 |
+| [1828 Derenz 1_9_14614 final no pages no footnotes](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Derenz%201_9_14614%20final%20no%20pages%20no%20footnotes.html) | 438 | 14550 | 9 | 5 | 4277 | 6 | 6505 | 25 | 990 |
+| [1808 An Monks 1_6_13000 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20An%20Monks%201_6_13000%20final%20no%20pages.html) | 192 | 12787 | 6 | 4 | 10122 | 1 | 2655 | 2 | 59 |
+| [1828 Cunningham 1_2_12439 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439%20Final%20no%20pages.html) | 264 | 11983 | 2 | 1 | 5883 | 1 | 6015 | 2 | 172 |
 
 
 ## Scene Samples
@@ -106,136 +110,115 @@ openpyxl>=3.0.7
 
 This document contains particularly rich examples of scene markup from each text, showing complex interactions between different types of scenes and their components. For each scene, we show interesting excerpts including openings, transitions, rich dialog sections, and endings.
 
-## [1828 Bray Protestant 1_2_14300 Erin.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html)
+## [1828 Harvey 1_3_13500 final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html)
 
-### Complex Scenedia (Lines 60-484)
+### Complex Sceneaction (Lines 3-54)
 
-**Location:** [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
-
-**Complexity Metrics:**
-- Unique tag types: 18
-- Total nested tags: 264
-- Word count: 7650
-- Tag types present: arrivaldeparture, authorwe, blend, chapmarker, chnameexternal, chnameintro, chnonameexternal, departurearrival, descriptor, diam, diaq, footnote, i, m, quotedlit, quotedtext, speechimagined, trigger
-
-**Interesting Excerpts:**
-
-*Scene Transition:* [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
-```html
-<scenedia><trigger>One morning</trigger>, whilst Wilford was preparing to take his usual walk round the village of Wellminster, he was surprised by the sudden entrance of his old and faithful servant, Abel
-
-#10#
-
-Allen, who appeared greatly disturbed, and, coming up to his master, said in a most agitated manner, <diaq>"Thornton is coming!"</diaq>
-<diam>"Thornton!" <m>exclaimed Wilford</m>, "Thornton! and to <i>my</i> house?"</diam>
-<diam>"Ay, Thornton is coming, sure enough," <m>replied Abel</m>; "and I don’t think he is coming alone either, for I saw him standing in the green lane near Gammer Plaise’s cottage, with a couple of fellows of his own kidney, and I do think there was more of them still behind. But who cares for that?" added the old servingman stoutly; "shall I knock him down, or shut the door in his face?"</diam>
-<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to see him; although, if I did so refuse, I could find a warrant for it in my own breast. Yet, I will see him. Show him into the little oak parlour, and tell your mistress, Dame Alice, what sort of a visitor we are like to have. I will prepare my mind to meet that man, if I can, with composure."</diam>
-
-#11#
-
-
-<arrivaldeparture>Abel departed</arrivaldeparture>, to obey the instructions of his master; whilst Wilford, who appeared extremely affected by the very mention of Thornton's name, paced up and down the room with an agitation of manner that was rarely seen in a man of so mild and patient a temper. <blend>He then descended</blend> to the oak parlour, where he found his wife (who had been warned by Abel of Thornton’s approach) busily engaged in putting several things away in a closet.
-
-<diam>"Alice," <m>said Wilford</m>, “you have removed it; bring the book back again, and lay it open, as it was, upon the table.”</diam>
-<diam>"Nay, do not bid me," <m>replied his wife in an imploring tone</m>; "do not bid me; consider what it is."</diam>
-<diam>"I do so," <m>answered Wilford</m>, "and therefore I command you to obey me. Shall I fear to have the service to my God in my mother tongue upon my table, because Thornton, the Suffragan Bishop of Dover, is coming to my house? Shall I deny my Master before His
-
-#12#
-
-enemies, because they are <i>my</i> enemies too? Thank God, sinner as I am, I can meet Thornton with a clear conscience. Bring back the book this moment; and what have you done with Luther <i>De Captivitate Babylonica?</i>”</diam>
-<diam>"Oh do not make me bring <i>that</i> book, I conjure you," <m>said Alice, wringing her hands</m>, "If you do, you are a lost man, though Cardinal Pole himself should plead for you. Be content, I have put t...
-```
-
-*Scene Ending:* [Lines 60-484](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Erin.html#L60-L484)
-```html
-<scenedia><trigger>One morning</trigger>, whilst Wilford was preparing to take his usual walk round the village of Wellminster, he was surprised by the sudden entrance of his old and faithful servant, Abel
-
-#10#
-
-Allen, who appeared greatly disturbed, and, coming up to his master, said in a most agitated manner, <diaq>"Thornton is coming!"</diaq>
-<diam>"Thornton!" <m>exclaimed Wilford</m>, "Thornton! and to <i>my</i> house?"</diam>
-<diam>"Ay, Thornton is coming, sure enough," <m>replied Abel</m>; "and I don’t think he is coming alone either, for I saw him standing in the green lane near Gammer Plaise’s cottage, with a couple of fellows of his own kidney, and I do think there was more of them still behind. But who cares for that?" added the old servingman stoutly; "shall I knock him down, or shut the door in his face?"</diam>
-<diam>"Do neither," <m>replied Wilford;</m> "I will not refuse to see him; although, if I did so refuse, I could find a warrant for it in my own breast. Yet, I will see him. Show him into the little oak parlour, and tell your mistress, Dame Alice, what sort of a visitor we are like to have. I will prepare my mind to meet that man, if I can, with composure."</diam>
-
-#11#
-
-
-<arrivaldeparture>Abel departed</arrivaldeparture>, to obey the instructions of his master; whilst Wilford, who appeared extremely affected by the very mention of Thornton's name, paced up and down the room with an agitation of manner that was rarely seen in a man of so mild and patient a temper. <blend>He then descended</blend> to the oak parlour, where he found his wife (who had been warned by Abel of Thornton’s approach) busily engaged in putting several things away in a closet.
-
-<diam>"Alice," <m>said Wilford</m>, “you have removed it; bring the book back again, and lay it open, as it was, upon the table.”</diam>
-<diam>"Nay, do not bid me," <m>replied his wife in an imploring tone</m>; "do not bid me; consider what it is."</diam>
-<diam>"I do so," <m>answered Wilford</m>, "and therefore I command you to obey me. Shall I fear to have the service to my God in my mother tongue upon my table, because Thornton, the Suffragan Bishop of Dover, is coming to my house? Shall I deny my Master before His
-
-#12#
-
-enemies, because they are <i>my</i> enemies too? Thank God, sinner as I am, I can meet Thornton with a clear conscience. Bring back the book this moment; and what have you done with Luther <i>De Captivitate Babylonica?</i>”</diam>
-<diam>"Oh do not make me bring <i>that</i> book, I conjure you," <m>said Alice, wringing her hands</m>, "If you do, you are a lost man, though Cardinal Pole himself should plead for you. Be content, I have put t...
-```
-
-## [1788 Anon Oswald Castle 1_6_13800 Erin.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html)
-
-### Complex Sceneaction (Lines 7-23)
-
-**Location:** [Lines 7-23](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L7-L23)
-
-**Complexity Metrics:**
-- Unique tag types: 9
-- Total nested tags: 67
-- Word count: 2177
-- Tag types present: authorwe, dia, diainset1p, diam, diaq, exclamation, i, m, reportedspeechquotes
-
-**Interesting Excerpts:**
-
-*Scene Opening:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L339-L358)
-```html
-<sceneaction>The next morning was spent in receiving visitors, who left them only time to prepare for the play, to which they had engaged to go with the Marchmonts, some time before; places were taken in the stage-box, and Sophia’s dress was remarkably elegant; she looked beautifully; the Marchmonts called for them, and she stepped into the carriage with more than usual vivacity. Lord Sandford was their only <i>escorte</i>
-```
-
-*Scene Ending:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L339-L358)
-```html
-<sceneaction>The next morning was spent in receiving visitors, who left them only time to prepare for the play, to which they had engaged to go with the Marchmonts, some time before; places were taken in the stage-box, and Sophia’s dress was remarkably elegant; she looked beautifully; the Marchmonts called for them, and she stepped into the carriage with more than usual vivacity. Lord Sandford was their only <i>escorte</i>, who was under an engagement for part of the evening, which would oblige him to
-
-#65#
-
-leave them when they were seated; but he promised to return before they would wish to leave the house. The play was one of Mrs. Cowley’s excellent comedies, and the third act was begun, which engaged all Sophia’s attention, when the audience were suddenly alarmed by the cry of <reportedspeechquotes>"Fire;"</reportedspeechquotes> the theatre was instantly in confusion, and the audience, by attempting to make their way out, rendered the scene still more frightful. --- Screams of terror and distress, -— the bursting open of doors, -- oaths and supplications, -- mixed in one dreadful tumult, terrified Sophia to agony; she jumped immediately over the benches behind her, and opening the door of the box, <exclamation>rushed instantly into the lobby!</exclamation> -— Here her situation was indeed frightful: encompassed by a crowd of people, who regarded only themselves, she vainly supplicated assistance; at length, her elegant figure attracting the attention of a party of young men, whose licentiousness, not
-
-#66#
-
-even the horror of the moment could repress; they seized her hand, and said they would protect her: the terrible imprecations they used to each other, awakened her to all the misery of her state, and the sound of protection, which had at first a little relieved her, from them, was even more dreadful than remaining unassisted. <diam>"No, no," <m>she exclaimed, endeavouring to disengage herself from them,</m> "suffer me to return to my friends, and I will share their fate."</diam> <diam>"We are your friends," <m>said they,</m> "and we will protect you."</diam> In saying this, they endeavoured to force her forward; the alarm had by this time ceased, and the lobby was almost empty: observing this, she hastily replied, <diaq>"No, there is no occasion, I thank you, gentlemen, the danger is over, and I will return to my party."</diaq> To this she received no answer, but an insolent laugh, some impertinent speeches to each other, and a continued effort to oblige her to go
-
-#67#
-
-with them. Wresting herself violently from their hold, she exclaimed, <diaq>"Unhand me, gentlemen, I will not go with you.”</diaq> A gentleman advancing, used some menacing language to these insolent fellows -— S...
-```
-
-### Complex Scenedia (Lines 29-37)
-
-**Location:** [Lines 29-37](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L29-L37)
+**Location:** [Lines 3-54](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L3-L54)
 
 **Complexity Metrics:**
 - Unique tag types: 12
-- Total nested tags: 105
-- Word count: 2310
-- Tag types present: arrivaldeparture, blend, chapmarker, chaptitle, dia, diainset1p, diam, diaq, i, m, quotedlit, speechimangined
+- Total nested tags: 56
+- Word count: 2047
+- Tag types present: arrivaldeparture, chapmarker, chnameintro, chportrait, dia, diam, diaother, diaq, i, m, quotedlit, quotesdoxa
 
 **Interesting Excerpts:**
 
-*Scene Opening:* [Lines 405-424](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L405-L424)
+*Scene Opening:* [Lines 58-77](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L58-L77)
 ```html
-<scenedia>Sophia met her with repeated thanks for the kindness of her visit, which she said was perfectly consistent with the goodness she had shewn her the night before. —- They sat down together, Lady Helen still retained Sophia’s hand in her own, and looked on her as if she had said <speechimangined>"Have we not been acquainted these twelve months."</speechimangined>
+<sceneaction>Nugent's letter, and a much more brief one from his gay companion, being concluded, the two young men turned their entire attention to their patient and their prisoners. General Colville now occupied the bed in the only retiring-room which the house contained; the wounded and captive ruffians were laid upon straw, in an out-house, under a guard of peasants; and the rest of the party, that is to say, Prankendahi, Nugent, the valet, the landlord, his daughter, her husband, and the boatmen, assembled in the kitchen to await the arrival of the surgeon, and of the <i>amt-mann</i>
 ```
 
-*Scene Ending:* [Lines 405-424](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Erin.html#L405-L424)
+*Scene Ending:* [Lines 58-77](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L58-L77)
 ```html
-<scenedia>Sophia met her with repeated thanks for the kindness of her visit, which she said was perfectly consistent with the goodness she had shewn her the night before. —- They sat down together, Lady Helen still retained Sophia’s hand in her own, and looked on her as if she had said <speechimangined>"Have we not been acquainted these twelve months."</speechimangined> Sophia also, gazed on her, and found a form, if not perfectly beautiful, perhaps more agreeable than if it had been so: her eyes expressed every thought, and as they were her most lively feature, so they scarcely allowed you to think on any other: she was lower
+<sceneaction>Nugent's letter, and a much more brief one from his gay companion, being concluded, the two young men turned their entire attention to their patient and their prisoners. General Colville now occupied the bed in the only retiring-room which the house contained; the wounded and captive ruffians were laid upon straw, in an out-house, under a guard of peasants; and the rest of the party, that is to say, Prankendahi, Nugent, the valet, the landlord, his daughter, her husband, and the boatmen, assembled in the kitchen to await the arrival of the surgeon, and of the <i>amt-mann</i>, or rural magistrate, whose residence was about a mile distant, and to whom a peasant had been dispatched, to make a statement of the case.
 
-#80#
+Dorothea now displayed the combined fare of her larder, dairy, and cellar —- sausages, eggs, milk, and <quotedlit>"bread of the coarsest sort, and meager wine,"</quotedlit> all of which the travellers were quite hungry enough to enjoy. In the intervals of eating, much conversation was carried on concerning the incidents of the night; many conjectures were formed; and Frankendahl and Nugent, in answer to their questions, were told several anecdotes of Stoblitz's villany; he was a boatman of the neighbourhood, and all united in giving him a very bad character. Ludwig stated, that general Colville had been several times at his house, on his way to and from Baden, and other places in the vicinity, describing him as a gentleman of respectability and honour, said to be rich, and by all acknowledged to be generous.
 
-in stature than Sophia, but the graces of her person prevented her from being insignificant. In short, she had just that kind of elegant attraction which wins the heart without consulting, or rather before it is possible to consult the reasons. They entered immediately into a very friendly conversation; and Sophia said, <diaq>“I trust, Lady Helen, you will not mortify me so cruelly, as just to shew me there exists a person so valuable as yourself, and then withdraw her from my society: will you add to the obligations I already feel half uneasy under, that of allowing me to see you often."</diaq> <diam>"On one condition;" <m>replied Lady Helen, smiling.</m></diam> <diam>“Name it;” <m>answered Sophia.</m></diam> <dia>“It is that you will not ever again mention, that horrid word <i>obligations</i>; if you do, I shall think you wish to remind <i>me</i> of those I owe <i>you</i> for admitting me; and, like you, I am very proud, and <i>hate to be obliged</i>.”</dia> Sophia returned her smile, and in the same tone promised
+<diam>"What family has general Colville?" <m>asked Nugent</m>.</diam>
+<diam>"Only himself and his wife," <m>replied the landlord</m>.</diam>
+<diam>"He has no wife — at least none here," <m>said Francis, the fisherman</m></diam>.
 
-#81#
+<diam>"Who was that handsome lady who was here with him one day then?" <m>questioned Ludwig.</m></diam>
+<diam>"Dare say that was his daughter," <m>said Dorothea.</m></diam>
+<diam>"No, she is his niece," <m>rejoined Francis.</m></diam>
+<diam>"Dare say thou's wrong," <m>said his wife.</m></diam>
+<diam>"No, I have heard her call the general uncle more than once, when I have been at St. Severine with fish," <m>returned Francis; and the assertion of course concluded this part of the colloquy.</m></diam>
 
-implicit obedience. <diainset1p>"My time," <m>said Lady Helen</m>, "while my father is out of town, is quite at my own disposal; and I find already, that I shall think most of that mispent, which is not passed with you: when my father is at home, I must dedicate a large part of every day to him. It is remarkabable enough," <m>added she,</m> “that but yesterday morning, I was saying to my brother <diaq>'I hear a great deal of Lady Sophia Woodville, I wish we could be introduced to her; but as we are unacquainted with Lord Marchmont’s family and most of those she visits, I fear it will not be easy.’</diaq> <diam>‘Oh,' <m>said he, smiling,</m> 'do not wish that for my sake, Helen, for I am told she is so extremely lovely, no man can withstand the power of her charms, and I wish to keep my heart awhile.'</diam>"</diainset1p> Sophia felt herself excessively confused at this recital, and with some difficulty said, <diaq>"Your Brother is by this time undeceived, if indeed, he ever <i>thought</i> thus."</diaq> Lady...
+Nugent was now impatiently expecting the arrival of the surgeon. -— <diam>"Is he a person of skill?" <m>he asked, but without a hope of having the question satisfactorily answered; for he supposed that those ignorant peasants had the same confidence in a wandering quack that savage tribes place in their conjurers.</m></diam>
+<diam>"He is a right good doctor, sir, and does many wonderful cure...
+```
+
+### Complex Scenedia (Lines 128-202)
+
+**Location:** [Lines 128-202](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L128-L202)
+
+**Complexity Metrics:**
+- Unique tag types: 11
+- Total nested tags: 82
+- Word count: 2544
+- Tag types present: arrivaldeparture, backstory, blend, descriptor, descriptorq, dia, diam, diaother, diaq, exclamation, m
+
+**Interesting Excerpts:**
+
+*Scene Opening:* [Lines 210-213](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L210-L213)
+```html
+<scenedia>The effect of doctor Sedgelake's opiate was not yet dissipated; the patient was still asleep; but Albert said he thought his rest would not last much longer.
+
+Nugent dispatched him on his errand, and seating himself by general Colville's bedside, contemplated his striking countenance: he could not be less than seventy; his hair was silvered; and the lines of time and reflection were on his forehead; but it was there alone that age seemed to have set her seal; his frame was still robust, and his teeth entire; and on his right cheek was a deep scar, the honourable badge of a soldier.
+
+Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came on tiptoe</arrivaldeparture>
+```
+
+*Scene Ending:* [Lines 210-229](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L210-L229)
+```html
+<scenedia>The effect of doctor Sedgelake's opiate was not yet dissipated; the patient was still asleep; but Albert said he thought his rest would not last much longer.
+
+Nugent dispatched him on his errand, and seating himself by general Colville's bedside, contemplated his striking countenance: he could not be less than seventy; his hair was silvered; and the lines of time and reflection were on his forehead; but it was there alone that age seemed to have set her seal; his frame was still robust, and his teeth entire; and on his right cheek was a deep scar, the honourable badge of a soldier.
+
+Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came on tiptoe</arrivaldeparture> to announce that the coffee was ready, he requested her to bring it in, cherishing the hope that the general would find himself sufficiently refreshed to partake of it. She soon returned, and either the effect of the medicine was over, or the noise made in placing the table, dispersed it, for general Colville started, and opened his eyes. Nugent bent anxiously forwards, so that his youthful countenance was the first object the general beheld. He gazed on him earnestly, yet with visible wildness of manner, and exclaimed — <diaq>"My Maria!"</diaq>
+<diam>"Dear heart, he calls on the Virgin," <m>said Dorothea.</m></diam>
+
+Nugent suffered her to think so; but he knew, from the manner in which the words were spoken, that they were not intended for a Catholic invocation. Some one had said, the preceding evening, that general Colville had a niece; and Beverley supposed that, in the first bewildered moment of returning recollection, he had mistaken him for her.
+
+"<diam>How do you feel yourself, my dear sir?" <m>said Nugent, in English.</m></diam>
+
+His voice seemed to dispel the illusion, and again starting, as if from a dream, Colville exclaimed — <diaq>"Where am I?"</diaq>
+<diam>"Safe, and amongst friends, sir, who will pay you every attention," <m>replied Beverley.</m></diam>
+<diam>"I remember it all," <m>he exclaimed</m>; "my villainous servant was about to murder me, when some one came to my rescue, and fired on the assassins: to you then, generous, noble young man, I owe my life;"</diam> and as he spoke he stretched out his hand, and fervently pressed that of Nugent, who modestly replied — <diaq>"No, indeed, my dear sir, I was only one, and not the most active, of your deliverers; it was a young German nobleman, with whom I travel, who so bravely fired on, and disabled your infamous valet; and the men in whose boat we happened to be...
+```
+
+## [1788 Nixon 1_7_11500 Final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html)
+
+### Complex Sceneaction (Lines 71-95)
+
+**Location:** [Lines 71-95](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html#L71-L95)
+
+**Complexity Metrics:**
+- Unique tag types: 9
+- Total nested tags: 80
+- Word count: 2592
+- Tag types present: auhorwe, authorwe, diam, diaq, i, m, monologuethought, reader, trigger
+
+**Interesting Excerpts:**
+
+*Scene Transition:* [Lines 105-124](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html#L105-L124)
+```html
+<sceneaction>They proceeded for a tedious length of time in a course of the most perplexing uncertainties -— one while thinking themselves perfectly right, and the next minute quite as confident they were utterly wrong, and that they had made no progress at all towards the inn. -— Woods, dingles, cross-paths, hills, and dales, continually offering themselves for their choice, they did not know what to do with such a numberless variety of difficulties, which frequently interrupted their view of the great mountains, their original guide, but were obliged to puzzle on at haphazard <trigger>until</trigger>, after much fatigue, turning and twisting, great loss of time and ground, the wavering vixen, <i>Fortune</i>, dropped upon them of a sudden, and when they were at their utmost need, in the likeness of a BUTTERWOMAN.
+
+This their deliverer from perplexity and confusion, was coming down a narrow lane within thirty yards of the very road they had lost, and was driving an <i>ass</i> before her, with panniers upon its back stuffed with butter, eggs, and other small wares, that she was conveying to a market, for the morrow, ten miles, she said, beyond the Inn they were going to. They would, in all probability, have crossed the road they wanted to find, from <i>Sturdy</i>'s imperfect knowledge of it, and from their falling in with it at the time both him and his master were impressed with a strong conviction they were by no means near it, had it not been for the <i>butterwoman</i>. So much, indeed, had <i>Sturdy</i>'s mind been all along distressed at his losing the road at all, that at first he could hardly believe their information; -— however, after going into it, and looking about him, and recollecting himself a little, he discovered sufficient tokens to satisfy him and his matter that their intelligence was good. They were, therefore, exceedingly pleased with the <i>butterwoman</i>, and as they had not eaten or drank during the course of so long and tiresome a walk, the <i>butterwoman</i> and her <i>ass</i> were invited to a repast with them under a hedge, which Thomas produced out of his wallet for his master, himself, and the <i>butterwoman</i>, and providence did the same for the <i>ass</i>, in a plentiful bank of thistles by their side; while a nice spring of clear water dropped down a little precipice, ready to dilute, in a tin can, some chearful and reviving spirits which <i>Thomas</...
+```
+
+*Scene Opening:* [Lines 105-124](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html#L105-L124)
+```html
+<sceneaction>They proceeded for a tedious length of time in a course of the most perplexing uncertainties -— one while thinking themselves perfectly right, and the next minute quite as confident they were utterly wrong, and that they had made no progress at all towards the inn. -— Woods, dingles, cross-paths, hills, and dales, continually offering themselves for their choice, they did not know what to do with such a numberless variety of difficulties, which frequently interrupted their view of the great mountains, their original guide, but were obliged to puzzle on at haphazard <trigger>until</trigger>
+```
+
+*Scene Ending:* [Lines 105-124](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html#L105-L124)
+```html
+<sceneaction>They proceeded for a tedious length of time in a course of the most perplexing uncertainties -— one while thinking themselves perfectly right, and the next minute quite as confident they were utterly wrong, and that they had made no progress at all towards the inn. -— Woods, dingles, cross-paths, hills, and dales, continually offering themselves for their choice, they did not know what to do with such a numberless variety of difficulties, which frequently interrupted their view of the great mountains, their original guide, but were obliged to puzzle on at haphazard <trigger>until</trigger>, after much fatigue, turning and twisting, great loss of time and ground, the wavering vixen, <i>Fortune</i>, dropped upon them of a sudden, and when they were at their utmost need, in the likeness of a BUTTERWOMAN.
+
+This their deliverer from perplexity and confusion, was coming down a narrow lane within thirty yards of the very road they had lost, and was driving an <i>ass</i> before her, with panniers upon its back stuffed with butter, eggs, and other small wares, that she was conveying to a market, for the morrow, ten miles, she said, beyond the Inn they were going to. They would, in all probability, have crossed the road they wanted to find, from <i>Sturdy</i>'s imperfect knowledge of it, and from their falling in with it at the time both him and his master were impressed with a strong conviction they were by no means near it, had it not been for the <i>butterwoman</i>. So much, indeed, had <i>Sturdy</i>'s mind been all along distressed at his losing the road at all, that at first he could hardly believe their information; -— however, after going into it, and looking about him, and recollecting himself a little, he discovered sufficient tokens to satisfy him and his matter that their intelligence was good. They were, therefore, exceedingly pleased with the <i>butterwoman</i>, and as they had not eaten or drank during the course of so long and tiresome a walk, the <i>butterwoman</i> and her <i>ass</i> were invited to a repast with them under a hedge, which Thomas produced out of his wallet for his master, himself, and the <i>butterwoman</i>, and providence did the same for the <i>ass</i>, in a plentiful bank of thistles by their side; while a nice spring of clear water dropped down a little precipice, ready to dilute, in a tin can, some chearful and reviving spirits which <i>Thomas</...
 ```
 
 ...
