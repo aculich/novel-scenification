@@ -1,5 +1,7 @@
 # Novel Scene Analysis Project
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/aculich/novel-scenification)
+
 This repository contains tools for analyzing scenes and tags in literary texts, particularly focusing on the evolution of scenic techniques in English novels from 1788-1828.
 
 This repository supports the following paper, currently in preprint form being prepared for publication:
