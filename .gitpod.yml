@@ -23,11 +23,4 @@ tasks:
 vscode:
   extensions:
     - ms-python.python
-    - ms-toolsai.jupyter
-  settings:
-    jupyter.interactiveWindow.textEditor.executeSelection: true
-    python.defaultInterpreterPath: "/workspace/novel-scenification/.venv/bin/python"
-    jupyter.kernels.trusted:
-      - python
-      - novel-scenification
-    notebook.defaultKernel: python 
+    - ms-toolsai.jupyter 
