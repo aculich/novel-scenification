@@ -326,8 +326,7 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
-        # Create the "Summary Freq Tags" tab following the same format as Summary but ordered by frequency
-        # First get tag frequency data across all files
+        # First get tag frequency and word count data across all files
         tag_frequency = {}
         tag_word_total = {}
         
@@ -350,6 +349,115 @@ def create_excel_summary():
                 tag_frequency[tag] += tag_count
                 tag_word_total[tag] += tag_words
         
+        # Create the "Summary Freq Words" tab - sorted by total word count
+        # Sort tags by word count (highest to lowest)
+        sorted_tags_by_words = sorted(tag_word_total.keys(), key=lambda x: (tag_word_total[x], tag_frequency[x]), reverse=True)
+        
+        # Create columns for the Summary Freq Words tab
+        word_tags_columns = [
+            'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'
+        ]
+        
+        # Add each tag with both count and words columns, ordered by word count
+        for tag in sorted_tags_by_words:
+            word_tags_columns.append(f"{tag}_Count")
+            word_tags_columns.append(f"{tag}_Words")
+        
+        # Now prepare data with one row per file - similar to Summary but with all tags ordered by word count
+        word_tags_rows = []
+        
+        for csv_file in csv_files:
+            base_name = os.path.splitext(os.path.basename(csv_file))[0]
+            # Use the truncated sheet name for Excel references, but keep full name for display
+            sheet_name = base_name[:31]
+            
+            # First read the CSV to get the data
+            df = pd.read_csv(csv_file)
+            
+            # Start with the basic columns same as Summary
+            row_data = {
+                'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',  # Keep full name in display
+                'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
+                'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
+                'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0,
+            }
+            
+            # Add data for each tag
+            for tag in sorted_tags_by_words:
+                tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                
+                row_data[f"{tag}_Count"] = tag_count
+                row_data[f"{tag}_Words"] = tag_words
+            
+            word_tags_rows.append(row_data)
+        
+        # Create DataFrame and write to Excel
+        word_tags_df = pd.DataFrame(word_tags_rows, columns=word_tags_columns)
+        word_tags_df.to_excel(writer, sheet_name='Summary Freq Words', index=False)
+        
+        # Apply formatting to the Summary Freq Words sheet
+        word_tags_worksheet = writer.sheets['Summary Freq Words']
+        
+        # Apply column width adjustment
+        for idx, col in enumerate(word_tags_df.columns):
+            # For the Sheet column, include the base name length and formula overhead
+            if idx == 0:
+                max_length = max(
+                    max(len(str(val)) for val in word_tags_df[col].str.extract(r'"(.*?)"')[0]),  # Extract sheet names from HYPERLINK formula
+                    len(col)
+                )
+            else:
+                # For numeric columns, get max length of the actual values
+                max_length = max(
+                    max(len(str(val)) for val in word_tags_df[col]),
+                    len(col)
+                )
+            # Add extra space for readability - use proper column letter
+            col_letter = openpyxl.utils.get_column_letter(idx + 1)
+            word_tags_worksheet.column_dimensions[col_letter].width = max_length + 2
+        
+        # Apply header formatting
+        header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
+        header_font = Font(bold=True)
+        thin_border = Border(
+            left=Side(style='thin'), 
+            right=Side(style='thin'), 
+            top=Side(style='thin'), 
+            bottom=Side(style='thin')
+        )
+        
+        for cell in word_tags_worksheet[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal='center')
+        
+        # Apply borders to data cells
+        data_rows = word_tags_worksheet.max_row
+        data_cols = word_tags_worksheet.max_column
+        
+        # Create light gray fill for alternating rows
+        light_gray = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+        
+        for row in range(2, data_rows + 1):
+            # Apply alternating row colors
+            if row % 2 == 0:  # Even rows
+                for col in range(1, data_cols + 1):
+                    word_tags_worksheet.cell(row=row, column=col).fill = light_gray
+            
+            for col in range(1, data_cols + 1):
+                cell = word_tags_worksheet.cell(row=row, column=col)
+                cell.border = thin_border
+                
+                # Center-align numeric columns
+                if col > 1:  # Assuming first column is the sheet name with hyperlink
+                    cell.alignment = Alignment(horizontal='center')
+        
+        # Freeze the header row and the first few columns
+        word_tags_worksheet.freeze_panes = "E2"
+        
+        # Create the "Summary Freq Tags" tab following the same format as Summary but ordered by frequency
         # Sort tags by frequency (highest to lowest)
         sorted_tags_by_freq = sorted(tag_frequency.keys(), key=lambda x: (tag_frequency[x], tag_word_total[x]), reverse=True)
         
@@ -569,7 +677,12 @@ def create_excel_summary():
         # Freeze the header row and the first few columns
         tags_worksheet.freeze_panes = "E2"
         
-        # Organize sheets in the proper order: Summary first, Summary Freq Tags second, Summary All Tags third, then all individual texts
+        # Organize sheets in the proper order: 
+        # 1. Summary 
+        # 2. Summary Freq Words
+        # 3. Summary Freq Tags 
+        # 4. Summary All Tags
+        # 5. Individual texts
         workbook = writer.book
         
         # First move Summary to the first position
@@ -577,15 +690,20 @@ def create_excel_summary():
         workbook._sheets.remove(summary_sheet)
         workbook._sheets.insert(0, summary_sheet)
         
-        # Then move Summary Freq Tags to the second position 
+        # Then move Summary Freq Words to the second position 
+        word_tags_sheet = writer.sheets['Summary Freq Words']
+        workbook._sheets.remove(word_tags_sheet)
+        workbook._sheets.insert(1, word_tags_sheet)
+        
+        # Then move Summary Freq Tags to the third position 
         freq_tags_sheet = writer.sheets['Summary Freq Tags']
         workbook._sheets.remove(freq_tags_sheet)
-        workbook._sheets.insert(1, freq_tags_sheet)
+        workbook._sheets.insert(2, freq_tags_sheet)
         
-        # Then move Summary All Tags to the third position 
+        # Then move Summary All Tags to the fourth position 
         all_tags_sheet = writer.sheets['Summary All Tags']
         workbook._sheets.remove(all_tags_sheet)
-        workbook._sheets.insert(2, all_tags_sheet)
+        workbook._sheets.insert(3, all_tags_sheet)
 
 def get_current_git_commit(specified_ref=None):
     """Get the current git commit hash or use specified ref."""
