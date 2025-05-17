@@ -326,70 +326,75 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
-        # Create the "Summary All Tags" tab with tags as columns instead of rows
+        # Create the "Summary All Tags" tab following the same format as Summary
         # First sort all the unique tags alphabetically 
         sorted_tags = sorted(all_unique_tags)
         
-        # Skip totaldoctagswords in this summary
+        # Skip totaldoctagswords in this summary since we already have Total_Tags and Total_Words
         if 'totaldoctagswords' in sorted_tags:
             sorted_tags.remove('totaldoctagswords')
-            
-        # Create columns for each tag (transpose the data)
-        tag_columns = ['File', 'Type']  # First column is file name, second is count type (tag_count or word_count)
-        tag_columns.extend(sorted_tags)  # Add all tags as columns
         
-        # Get file basenames for rows
-        file_basenames = []
-        for csv_file in csv_files:
-            base_name = os.path.splitext(os.path.basename(csv_file))[0]
-            file_basenames.append(base_name)
-            
-        # Now prepare data with one row per file
+        # Create columns for the Summary All Tags tab
+        all_tags_columns = [
+            'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'
+        ]
+        
+        # Add each tag with both count and words columns
+        for tag in sorted_tags:
+            all_tags_columns.append(f"{tag}_Count")
+            all_tags_columns.append(f"{tag}_Words")
+        
+        # Now prepare data with one row per file - similar to Summary but with all tags
         all_tags_rows = []
         
-        # For each file, create two rows - one for tag counts and one for word counts
-        for base_name in file_basenames:
-            # Row for tag counts
-            tag_count_row = {'File': base_name, 'Type': 'tag_count'}
+        for csv_file in csv_files:
+            base_name = os.path.splitext(os.path.basename(csv_file))[0]
+            # Use the truncated sheet name for Excel references, but keep full name for display
+            sheet_name = base_name[:31]
             
-            # Row for word counts
-            word_count_row = {'File': base_name, 'Type': 'word_count'}
+            # First read the CSV to get the data
+            df = pd.read_csv(csv_file)
             
-            # Fill in data for each tag
+            # Start with the basic columns same as Summary
+            row_data = {
+                'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',  # Keep full name in display
+                'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
+                'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
+                'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0,
+            }
+            
+            # Add data for each tag
             for tag in sorted_tags:
-                if tag in all_tags_data and base_name in all_tags_data[tag]:
-                    tag_count_row[tag] = all_tags_data[tag][base_name]['tag_count']
-                    word_count_row[tag] = all_tags_data[tag][base_name]['word_count']
-                else:
-                    tag_count_row[tag] = 0
-                    word_count_row[tag] = 0
+                tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                
+                row_data[f"{tag}_Count"] = tag_count
+                row_data[f"{tag}_Words"] = tag_words
             
-            # Add both rows to the dataframe
-            all_tags_rows.append(tag_count_row)
-            all_tags_rows.append(word_count_row)
+            all_tags_rows.append(row_data)
         
         # Create DataFrame and write to Excel
-        all_tags_df = pd.DataFrame(all_tags_rows)
+        all_tags_df = pd.DataFrame(all_tags_rows, columns=all_tags_columns)
         all_tags_df.to_excel(writer, sheet_name='Summary All Tags', index=False)
         
         # Apply formatting to the summary all tags sheet
         tags_worksheet = writer.sheets['Summary All Tags']
         
-        # Apply column width adjustment for transposed layout
-        max_col = len(all_tags_df.columns)
+        # Apply column width adjustment
         for idx, col in enumerate(all_tags_df.columns):
-            # Get the maximum length in the column
-            if idx < 2:  # File and Type columns
+            # For the Sheet column, include the base name length and formula overhead
+            if idx == 0:
                 max_length = max(
-                    all_tags_df[col].astype(str).apply(len).max(),
-                    len(str(col))
+                    max(len(str(val)) for val in all_tags_df[col].str.extract(r'"(.*?)"')[0]),  # Extract sheet names from HYPERLINK formula
+                    len(col)
                 )
-            else:  # Tag columns
+            else:
+                # For numeric columns, get max length of the actual values
                 max_length = max(
-                    all_tags_df[col].astype(str).apply(len).max(),
-                    len(str(col))
+                    max(len(str(val)) for val in all_tags_df[col]),
+                    len(col)
                 )
-            # Add a little extra space - use get_column_letter to ensure proper column referencing
+            # Add extra space for readability - use proper column letter
             col_letter = openpyxl.utils.get_column_letter(idx + 1)
             tags_worksheet.column_dimensions[col_letter].width = max_length + 2
         
@@ -417,8 +422,8 @@ def create_excel_summary():
         light_gray = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
         
         for row in range(2, data_rows + 1):
-            # Apply alternating row colors (change to file basis)
-            if (row - 1) // 2 % 2 == 1:  # Alternating by file (each file has 2 rows)
+            # Apply alternating row colors
+            if row % 2 == 0:  # Even rows
                 for col in range(1, data_cols + 1):
                     tags_worksheet.cell(row=row, column=col).fill = light_gray
             
@@ -427,11 +432,11 @@ def create_excel_summary():
                 cell.border = thin_border
                 
                 # Center-align numeric columns
-                if col > 2:  # All tag columns
+                if col > 1:  # Assuming first column is the sheet name with hyperlink
                     cell.alignment = Alignment(horizontal='center')
         
-        # Freeze the header row and first two columns
-        tags_worksheet.freeze_panes = "C2"
+        # Freeze the header row and the first few columns
+        tags_worksheet.freeze_panes = "E2"
         
         # Organize sheets in the proper order: Summary first, Summary All Tags second, then all individual texts
         workbook = writer.book
