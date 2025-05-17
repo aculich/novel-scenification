@@ -69,6 +69,22 @@ This tab answers: "What are the basic metrics for each document?"
 
 ![Summary Tab](./images/1-summary.png)
 
+#### 1a. Summary Included Tags Tab
+This tab displays only the tags that are included in the [included_tags.tsv](./included_tags.tsv) file:
+- Follows the same format as the Summary tab but limited to the specified included tags
+- Shows counts and word counts for each included tag across all documents
+- Useful for focusing on a specific subset of tags that are most relevant to your analysis
+
+This tab answers: "How do my specifically selected tags distribute across documents?"
+
+#### 1b. Summary Excluded Tags Tab
+This tab displays only the tags that are excluded (listed in [excluded_tags.tsv](./excluded_tags.tsv)):
+- Follows the same format as the Summary tab but limited to tags not in the included tags list
+- Shows counts and word counts for excluded tags across all documents
+- Useful for reviewing tags that might be less relevant or for quality control
+
+This tab answers: "What tags am I currently not focusing on in my analysis?"
+
 #### 2. Summary Freq Words Tab
 This tab shows all tags sorted by their total word count across the corpus:
 - Tags that contain the most words appear leftmost
@@ -129,6 +145,20 @@ openpyxl>=3.0.7
    - Process all HTML files in `data/input/`
    - Generate CSV files with tag counts in `data/counts/`
    - Create a summary Excel file at `data/tag_counts_summary.xlsx`
+   - Generate `included_tags.tsv` and `excluded_tags.tsv` based on tags in `tag_matches_detailed.tsv`
+
+### Customizing Included/Excluded Tags
+
+To modify which tags are included or excluded in the "Summary Included Tags" and "Summary Excluded Tags" tabs:
+
+1. The script uses `tag_matches_detailed.tsv` to determine which tags to include. This file is generated using the `match_tags.py` script based on patterns in `keep_for_summary_tags.tsv`.
+
+2. To customize the included tags:
+   - Edit `keep_for_summary_tags.tsv` to add or remove tag patterns
+   - Run `python match_tags.py` to generate an updated `tag_matches_detailed.tsv`
+   - Run `python count_tags.py` to regenerate the Excel file with the new tag selection
+
+3. You can also manually edit `tag_matches_detailed.tsv` to add or remove specific tags if you prefer direct control over the exact tags included.
 
 ## Tag Counts Summary
 
