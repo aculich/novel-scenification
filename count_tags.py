@@ -22,6 +22,34 @@ import glob
 from openpyxl.styles import Font, Border, Side, Alignment, PatternFill
 from urllib.parse import quote
 import openpyxl.utils
+import sys
+
+# Function to read tag_matches_detailed.tsv and get included tags
+def read_included_tags():
+    try:
+        matches_df = pd.read_csv('tag_matches_detailed.tsv', sep='\t')
+        included_tags = set(matches_df['Matched_Column'].unique())
+        print(f"Read {len(included_tags)} included tags from tag_matches_detailed.tsv")
+        return included_tags
+    except Exception as e:
+        print(f"Error reading tag_matches_detailed.tsv: {e}")
+        print("Continuing without tag filtering.")
+        return None
+
+# Save included and excluded tags to TSV files
+def save_tag_lists(included_tags, excluded_tags):
+    with open('included_tags.tsv', 'w') as f:
+        f.write("Included_Tag\n")
+        for tag in sorted(included_tags):
+            f.write(f"{tag}\n")
+            
+    with open('excluded_tags.tsv', 'w') as f:
+        f.write("Excluded_Tag\n")
+        for tag in sorted(excluded_tags):
+            f.write(f"{tag}\n")
+    
+    print(f"Created included_tags.tsv with {len(included_tags)} tags")
+    print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
 
 def parse_html_to_csv(html_file, csv_file):
     # Read and parse the HTML file
@@ -134,6 +162,9 @@ def create_markdown_summary(summary_data, commit_hash=None):
 def create_excel_summary():
     counts_dir = "data/counts"
     output_file = "data/tag_counts_summary.xlsx"
+    
+    # Read the included tags from tag_matches_detailed.tsv
+    included_tags_set = read_included_tags()
     
     # Create Excel writer
     with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
@@ -326,6 +357,198 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
+        # If we have included tags from tag_matches_detailed.tsv
+        if included_tags_set is not None:
+            # Identify included and excluded tags from the set of all tags
+            # We're looking at the column headers without _Count/_Words suffix 
+            all_cols = set()
+            
+            # Get all tags from the all_unique_tags set
+            # These will be the actual tag names without suffixes
+            for tag in all_unique_tags:
+                if tag != 'totaldoctagswords':  # Skip the total row
+                    all_cols.add(tag)
+            
+            # Find which tags are excluded (not in the included_tags_set)
+            excluded_tags_set = all_cols - included_tags_set - {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'}
+            
+            # Create columns for the Included Tags tab
+            included_columns = [
+                'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'
+            ]
+            
+            # Add each included tag with both count and words columns
+            for tag in sorted(included_tags_set):
+                if tag != 'totaldoctagswords':
+                    included_columns.append(f"{tag}_Count")
+                    included_columns.append(f"{tag}_Words")
+            
+            # Now prepare data for included tags
+            included_rows = []
+            
+            for csv_file in csv_files:
+                base_name = os.path.splitext(os.path.basename(csv_file))[0]
+                sheet_name = base_name[:31]
+                
+                # Read the CSV to get the data
+                df = pd.read_csv(csv_file)
+                
+                # Start with the basic columns same as Summary
+                row_data = {
+                    'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',
+                    'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
+                    'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
+                    'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0,
+                }
+                
+                # Add data for each tag
+                for tag in included_tags_set:
+                    if tag != 'totaldoctagswords':
+                        tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                        tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                        
+                        row_data[f"{tag}_Count"] = tag_count
+                        row_data[f"{tag}_Words"] = tag_words
+                
+                included_rows.append(row_data)
+            
+            # Create DataFrame and write to Excel
+            included_df = pd.DataFrame(included_rows, columns=included_columns)
+            included_df.to_excel(writer, sheet_name='Summary Included Tags', index=False)
+            
+            # Apply formatting to the Included Tags sheet
+            included_worksheet = writer.sheets['Summary Included Tags']
+            
+            # Apply column width adjustment
+            for idx, col in enumerate(included_df.columns):
+                if idx == 0:
+                    max_length = max(
+                        max(len(str(val)) for val in included_df[col].str.extract(r'"(.*?)"')[0]),
+                        len(col)
+                    )
+                else:
+                    max_length = max(
+                        max(len(str(val)) for val in included_df[col]),
+                        len(col)
+                    )
+                col_letter = openpyxl.utils.get_column_letter(idx + 1)
+                included_worksheet.column_dimensions[col_letter].width = max_length + 2
+            
+            # Apply header formatting
+            for cell in included_worksheet[1]:
+                cell.fill = header_fill
+                cell.font = header_font
+                cell.border = thin_border
+                cell.alignment = Alignment(horizontal='center')
+            
+            # Apply borders to data cells
+            data_rows = included_worksheet.max_row
+            data_cols = included_worksheet.max_column
+            
+            for row in range(2, data_rows + 1):
+                if row % 2 == 0:  # Even rows
+                    for col in range(1, data_cols + 1):
+                        included_worksheet.cell(row=row, column=col).fill = light_gray
+                
+                for col in range(1, data_cols + 1):
+                    cell = included_worksheet.cell(row=row, column=col)
+                    cell.border = thin_border
+                    
+                    if col > 1:  # Assuming first column is the sheet name
+                        cell.alignment = Alignment(horizontal='center')
+            
+            # Freeze the header row
+            included_worksheet.freeze_panes = "E2"
+            
+            # Create columns for the Excluded Tags tab
+            excluded_columns = [
+                'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'
+            ]
+            
+            # Add each excluded tag with both count and words columns
+            for tag in sorted(excluded_tags_set):
+                excluded_columns.append(f"{tag}_Count")
+                excluded_columns.append(f"{tag}_Words")
+            
+            # Now prepare data for excluded tags
+            excluded_rows = []
+            
+            for csv_file in csv_files:
+                base_name = os.path.splitext(os.path.basename(csv_file))[0]
+                sheet_name = base_name[:31]
+                
+                # Read the CSV to get the data
+                df = pd.read_csv(csv_file)
+                
+                # Start with the basic columns same as Summary
+                row_data = {
+                    'Sheet': f'=HYPERLINK("#\'{sheet_name}\'!A1","{base_name}")',
+                    'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
+                    'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
+                    'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0,
+                }
+                
+                # Add data for each tag
+                for tag in excluded_tags_set:
+                    tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                    tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                    
+                    row_data[f"{tag}_Count"] = tag_count
+                    row_data[f"{tag}_Words"] = tag_words
+                
+                excluded_rows.append(row_data)
+            
+            # Create DataFrame and write to Excel
+            excluded_df = pd.DataFrame(excluded_rows, columns=excluded_columns)
+            excluded_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
+            
+            # Apply formatting to the Excluded Tags sheet
+            excluded_worksheet = writer.sheets['Summary Excluded Tags']
+            
+            # Apply column width adjustment
+            for idx, col in enumerate(excluded_df.columns):
+                if idx == 0:
+                    max_length = max(
+                        max(len(str(val)) for val in excluded_df[col].str.extract(r'"(.*?)"')[0]),
+                        len(col)
+                    )
+                else:
+                    max_length = max(
+                        max(len(str(val)) for val in excluded_df[col]),
+                        len(col)
+                    )
+                col_letter = openpyxl.utils.get_column_letter(idx + 1)
+                excluded_worksheet.column_dimensions[col_letter].width = max_length + 2
+            
+            # Apply header formatting
+            for cell in excluded_worksheet[1]:
+                cell.fill = header_fill
+                cell.font = header_font
+                cell.border = thin_border
+                cell.alignment = Alignment(horizontal='center')
+            
+            # Apply borders to data cells
+            data_rows = excluded_worksheet.max_row
+            data_cols = excluded_worksheet.max_column
+            
+            for row in range(2, data_rows + 1):
+                if row % 2 == 0:  # Even rows
+                    for col in range(1, data_cols + 1):
+                        excluded_worksheet.cell(row=row, column=col).fill = light_gray
+                
+                for col in range(1, data_cols + 1):
+                    cell = excluded_worksheet.cell(row=row, column=col)
+                    cell.border = thin_border
+                    
+                    if col > 1:
+                        cell.alignment = Alignment(horizontal='center')
+            
+            # Freeze the header row
+            excluded_worksheet.freeze_panes = "E2"
+            
+            # Save the list of included and excluded tags to TSV files
+            save_tag_lists(included_tags_set, excluded_tags_set)
+
         # First get tag frequency and word count data across all files
         tag_frequency = {}
         tag_word_total = {}
@@ -679,10 +902,12 @@ def create_excel_summary():
         
         # Organize sheets in the proper order: 
         # 1. Summary 
-        # 2. Summary Freq Words
-        # 3. Summary Freq Tags 
-        # 4. Summary All Tags
-        # 5. Individual texts
+        # 2. Summary Included Tags
+        # 3. Summary Excluded Tags
+        # 4. Summary Freq Words
+        # 5. Summary Freq Tags 
+        # 6. Summary All Tags
+        # 7. Individual texts
         workbook = writer.book
         
         # First move Summary to the first position
@@ -690,20 +915,43 @@ def create_excel_summary():
         workbook._sheets.remove(summary_sheet)
         workbook._sheets.insert(0, summary_sheet)
         
-        # Then move Summary Freq Words to the second position 
-        word_tags_sheet = writer.sheets['Summary Freq Words']
-        workbook._sheets.remove(word_tags_sheet)
-        workbook._sheets.insert(1, word_tags_sheet)
-        
-        # Then move Summary Freq Tags to the third position 
-        freq_tags_sheet = writer.sheets['Summary Freq Tags']
-        workbook._sheets.remove(freq_tags_sheet)
-        workbook._sheets.insert(2, freq_tags_sheet)
-        
-        # Then move Summary All Tags to the fourth position 
-        all_tags_sheet = writer.sheets['Summary All Tags']
-        workbook._sheets.remove(all_tags_sheet)
-        workbook._sheets.insert(3, all_tags_sheet)
+        # Move Included/Excluded Tags sheets if they exist
+        if included_tags_set is not None:
+            # Move Included Tags to the second position
+            included_sheet = writer.sheets['Summary Included Tags']
+            workbook._sheets.remove(included_sheet)
+            workbook._sheets.insert(1, included_sheet)
+            
+            # Move Excluded Tags to the third position
+            excluded_sheet = writer.sheets['Summary Excluded Tags']
+            workbook._sheets.remove(excluded_sheet)
+            workbook._sheets.insert(2, excluded_sheet)
+            
+            # Move other sheets to positions 4, 5, 6
+            word_tags_sheet = writer.sheets['Summary Freq Words']
+            workbook._sheets.remove(word_tags_sheet)
+            workbook._sheets.insert(3, word_tags_sheet)
+            
+            freq_tags_sheet = writer.sheets['Summary Freq Tags']
+            workbook._sheets.remove(freq_tags_sheet)
+            workbook._sheets.insert(4, freq_tags_sheet)
+            
+            all_tags_sheet = writer.sheets['Summary All Tags']
+            workbook._sheets.remove(all_tags_sheet)
+            workbook._sheets.insert(5, all_tags_sheet)
+        else:
+            # If no included/excluded tags sheets, use original ordering
+            word_tags_sheet = writer.sheets['Summary Freq Words']
+            workbook._sheets.remove(word_tags_sheet)
+            workbook._sheets.insert(1, word_tags_sheet)
+            
+            freq_tags_sheet = writer.sheets['Summary Freq Tags']
+            workbook._sheets.remove(freq_tags_sheet)
+            workbook._sheets.insert(2, freq_tags_sheet)
+            
+            all_tags_sheet = writer.sheets['Summary All Tags']
+            workbook._sheets.remove(all_tags_sheet)
+            workbook._sheets.insert(3, all_tags_sheet)
 
 def get_current_git_commit(specified_ref=None):
     """Get the current git commit hash or use specified ref."""
