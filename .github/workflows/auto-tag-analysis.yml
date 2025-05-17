@@ -51,7 +51,13 @@ jobs:
           git add data/counts/ data/tag_counts_summary.xlsx data/SUMMARY.md data/SAMPLES.md included_tags.tsv excluded_tags.tsv README.md
           
           # Create a nice commit message that includes which input files triggered the update
-          CHANGED_FILES=$(git diff --name-only --staged | grep "data/input/" | xargs -n1 basename)
-          echo "Files processed: $CHANGED_FILES"
-          git commit -m "Auto-update tag analysis results" -m "Files processed:" -m "$CHANGED_FILES"
+          MATCHED_FILES=$(git diff --name-only --staged | grep -E "data/input/" || echo "")
+          if [ -n "$MATCHED_FILES" ]; then
+            CHANGED_FILES=$(echo "$MATCHED_FILES" | xargs -n1 basename)
+            echo "Files processed: $CHANGED_FILES"
+            git commit -m "Auto-update tag analysis results" -m "Files processed:" -m "$CHANGED_FILES"
+          else
+            echo "No input files were changed, but outputs were updated"
+            git commit -m "Auto-update tag analysis results" -m "General update - no specific input files changed"
+          fi
           git push 

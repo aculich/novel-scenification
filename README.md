@@ -53,6 +53,70 @@ The project analyzes manually tagged HTML files to track the development of scen
 - `data/counts/`: Directory where CSV output files are stored
 - [`data/tag_counts_summary.xlsx`](https://github.com/aculich/novel-scenification/raw/refs/heads/main/data/tag_counts_summary.xlsx): Excel summary file of all tag counts and analysis (direct download link)
 
+## GitHub Actions Workflow
+
+This project uses GitHub Actions to automate the tag analysis process. The workflow automatically processes HTML files, generates counts, and updates summary files whenever changes are made to input files.
+
+### Automatic Triggering
+
+The workflow is automatically triggered when:
+- Any file in the `data/input/` directory is added, modified, or deleted
+- The workflow is manually triggered (see below)
+
+When triggered, the workflow:
+1. Sets up a Python environment
+2. Installs required dependencies
+3. Runs the `count_tags.py` script
+4. Commits and pushes any changes to output files
+
+### Running the Workflow Manually
+
+You can manually trigger the workflow if you need to regenerate all outputs without changing input files:
+
+1. Navigate to the repository on GitHub: [novel-scenification](https://github.com/aculich/novel-scenification)
+2. Click on the "Actions" tab at the top of the repository
+3. In the left sidebar, click on "Auto Tag Analysis"
+4. Click the "Run workflow" button (dropdown on the right side)
+5. Select the branch (usually "main")
+6. Click the green "Run workflow" button to start the process
+
+![Run workflow screenshot](https://example.com/path/to/workflow-screenshot.png)
+
+The workflow will then execute and you can monitor its progress:
+- A yellow circle indicates the workflow is in progress
+- A green checkmark indicates successful completion
+- A red X indicates a failure
+
+### Troubleshooting Workflow Issues
+
+If the workflow fails, you can diagnose the issue by:
+
+1. On the Actions tab, click on the failed workflow run
+2. Examine the error message in the summary
+3. Click on the failed job to see detailed logs
+4. Expand the step that failed to see specific error messages
+
+Common issues include:
+- Python dependencies not installing correctly
+- Problems with input file formatting
+- Permissions issues when trying to commit changes
+
+### Filing Issues
+
+If you encounter persistent problems with the workflow or other aspects of the project:
+
+1. Navigate to the [Issues page](https://github.com/aculich/novel-scenification/issues)
+2. Click the green "New issue" button
+3. Provide a descriptive title and detailed description
+4. Include:
+   - What you were trying to do
+   - The specific error messages you received
+   - Screenshots of the error if available
+   - Steps to reproduce the issue
+5. Click "Submit new issue"
+
+When submitting issues, please include as much context as possible to help with troubleshooting. Screenshots of error messages are particularly helpful.
+
 ## Interactive Analysis with Jupyter Notebook
 
 To facilitate interactive analysis and easy workflow management, this project includes `runner.ipynb`, a comprehensive Jupyter notebook that provides:
