@@ -53,6 +53,46 @@ The project analyzes manually tagged HTML files to track the development of scen
 - `data/counts/`: Directory where CSV output files are stored
 - [`data/tag_counts_summary.xlsx`](https://github.com/aculich/novel-scenification/raw/refs/heads/main/data/tag_counts_summary.xlsx): Excel summary file of all tag counts and analysis (direct download link)
 
+## Interactive Analysis with Jupyter Notebook
+
+To facilitate interactive analysis and easy workflow management, this project includes `runner.ipynb`, a comprehensive Jupyter notebook that provides:
+
+### Key Features of the Notebook:
+
+1. **Data Processing & Analysis**
+   - One-click execution of `count_tags.py` to process all input files
+   - Summary views of tag analysis results
+   - Detailed data visualization with charts showing tag distribution and word counts
+
+2. **Data Exploration**
+   - Tools to browse the Excel summary file directly in the notebook
+   - Markdown rendering of project documentation
+   - Functions to explore tag matches and patterns
+
+3. **Tag Pattern Management**
+   - Interface for viewing and editing tag matching patterns
+   - Functionality to regenerate tag matches based on pattern files
+   - Management of included/excluded tag lists
+
+4. **GitHub Integration**
+   - Simplified commit and push workflow for changes
+   - Support for automatic updates via GitHub Actions
+   - Status monitoring of repository changes
+
+### Using the Notebook:
+
+The easiest way to use the notebook is to launch the project in GitPod using the button above. This will:
+1. Set up a cloud environment with all dependencies installed
+2. Automatically open `runner.ipynb` in Jupyter
+3. Allow you to process files and explore results interactively
+
+If you've added new files to `data/input/`, you can:
+1. Run the tag analysis in the notebook
+2. Explore the updated results with visualizations
+3. Commit your changes back to GitHub
+
+Alternatively, GitHub Actions will automatically process new input files when they are pushed to the repository.
+
 ### Excel Summary Format
 
 The `tag_counts_summary.xlsx` file contains a comprehensive analysis of tags used across your HTML corpus. We've organized it with four summary tabs:

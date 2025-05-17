@@ -12,8 +12,8 @@ tasks:
       # Install Python dependencies
       pip install -r requirements.txt
     command: |
-      # Start Jupyter Notebook
-      jupyter notebook --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.password=''
+      # Start Jupyter Notebook with runner.ipynb as the default file
+      jupyter notebook --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.password='' runner.ipynb
 
 vscode:
   extensions:
