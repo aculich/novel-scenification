@@ -1,0 +1,56 @@
+Original_Tag	Matched_Column
+CHAPMARKER	chapmarker
+CHAP*	Chapter, chapepigraph, chapmarker, chaptitle
+SCENE*	Found 215 matches starting with 'SCENE'
+SCENE*	Found 215 matches starting with 'SCENE'
+DIA*	Found 61 matches starting with 'DIA'
+DIA*	Found 61 matches starting with 'DIA'
+M	m
+SCENE*_CHAPMARKER	sceneaction_chapmarker, scenedia_chapmarker, scenemonologue_chapmarker, scenequasi_chapmarker, scenereadingwriting_chapmarker
+DIAINSET1P	diainset1p
+DIA	dia
+DIAM	diam
+DIAQ	diaq
+DIATHEATER	diatheater
+DESCRIPTOR	descriptor
+CUTAWAY	cutaway
+MONOLOGUE*	monologue, monologue_m, monologuethought, monologuethought_descriptor, monologuethought_i...
+SPEECHINSERT	speechinsert
+GRAFT	graft
+SCENEDIA	scenedia
+SCENEDIA_DIA*	Found 11 matches starting with 'SCENEDIA_DIA'
+SCENEDIA_M	scenedia_m
+SCENEDIA_ARRIVALDEPARTURE	scenedia_arrivaldeparture
+SCENEDIA_BLEND	scenedia_blend
+SCENEACTION	sceneaction
+SCENEACTION_DIA*	sceneaction_dia, sceneaction_diacutaway, sceneaction_diainset1p, sceneaction_diam, sceneaction_diaother...
+SCENEACTION_M	sceneaction_m
+SCENEQUASI	scenequasi
+SCENEQUASI_DIA*	scenequasi_dia, scenequasi_diam, scenequasi_diaq
+SCENEQUASI_M	scenequasi_m
+SCENEFRAGMENT	scenefragment
+SCENEFRAGMENT_DIA*	scenefragment_dia, scenefragment_diam, scenefragment_diaq
+SCENEFRAGMENT_M	scenefragment_m
+SCENEPERCEPTION	sceneperception
+SCENEPERCEPTION_DIA*	sceneperception_diam, sceneperception_diaq
+SCENEPERCEPTION_M	sceneperception_m
+SCENEMONOLOGUE	scenemonologue
+SCENEMONOLOGUE_DIA*	
+SCENEMONOLOGUE_M	scenemonologue_m
+SCENECONSCIOUSNESS	sceneconsciousness
+SCENECONSCIOUSNESS_DIA*	
+SCENECONSCIOUSNESS_M	No direct match found
+SCENEREADINGWRITING	scenereadingwriting
+SCENEREADINGWRITING_DIA*	scenereadingwriting_diam, scenereadingwriting_diaq
+SCENEREADINGWRITING_M	scenereadingwriting_m
+SCENEOTHER	sceneother
+SCENEOTHER_DIA*	sceneother_diam, sceneother_diaq
+SCENEOTHER_M	sceneother_m
+AUTHOR*	Found 11 matches starting with 'AUTHOR'
+EXCLAMATION	exclamation
+RHETORICALQ	rhetoricalq
+APOSTROPHE	apostrophe
+SENTENTIA	sententia
+AUTHORIALOBSERVATION	authorialobservation
+BOOK	book
+READER	reader
