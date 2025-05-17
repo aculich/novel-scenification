@@ -326,41 +326,47 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
-        # Create the "Summary All Tags" tab
-        # Create columns dynamically - each file will have its own tag_count and word_count columns
-        columns = ['Tag']
+        # Create the "Summary All Tags" tab with tags as columns instead of rows
+        # First sort all the unique tags alphabetically 
+        sorted_tags = sorted(all_unique_tags)
+        
+        # Skip totaldoctagswords in this summary
+        if 'totaldoctagswords' in sorted_tags:
+            sorted_tags.remove('totaldoctagswords')
+            
+        # Create columns for each tag (transpose the data)
+        tag_columns = ['File', 'Type']  # First column is file name, second is count type (tag_count or word_count)
+        tag_columns.extend(sorted_tags)  # Add all tags as columns
+        
+        # Get file basenames for rows
         file_basenames = []
         for csv_file in csv_files:
             base_name = os.path.splitext(os.path.basename(csv_file))[0]
             file_basenames.append(base_name)
-            columns.append(f'{base_name}_tag_count')
-            columns.append(f'{base_name}_word_count')
-        
-        # Now prepare data for this tab - one row per unique tag
+            
+        # Now prepare data with one row per file
         all_tags_rows = []
-        sorted_tags = sorted(all_unique_tags)  # Sort tags alphabetically
         
-        for tag in sorted_tags:
-            # Skip the totaldoctagswords row for this summary
-            if tag == 'totaldoctagswords':
-                continue
-                
-            row_data = {'Tag': tag}
+        # For each file, create two rows - one for tag counts and one for word counts
+        for base_name in file_basenames:
+            # Row for tag counts
+            tag_count_row = {'File': base_name, 'Type': 'tag_count'}
             
-            # Add data for each file
-            for base_name in file_basenames:
-                tag_count_col = f'{base_name}_tag_count'
-                word_count_col = f'{base_name}_word_count'
-                
-                # Get this tag's data for this file if available
+            # Row for word counts
+            word_count_row = {'File': base_name, 'Type': 'word_count'}
+            
+            # Fill in data for each tag
+            for tag in sorted_tags:
                 if tag in all_tags_data and base_name in all_tags_data[tag]:
-                    row_data[tag_count_col] = all_tags_data[tag][base_name]['tag_count']
-                    row_data[word_count_col] = all_tags_data[tag][base_name]['word_count']
+                    tag_count_row[tag] = all_tags_data[tag][base_name]['tag_count']
+                    word_count_row[tag] = all_tags_data[tag][base_name]['word_count']
                 else:
-                    row_data[tag_count_col] = 0
-                    row_data[word_count_col] = 0
+                    tag_count_row[tag] = 0
+                    word_count_row[tag] = 0
             
-            all_tags_rows.append(row_data)
+            # Add both rows to the dataframe
+            all_tags_rows.append(tag_count_row)
+            all_tags_rows.append(word_count_row)
         
         # Create DataFrame and write to Excel
         all_tags_df = pd.DataFrame(all_tags_rows)
@@ -369,16 +375,16 @@ def create_excel_summary():
         # Apply formatting to the summary all tags sheet
         tags_worksheet = writer.sheets['Summary All Tags']
         
-        # Apply column width adjustment - use numeric indexing instead of letter indexing
+        # Apply column width adjustment for transposed layout
         max_col = len(all_tags_df.columns)
         for idx, col in enumerate(all_tags_df.columns):
             # Get the maximum length in the column
-            if idx == 0:  # Tag column
+            if idx < 2:  # File and Type columns
                 max_length = max(
                     all_tags_df[col].astype(str).apply(len).max(),
                     len(str(col))
                 )
-            else:  # Numeric columns
+            else:  # Tag columns
                 max_length = max(
                     all_tags_df[col].astype(str).apply(len).max(),
                     len(str(col))
@@ -407,9 +413,12 @@ def create_excel_summary():
         data_rows = tags_worksheet.max_row
         data_cols = tags_worksheet.max_column
         
+        # Create light gray fill for alternating rows
+        light_gray = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+        
         for row in range(2, data_rows + 1):
-            # Apply alternating row colors
-            if row % 2 == 0:  # Even rows
+            # Apply alternating row colors (change to file basis)
+            if (row - 1) // 2 % 2 == 1:  # Alternating by file (each file has 2 rows)
                 for col in range(1, data_cols + 1):
                     tags_worksheet.cell(row=row, column=col).fill = light_gray
             
@@ -418,15 +427,24 @@ def create_excel_summary():
                 cell.border = thin_border
                 
                 # Center-align numeric columns
-                if col > 1:  # Assuming first column is the tag name
+                if col > 2:  # All tag columns
                     cell.alignment = Alignment(horizontal='center')
         
-        # Freeze the header row and first column
-        tags_worksheet.freeze_panes = "B2"
+        # Freeze the header row and first two columns
+        tags_worksheet.freeze_panes = "C2"
         
-        # Move Summary sheet to the first position
+        # Organize sheets in the proper order: Summary first, Summary All Tags second, then all individual texts
         workbook = writer.book
-        workbook._sheets.insert(0, workbook._sheets.pop(workbook._sheets.index(writer.sheets['Summary'])))
+        
+        # First move Summary to the first position
+        summary_sheet = writer.sheets['Summary']
+        workbook._sheets.remove(summary_sheet)
+        workbook._sheets.insert(0, summary_sheet)
+        
+        # Then move Summary All Tags to the second position 
+        all_tags_sheet = writer.sheets['Summary All Tags']
+        workbook._sheets.remove(all_tags_sheet)
+        workbook._sheets.insert(1, all_tags_sheet)
 
 def get_current_git_commit(specified_ref=None):
     """Get the current git commit hash or use specified ref."""
