@@ -17,7 +17,7 @@ tasks:
       python -m ipykernel install --user --name novel-scenification --display-name "Python (Novel Scenification)"
     command: |
       # Open the notebook directly in VS Code
-      gp open notebook.ipynb
+      code notebook.ipynb
 
 # Configure VS Code
 vscode:

@@ -1,0 +1,14 @@
+{
+    "python.defaultInterpreterPath": "python",
+    "jupyter.kernels.filter": [
+        {
+            "path": "novel-scenification",
+            "type": "jupyterKernelspec"
+        }
+    ],
+    "jupyter.interactiveWindow.textEditor.executeSelection.addNewCell": false,
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "python.analysis.extraPaths": [],
+    "jupyter.jupyterServerType": "local",
+    "jupyter.notebookFileRoot": "${workspaceFolder}"
+} 
