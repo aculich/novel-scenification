@@ -119,7 +119,7 @@ When submitting issues, please include as much context as possible to help with 
 
 ## Interactive Analysis with Jupyter Notebook
 
-To facilitate interactive analysis and easy workflow management, this project includes `runner.ipynb`, a comprehensive Jupyter notebook that provides:
+To facilitate interactive analysis and visualization of tag data, this project includes `notebook.ipynb`, a comprehensive Jupyter notebook that provides:
 
 ### Key Features of the Notebook:
 
@@ -129,25 +129,25 @@ To facilitate interactive analysis and easy workflow management, this project in
    - Detailed data visualization with charts showing tag distribution and word counts
 
 2. **Data Exploration**
-   - Tools to browse the Excel summary file directly in the notebook
-   - Markdown rendering of project documentation
-   - Functions to explore tag matches and patterns
+   - Interactive visualizations of word counts, scene types, and temporal trends
+   - Analysis of scene type percentages across different texts
+   - Tools to explore tag frequency data and patterns
 
-3. **Tag Pattern Management**
-   - Interface for viewing and editing tag matching patterns
-   - Functionality to regenerate tag matches based on pattern files
-   - Management of included/excluded tag lists
+3. **Individual Text Analysis**
+   - Dedicated functions to analyze tag patterns in specific texts
+   - Visualization of tag distributions within individual works
+   - Comparison of tag usage across the corpus
 
-4. **GitHub Integration**
-   - Simplified commit and push workflow for changes
-   - Support for automatic updates via GitHub Actions
-   - Status monitoring of repository changes
+4. **Compound Tag Analysis**
+   - Tools for examining nested tag combinations across all texts
+   - Visualization of complex tag relationships
+   - Analysis of hierarchical tag structures
 
 ### Using the Notebook:
 
 The easiest way to use the notebook is to launch the project in GitPod using the button above. This will:
 1. Set up a cloud environment with all dependencies installed
-2. Automatically open `runner.ipynb` in Jupyter
+2. Install the required Python kernel ("Python (Novel Scenification)")
 3. Allow you to process files and explore results interactively
 
 If you've added new files to `data/input/`, you can:
@@ -360,7 +360,7 @@ Frederick was <fidquotes>"sure <i>he</i> could do that;"</fidquotes> —but befo
 
 <diaq>"Helena, Helena, why did you let it go ?”</diaq> — She mounted again with great composure, saying,
 
-<diaq>"So! now you are going to scold!”</diaq> At last, all was adjusted, and they rode peaceably on to Mrs. Villiers’s house, where she was anxiously watching for them at the parlour window. Mr. Melcombe took Helena from her steed with the greatest care, gave her an affectionate kiss, and away she ran to her mamma.</sceneaction>
+<diaq>"So! now you are going to scold!”</diaq> At last, all was adjusted, and they rode peaceably on to Mrs. Villiers's house, where she was anxiously watching for them at the parlour window. Mr. Melcombe took Helena from her steed with the greatest care, gave her an affectionate kiss, and away she ran to her mamma.</sceneaction>
 ```
 
 ### Complex Scenedia (Lines 51-124)
@@ -381,7 +381,7 @@ Frederick was <fidquotes>"sure <i>he</i> could do that;"</fidquotes> —but befo
 
 <diaq>"Pray, mamma, what sort of a place is London ?”</diaq>
 <dia>"A large question, Helena: perhaps you may see one day or other; but what put London in your head just now ?”</dia>
-<dia>"Why, mamma, old Bernard says it’s the D—l’s Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it’s a very pretty story, mamma; do, let him tell it you himself.”</dia>
+<dia>"Why, mamma, old Bernard says it's the D—l's Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it's a very pretty story, mamma; do, let him tell it you himself.”</dia>
 <dia>"Old Bernard talks nonsense; — but my dear child, how you have heated yourself! what have you been about ?”</dia>
 <dia>"Hard at work, mamma, helping old Bernard.”</dia>
 <dia>"Well, now, go and take off your bonnet, and then come and help me; — for I am tired of this hearth-rug, and want it finished.”</dia>
@@ -397,9 +397,9 @@ At that moment entered Frederick, with his arm full of new books.
 
 <dia>"O mamma, look at Frederick!”</dia> — He approached, and, with whimsical gravity, dropped on one knee to Helena, and, tottering, presented the books,
 
-<diaq>"With Mr. Melcombe’s duty to Miss Villiers.”</diaq>
+<diaq>"With Mr. Melcombe's duty to Miss Villiers.”</diaq>
 <diam>"How kind is Mr. Melcombe!” <m>said Mrs. Villiers.</m></diam>
-<dia>"Mr. Melcombe’s <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
+<dia>"Mr. Melcombe's <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
 ```
 
 *Scene Opening:* [Lines 51-70](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L51-L70)
@@ -413,7 +413,7 @@ At that moment entered Frederick, with his arm full of new books.
 
 <diaq>"Pray, mamma, what sort of a place is London ?”</diaq>
 <dia>"A large question, Helena: perhaps you may see one day or other; but what put London in your head just now ?”</dia>
-<dia>"Why, mamma, old Bernard says it’s the D—l’s Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it’s a very pretty story, mamma; do, let him tell it you himself.”</dia>
+<dia>"Why, mamma, old Bernard says it's the D—l's Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it's a very pretty story, mamma; do, let him tell it you himself.”</dia>
 <dia>"Old Bernard talks nonsense; — but my dear child, how you have heated yourself! what have you been about ?”</dia>
 <dia>"Hard at work, mamma, helping old Bernard.”</dia>
 <dia>"Well, now, go and take off your bonnet, and then come and help me; — for I am tired of this hearth-rug, and want it finished.”</dia>
@@ -429,9 +429,9 @@ At that moment entered Frederick, with his arm full of new books.
 
 <dia>"O mamma, look at Frederick!”</dia> — He approached, and, with whimsical gravity, dropped on one knee to Helena, and, tottering, presented the books,
 
-<diaq>"With Mr. Melcombe’s duty to Miss Villiers.”</diaq>
+<diaq>"With Mr. Melcombe's duty to Miss Villiers.”</diaq>
 <diam>"How kind is Mr. Melcombe!” <m>said Mrs. Villiers.</m></diam>
-<dia>"Mr. Melcombe’s <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
+<dia>"Mr. Melcombe's <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
 ```
 
 ...
