@@ -9,6 +9,9 @@ on:
 jobs:
   analyze-tags:
     runs-on: ubuntu-latest
+    # Add the permissions block to explicitly grant write access
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
@@ -60,4 +63,6 @@ jobs:
             echo "No input files were changed, but outputs were updated"
             git commit -m "Auto-update tag analysis results" -m "General update - no specific input files changed"
           fi
-          git push 
+          
+          # Push using the GitHub token for authentication
+          git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:${GITHUB_REF} 
