@@ -31,13 +31,11 @@ chportrait_chnameintro,2,5
 chportrait_i,1,1
 cryptonym,1,1
 dia,3,126
-diainsetnarrative,1,839
-diainsetnarrative_i,1,1
-diainsetnarrative_m,2,20
-diainsetnarrative_quotesother,1,65
-diam,27,957
+diam,28,1796
 diam_cryptonym,1,1
-diam_m,26,153
+diam_i,1,1
+diam_m,28,173
+diam_quotesother,1,65
 diaq,4,122
 doxaquotes,1,5
 exclamation,1,10
@@ -69,8 +67,7 @@ sceneaction_trigger,2,11
 scenedia,4,3404
 scenedia_authori,1,60
 scenedia_dia,1,79
-scenedia_diainsetnarrative,1,839
-scenedia_diam,14,486
+scenedia_diam,15,1325
 scenedia_diaq,1,38
 scenedia_fid,1,38
 scenedia_fidquotes,2,20
