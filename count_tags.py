@@ -21,6 +21,7 @@ import os
 import glob
 from openpyxl.styles import Font, Border, Side, Alignment, PatternFill
 from urllib.parse import quote
+import openpyxl.utils
 
 def parse_html_to_csv(html_file, csv_file):
     # Read and parse the HTML file
@@ -139,9 +140,29 @@ def create_excel_summary():
         # First collect all CSV files and write individual sheets
         csv_files = glob.glob(os.path.join(counts_dir, "*.csv"))
         
+        # To gather all unique tags across all files
+        all_unique_tags = set()
+        all_tags_data = {}
+        
         # Process each CSV file first to create all sheets
         for csv_file in csv_files:
             df = pd.read_csv(csv_file)
+            
+            # Collect all unique tags for the "Summary All Tags" tab
+            tags_in_file = set(df['tag'].values)
+            all_unique_tags.update(tags_in_file)
+            
+            # Store data for each tag in this file
+            base_name = os.path.splitext(os.path.basename(csv_file))[0]
+            for _, row in df.iterrows():
+                tag_name = row['tag']
+                if tag_name not in all_tags_data:
+                    all_tags_data[tag_name] = {}
+                
+                all_tags_data[tag_name][base_name] = {
+                    'tag_count': row['tag_count'],
+                    'word_count': row['word_count']
+                }
             
             # Remove rows where both tag_count and word_count are zero
             # Keep 'totaldoctagswords' row regardless
@@ -163,8 +184,9 @@ def create_excel_summary():
                     df[col].astype(str).apply(len).max(),
                     len(str(col))
                 )
-                # Add a little extra space
-                worksheet.column_dimensions[chr(65 + idx)].width = max_length + 2
+                # Add a little extra space using proper column letter
+                col_letter = openpyxl.utils.get_column_letter(idx + 1)
+                worksheet.column_dimensions[col_letter].width = max_length + 2
             
             # Apply header formatting
             header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
@@ -260,8 +282,9 @@ def create_excel_summary():
                     max(len(str(val)) for val in summary_df[col]),
                     len(col)
                 )
-            # Add extra space for readability
-            worksheet.column_dimensions[chr(65 + idx)].width = max_length + 2
+            # Add extra space for readability - use proper column letter
+            col_letter = openpyxl.utils.get_column_letter(idx + 1)
+            worksheet.column_dimensions[col_letter].width = max_length + 2
         
         # Apply header formatting
         header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
@@ -303,9 +326,107 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
+        # Create the "Summary All Tags" tab
+        # Create columns dynamically - each file will have its own tag_count and word_count columns
+        columns = ['Tag']
+        file_basenames = []
+        for csv_file in csv_files:
+            base_name = os.path.splitext(os.path.basename(csv_file))[0]
+            file_basenames.append(base_name)
+            columns.append(f'{base_name}_tag_count')
+            columns.append(f'{base_name}_word_count')
+        
+        # Now prepare data for this tab - one row per unique tag
+        all_tags_rows = []
+        sorted_tags = sorted(all_unique_tags)  # Sort tags alphabetically
+        
+        for tag in sorted_tags:
+            # Skip the totaldoctagswords row for this summary
+            if tag == 'totaldoctagswords':
+                continue
+                
+            row_data = {'Tag': tag}
+            
+            # Add data for each file
+            for base_name in file_basenames:
+                tag_count_col = f'{base_name}_tag_count'
+                word_count_col = f'{base_name}_word_count'
+                
+                # Get this tag's data for this file if available
+                if tag in all_tags_data and base_name in all_tags_data[tag]:
+                    row_data[tag_count_col] = all_tags_data[tag][base_name]['tag_count']
+                    row_data[word_count_col] = all_tags_data[tag][base_name]['word_count']
+                else:
+                    row_data[tag_count_col] = 0
+                    row_data[word_count_col] = 0
+            
+            all_tags_rows.append(row_data)
+        
+        # Create DataFrame and write to Excel
+        all_tags_df = pd.DataFrame(all_tags_rows)
+        all_tags_df.to_excel(writer, sheet_name='Summary All Tags', index=False)
+        
+        # Apply formatting to the summary all tags sheet
+        tags_worksheet = writer.sheets['Summary All Tags']
+        
+        # Apply column width adjustment - use numeric indexing instead of letter indexing
+        max_col = len(all_tags_df.columns)
+        for idx, col in enumerate(all_tags_df.columns):
+            # Get the maximum length in the column
+            if idx == 0:  # Tag column
+                max_length = max(
+                    all_tags_df[col].astype(str).apply(len).max(),
+                    len(str(col))
+                )
+            else:  # Numeric columns
+                max_length = max(
+                    all_tags_df[col].astype(str).apply(len).max(),
+                    len(str(col))
+                )
+            # Add a little extra space - use get_column_letter to ensure proper column referencing
+            col_letter = openpyxl.utils.get_column_letter(idx + 1)
+            tags_worksheet.column_dimensions[col_letter].width = max_length + 2
+        
+        # Apply header formatting
+        header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
+        header_font = Font(bold=True)
+        thin_border = Border(
+            left=Side(style='thin'), 
+            right=Side(style='thin'), 
+            top=Side(style='thin'), 
+            bottom=Side(style='thin')
+        )
+        
+        for cell in tags_worksheet[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal='center')
+        
+        # Apply borders to data cells
+        data_rows = tags_worksheet.max_row
+        data_cols = tags_worksheet.max_column
+        
+        for row in range(2, data_rows + 1):
+            # Apply alternating row colors
+            if row % 2 == 0:  # Even rows
+                for col in range(1, data_cols + 1):
+                    tags_worksheet.cell(row=row, column=col).fill = light_gray
+            
+            for col in range(1, data_cols + 1):
+                cell = tags_worksheet.cell(row=row, column=col)
+                cell.border = thin_border
+                
+                # Center-align numeric columns
+                if col > 1:  # Assuming first column is the tag name
+                    cell.alignment = Alignment(horizontal='center')
+        
+        # Freeze the header row and first column
+        tags_worksheet.freeze_panes = "B2"
+        
         # Move Summary sheet to the first position
         workbook = writer.book
-        workbook._sheets.insert(0, workbook._sheets.pop(workbook._sheets.index(worksheet)))
+        workbook._sheets.insert(0, workbook._sheets.pop(workbook._sheets.index(writer.sheets['Summary'])))
 
 def get_current_git_commit(specified_ref=None):
     """Get the current git commit hash or use specified ref."""
