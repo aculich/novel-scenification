@@ -53,6 +53,57 @@ The project analyzes manually tagged HTML files to track the development of scen
 - `data/counts/`: Directory where CSV output files are stored
 - [`data/tag_counts_summary.xlsx`](https://github.com/aculich/novel-scenification/raw/refs/heads/main/data/tag_counts_summary.xlsx): Excel summary file of all tag counts and analysis (direct download link)
 
+### Excel Summary Format
+
+The `tag_counts_summary.xlsx` file contains a comprehensive analysis of tags used across your HTML corpus. We've organized it with four summary tabs:
+
+#### 1. Summary Tab
+This is the original summary tab that provides a concise overview:
+- **Sheet column**: Links to individual sheets for each document
+- **Total_Tags**: Total number of tags in the document
+- **Total_Words**: Total word count for the entire document
+- **Chapter_Count**: Number of chapter markers
+- **Selected tag metrics**: Pre-selected important tags (SceneAction, SceneDia, Dialogue) with both count and word columns
+
+This tab answers: "What are the basic metrics for each document?"
+
+![Summary Tab](./images/1-summary.png)
+
+#### 2. Summary Freq Words Tab
+This tab shows all tags sorted by their total word count across the corpus:
+- Tags that contain the most words appear leftmost
+- Secondary sorting is by tag count when word counts are equal
+- Each column pair shows Count and Words for each tag
+
+This tab answers: "Which tags contain the most textual content?"
+
+![Summary Freq Words Tab](./images/2-summary-freq-words.png)
+
+#### 3. Summary Freq Tags Tab
+This tab arranges tags by their frequency (count) across the corpus:
+- The most frequently used tags appear leftmost
+- Secondary sorting is by word count when tag counts are equal
+- Each column pair shows Count and Words for each tag
+
+This tab answers: "Which tags are used most frequently?"
+
+![Summary Freq Tags Tab](./images/3-summary-freq-tags.png)
+
+#### 4. Summary All Tags Tab
+This tab shows all tags in alphabetical order:
+- Provides a consistent reference layout regardless of frequency
+- Each column pair shows Count and Words for each tag
+
+This tab answers: "What are all the tags used and their metrics?"
+
+![Summary All Tags Tab](./images/4-summary-all-tags.png)
+
+#### Individual Document Sheets
+Following the summary tabs, each document has its own sheet showing:
+- Individual tag metrics including compound/nested tags
+- Full breakdown of all tags used in that specific document
+- Word counts for each tag and tag combination
+
 ### Requirements
 
 Required Python packages:
