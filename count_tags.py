@@ -294,28 +294,9 @@ def extract_year_from_filename(filename):
         return int(match.group(1))
     return 0  # Return 0 if no year found for sorting purposes
 
-def create_transposed_summary(csv_files, base_data, included_tags_set, excluded_tags_set=None, sheet_name="Transposed Tags"):
+def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_set=None, sheet_name="Transposed Tags"):
     """Create a transposed summary sheet with tags as rows and texts as columns."""
-    # Prepare data for the transposed view
-    # Get all unique tags (excluding special ones)
-    all_tags = set()
-    for tag in base_data.keys():
-        if tag not in {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'}:
-            # Extract the tag name without the _Count or _Words suffix
-            tag_name = tag.rsplit('_', 1)[0]
-            all_tags.add(tag_name)
-    
-    # Determine which tags to include
-    if excluded_tags_set is not None:
-        # Special columns we always want to keep separate from tag filtering
-        special_cols = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count', 'totaldoctagswords'}
-        
-        # Filter out excluded tags
-        included_tags = all_tags - excluded_tags_set - special_cols
-    else:
-        included_tags = all_tags
-    
-    # Get base names of all CSV files
+    # Get base names of all CSV files for columns
     base_names = []
     for csv_file in csv_files:
         base_name = os.path.splitext(os.path.basename(csv_file))[0]
@@ -324,43 +305,71 @@ def create_transposed_summary(csv_files, base_data, included_tags_set, excluded_
     # Sort base names by year and then alphabetically
     base_names.sort(key=lambda x: (extract_year_from_filename(x), x))
     
-    # Create rows for tags
+    # Create the data structure for the transposed view
     tag_rows = []
     
-    # First add special summary rows
-    summary_tags = ['Total_Tags', 'Total_Words', 'Chapter_Count']
-    for tag in summary_tags:
-        row_data = {'Tag': tag}
-        for base_name in base_names:
-            if base_name in base_data and tag in base_data[base_name]:
-                row_data[base_name] = base_data[base_name][tag]
-            else:
-                row_data[base_name] = 0
-        tag_rows.append(row_data)
+    # First add summary rows
+    tag_rows.append({'Tag': 'Total_Tags'})
+    tag_rows.append({'Tag': 'Total_Words'})
+    tag_rows.append({'Tag': 'Chapter_Count'})
     
-    # Then add rows for each included tag (both count and words)
+    # Get all unique tags across all files
+    all_tags = set()
+    for csv_file in csv_files:
+        df = pd.read_csv(csv_file)
+        tags = df['tag'].unique()
+        all_tags.update(tags)
+    
+    # Remove special tags
+    if 'totaldoctagswords' in all_tags:
+        all_tags.remove('totaldoctagswords')
+    
+    # Determine which tags to include based on excluded_tags_set
+    if excluded_tags_set is not None:
+        included_tags = all_tags - excluded_tags_set
+    else:
+        included_tags = all_tags
+    
+    # Add rows for each tag - both count and words 
     for tag in sorted(included_tags):
         # Add count row
-        count_row = {'Tag': f"{tag}_Count"}
-        for base_name in base_names:
-            count_key = f"{tag}_Count"
-            if base_name in base_data and count_key in base_data[base_name]:
-                count_row[base_name] = base_data[base_name][count_key]
-            else:
-                count_row[base_name] = 0
-        tag_rows.append(count_row)
-        
-        # Add word count row
-        words_row = {'Tag': f"{tag}_Words"}
-        for base_name in base_names:
-            words_key = f"{tag}_Words"
-            if base_name in base_data and words_key in base_data[base_name]:
-                words_row[base_name] = base_data[base_name][words_key]
-            else:
-                words_row[base_name] = 0
-        tag_rows.append(words_row)
+        tag_rows.append({'Tag': f"{tag}_Count"})
+        # Add word count row 
+        tag_rows.append({'Tag': f"{tag}_Words"})
     
-    # Create DataFrame
+    # Now fill in the data for each column (text)
+    for base_name in base_names:
+        # Find the corresponding CSV file
+        csv_file = None
+        for f in csv_files:
+            if os.path.splitext(os.path.basename(f))[0] == base_name:
+                csv_file = f
+                break
+        
+        if csv_file:
+            df = pd.read_csv(csv_file)
+            
+            # Fill in summary data
+            total_tags = df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
+            total_words = df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
+            chapter_count = df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0
+            
+            tag_rows[0][base_name] = total_tags
+            tag_rows[1][base_name] = total_words  
+            tag_rows[2][base_name] = chapter_count
+            
+            # Fill in data for each tag
+            tag_index = 3  # Start after the summary rows
+            for tag in sorted(included_tags):
+                tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                
+                tag_rows[tag_index][base_name] = tag_count
+                tag_rows[tag_index + 1][base_name] = tag_words
+                
+                tag_index += 2  # Move to the next tag (skip both count and words rows)
+    
+    # Convert to DataFrame
     transposed_df = pd.DataFrame(tag_rows)
     
     return transposed_df
@@ -1110,31 +1119,13 @@ def create_excel_summary():
         tags_worksheet.freeze_panes = "E2"
         
         # Create new transposed sheets according to Issue #4 request
-        # First, prepare the data in a format suitable for transposition
-        base_data = {}
-        for csv_file in csv_files:
-            base_name = os.path.splitext(os.path.basename(csv_file))[0]
-            df = pd.read_csv(csv_file)
-            
-            # Create base data for this file
-            base_data[base_name] = {
-                'Sheet': base_name,
-                'Total_Tags': df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0],
-                'Total_Words': df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0],
-                'Chapter_Count': df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0
-            }
-            
-            # Add data for all tags
-            for tag in all_unique_tags:
-                if tag != 'totaldoctagswords':
-                    tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
-                    tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
-                    
-                    base_data[base_name][f"{tag}_Count"] = tag_count
-                    base_data[base_name][f"{tag}_Words"] = tag_words
-        
+        # Get all unique tags across all files
+        all_unique_tags_set = all_unique_tags.copy()
+        if 'totaldoctagswords' in all_unique_tags_set:
+            all_unique_tags_set.remove('totaldoctagswords')
+
         # Create transposed summary sheet for all tags
-        transposed_df = create_transposed_summary(csv_files, base_data, all_unique_tags, None, "Transposed All Tags")
+        transposed_df = create_transposed_summary(csv_files, all_unique_tags_set, None, "Transposed All Tags")
         transposed_df.to_excel(writer, sheet_name='Transposed All Tags', index=False)
         
         # Apply formatting to the transposed sheet
@@ -1194,7 +1185,7 @@ def create_excel_summary():
             included_tags_set = all_unique_tags - excluded_tags_set - special_cols
             
             # Create transposed summary for included tags
-            included_transposed_df = create_transposed_summary(csv_files, base_data, included_tags_set, excluded_tags_set, "Transposed Included Tags")
+            included_transposed_df = create_transposed_summary(csv_files, included_tags_set, excluded_tags_set, "Transposed Included Tags")
             included_transposed_df.to_excel(writer, sheet_name='Transposed Included Tags', index=False)
             
             # Apply formatting to the transposed included sheet
