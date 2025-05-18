@@ -361,36 +361,8 @@ def create_transposed_summary(csv_files, tags_to_include, excluded_tags_set=None
             
             # Special case: for Chapters, we collect individual chapter word counts
             if chapter_count > 0 and 'chapmarker' in df['tag'].values:
-                # Get individual chapter word counts
-                # Generate varied word counts for chapters using a better estimation method
-                if chapter_count > 1:
-                    # Create varying chapter sizes for a more realistic distribution
-                    # Use a simple algorithm to generate varied chapter sizes that sum to total words
-                    import random
-                    random.seed(base_name)  # Use filename as seed for reproducibility
-                    
-                    # Generate chapter sizes with some variance
-                    chapter_sizes = []
-                    remaining_words = total_words
-                    for i in range(chapter_count - 1):  # All but the last chapter
-                        # Calculate a varying chapter size around the average
-                        avg_size = remaining_words // (chapter_count - i)
-                        # Allow 20% variation above/below average
-                        min_size = max(int(avg_size * 0.8), 1)  # Ensure at least 1 word
-                        max_size = min(int(avg_size * 1.2), remaining_words - (chapter_count - i - 1))
-                        chapter_size = random.randint(min_size, max_size)
-                        chapter_sizes.append(chapter_size)
-                        remaining_words -= chapter_size
-                    
-                    # Last chapter gets any remaining words
-                    chapter_sizes.append(remaining_words)
-                    
-                    # Format as comma-separated list of values
-                    chapter_word_counts = [str(size) for size in chapter_sizes]
-                    tag_rows[1][words_col] = ", ".join(chapter_word_counts)
-                else:
-                    # If there's only one chapter, it's just the total words
-                    tag_rows[1][words_col] = str(total_words)
+                # Leave chapter word counts blank instead of generating simulated data
+                tag_rows[1][words_col] = ""
             else:
                 tag_rows[1][words_col] = ""
             
@@ -469,34 +441,8 @@ def create_transposed_freq_summary(csv_files, tags_set, sort_by_words=True, tag_
             
             # Special case: for Chapters, we collect individual chapter word counts
             if chapter_count > 0 and 'chapmarker' in df['tag'].values:
-                # Get individual chapter word counts (improved version)
-                if chapter_count > 1:
-                    # Create varying chapter sizes for a more realistic distribution
-                    # Use a simple algorithm to generate varied chapter sizes that sum to total words
-                    random.seed(base_name)  # Use filename as seed for reproducibility
-                    
-                    # Generate chapter sizes with some variance
-                    chapter_sizes = []
-                    remaining_words = total_words
-                    for i in range(chapter_count - 1):  # All but the last chapter
-                        # Calculate a varying chapter size around the average
-                        avg_size = remaining_words // (chapter_count - i)
-                        # Allow 20% variation above/below average
-                        min_size = max(int(avg_size * 0.8), 1)  # Ensure at least 1 word
-                        max_size = min(int(avg_size * 1.2), remaining_words - (chapter_count - i - 1))
-                        chapter_size = random.randint(min_size, max_size)
-                        chapter_sizes.append(chapter_size)
-                        remaining_words -= chapter_size
-                    
-                    # Last chapter gets any remaining words
-                    chapter_sizes.append(remaining_words)
-                    
-                    # Format as comma-separated list of values
-                    chapter_word_counts = [str(size) for size in chapter_sizes]
-                    tag_rows[1][words_col] = ", ".join(chapter_word_counts)
-                else:
-                    # If there's only one chapter, it's just the total words
-                    tag_rows[1][words_col] = str(total_words)
+                # Leave chapter word counts blank instead of generating simulated data
+                tag_rows[1][words_col] = ""
             else:
                 tag_rows[1][words_col] = ""
             
