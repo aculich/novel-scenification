@@ -295,7 +295,7 @@ def extract_year_from_filename(filename):
         return int(match.group(1))
     return 0  # Return 0 if no year found for sorting purposes
 
-def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_set=None, sheet_name="Transposed Tags"):
+def create_transposed_summary(csv_files, tags_to_include, excluded_tags_set=None, sheet_name="Transposed Tags"):
     """Create a transposed summary sheet with tags as rows and texts as columns with side-by-side Count/Words."""
     # Get base names of all CSV files for columns
     base_names = []
@@ -324,14 +324,11 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
     if 'totaldoctagswords' in all_tags:
         all_tags.remove('totaldoctagswords')
     
-    # Determine which tags to include based on excluded_tags_set
-    if excluded_tags_set is not None:
-        included_tags = all_tags - excluded_tags_set
-    else:
-        included_tags = all_tags
+    # The tags_to_include parameter determines which tags to show in this sheet
+    # This can be either the included_tags_set or the excluded_tags_set
     
     # Add rows for each tag (no longer need separate count and words rows)
-    for tag in sorted(included_tags):
+    for tag in sorted(tags_to_include):
         tag_rows.append({'Tag': tag})
     
     # Now fill in the data for each column (text)
@@ -369,6 +366,7 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
                 if chapter_count > 1:
                     # Create varying chapter sizes for a more realistic distribution
                     # Use a simple algorithm to generate varied chapter sizes that sum to total words
+                    import random
                     random.seed(base_name)  # Use filename as seed for reproducibility
                     
                     # Generate chapter sizes with some variance
@@ -398,7 +396,7 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
             
             # Fill in data for each tag
             tag_index = 2  # Start after the summary rows
-            for tag in sorted(included_tags):
+            for tag in sorted(tags_to_include):
                 tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
                 tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
                 
@@ -814,19 +812,21 @@ def create_excel_summary():
             included_trans_worksheet = writer.sheets['Summary Included Tags']
             apply_excel_formatting(included_trans_worksheet, included_transposed_df, base_names)
             
-            # Create transposed sheet for excluded tags
-            excluded_transposed_df = create_transposed_summary(csv_files, excluded_tags_set, None, "Summary Excluded Tags")
-            excluded_transposed_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
-            
-            # Apply custom formatting to the excluded tags sheet  
-            excluded_trans_worksheet = writer.sheets['Summary Excluded Tags']
-            apply_excel_formatting(excluded_trans_worksheet, excluded_transposed_df, base_names)
+            # Create transposed sheet for excluded tags - FIX: Only use excluded_tags_set here, not all tags
+            # We need to ensure we're only showing the excluded tags in this sheet
+            if excluded_tags_set:
+                excluded_transposed_df = create_transposed_summary(csv_files, excluded_tags_set, None, "Summary Excluded Tags")
+                excluded_transposed_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
+                
+                # Apply custom formatting to the excluded tags sheet  
+                excluded_trans_worksheet = writer.sheets['Summary Excluded Tags']
+                apply_excel_formatting(excluded_trans_worksheet, excluded_transposed_df, base_names)
             
             # Save the list of included and excluded tags to TSV files
             save_tag_lists(included_tags_set, excluded_tags_set)
         
         # Create transposed summary sheet for all tags
-        all_transposed_df = create_transposed_summary(csv_files, all_unique_tags_set, None, "Summary All Tags")
+        all_transposed_df = create_transposed_summary(csv_files, all_unique_tags_set - special_cols, None, "Summary All Tags")
         all_transposed_df.to_excel(writer, sheet_name='Summary All Tags', index=False)
         
         # Apply custom formatting to the all tags sheet
