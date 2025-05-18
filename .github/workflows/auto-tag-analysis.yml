@@ -34,6 +34,10 @@ jobs:
         run: |
           python count_tags.py
           
+      - name: Compare Excel changes
+        run: |
+          python compare_excel.py || echo "Excel comparison failed but continuing workflow"
+          
       - name: Check if changes were made
         id: check-changes
         run: |
