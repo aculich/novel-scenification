@@ -36,6 +36,48 @@ def read_included_tags():
         print("Continuing without tag filtering.")
         return None
 
+# Function to read excluded_tags.tsv
+def read_excluded_tags():
+    try:
+        # Try to read the excluded tags file first
+        excluded_df = pd.read_csv('excluded_tags.tsv', sep='\t')
+        excluded_tags = set(excluded_df['Excluded_Tag'].unique())
+        print(f"Read {len(excluded_tags)} excluded tags from excluded_tags.tsv")
+        return excluded_tags
+    except Exception as e:
+        print(f"Error reading excluded_tags.tsv: {e}")
+        
+        # Fall back to previous approach if excluded_tags.tsv doesn't exist
+        try:
+            print("Falling back to tag_matches_detailed.tsv to determine exclusions...")
+            matches_df = pd.read_csv('tag_matches_detailed.tsv', sep='\t')
+            included_tags = set(matches_df['Matched_Column'].unique())
+            print(f"Read {len(included_tags)} included tags from tag_matches_detailed.tsv")
+            
+            # For backward compatibility, scan all files to find which tags to exclude
+            print("Scanning input files to determine excluded tags...")
+            input_dir = "data/input"
+            html_files = glob.glob(os.path.join(input_dir, "*.html"))
+            all_tags = set()
+            
+            for html_file in html_files:
+                with open(html_file, 'r', encoding='utf-8') as file:
+                    soup = BeautifulSoup(file, 'html.parser')
+                all_tags.update([tag.name for tag in soup.find_all()])
+            
+            # Exclude special tags that aren't relevant
+            special_tags = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count', 'totaldoctagswords'}
+            all_tags = all_tags - special_tags
+            
+            # Calculate excluded tags as anything not in the included list
+            excluded_tags = all_tags - included_tags
+            print(f"Determined {len(excluded_tags)} tags to exclude based on scanning files")
+            return excluded_tags
+        except Exception as inner_e:
+            print(f"Error with fallback approach: {inner_e}")
+            print("Continuing without tag filtering.")
+            return None
+
 # Save included and excluded tags to TSV files
 def save_tag_lists(included_tags, excluded_tags):
     with open('included_tags.tsv', 'w') as f:
@@ -163,8 +205,8 @@ def create_excel_summary():
     counts_dir = "data/counts"
     output_file = "data/tag_counts_summary.xlsx"
     
-    # Read the included tags from tag_matches_detailed.tsv
-    included_tags_set = read_included_tags()
+    # Read the excluded tags instead of included tags
+    excluded_tags_set = read_excluded_tags()
     
     # Create Excel writer
     with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
@@ -357,20 +399,20 @@ def create_excel_summary():
         # Freeze the header row
         worksheet.freeze_panes = "A2"
         
-        # If we have included tags from tag_matches_detailed.tsv
-        if included_tags_set is not None:
-            # Identify included and excluded tags from the set of all tags
-            # We're looking at the column headers without _Count/_Words suffix 
-            all_cols = set()
-            
+        # If we have excluded tags, use them to determine which tags to include
+        if excluded_tags_set is not None:
             # Get all tags from the all_unique_tags set
             # These will be the actual tag names without suffixes
+            all_cols = set()
             for tag in all_unique_tags:
                 if tag != 'totaldoctagswords':  # Skip the total row
                     all_cols.add(tag)
             
-            # Find which tags are excluded (not in the included_tags_set)
-            excluded_tags_set = all_cols - included_tags_set - {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'}
+            # Special columns we always want to keep separate from tag filtering
+            special_cols = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'}
+            
+            # Everything not in excluded_tags_set and not a special column is included
+            included_tags_set = all_cols - excluded_tags_set - special_cols
             
             # Create columns for the Included Tags tab
             included_columns = [
@@ -915,8 +957,8 @@ def create_excel_summary():
         workbook._sheets.remove(summary_sheet)
         workbook._sheets.insert(0, summary_sheet)
         
-        # Move Included/Excluded Tags sheets if they exist
-        if included_tags_set is not None:
+        # Move Included/Excluded Tags sheets and other summary sheets if they exist
+        if excluded_tags_set is not None:
             # Move Included Tags to the second position
             included_sheet = writer.sheets['Summary Included Tags']
             workbook._sheets.remove(included_sheet)
