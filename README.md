@@ -166,7 +166,7 @@ All of the Summary tabs provide this basic overview in each:
 - **Sheet column**: Links to individual sheets for each document
 - **Total_Tags**: Total number of tags in the document
 - **Total_Words**: Total word count for the entire document
-- **Chapter_Count**: Number of chapter markers
+- **Chapter_Count**: Number of chapter markers. The chapter word counts are intentionally left blank in all summary tabs. (see [Issue #5](https://github.com/aculich/novel-scenification/issues/5))
 - **Selected tag metrics**: Pre-selected important tags (SceneAction, SceneDia, Dialogue) with both count and word columns
 
 #### 1a. Summary Included Tags Tab
@@ -230,16 +230,6 @@ Following the summary tabs, each document has its own sheet showing:
 - Word counts for each tag and tag combination
 
 ![Individual Tabs](./images/5-individual-tabs.png)
-
-### Chapter Word Counts
-
-The chapter word counts are intentionally left blank in all summary tabs. This design choice was made to:
-
-1. Avoid displaying potentially misleading information
-2. Prevent confusion with the actual word counts in other cells
-3. Allow users to focus on the verified tag counts and word counts without distraction
-
-This approach ensures that all displayed data in the Excel file is accurate and directly derived from the source documents, rather than relying on simulations or estimations.
 
 ### Requirements
 
