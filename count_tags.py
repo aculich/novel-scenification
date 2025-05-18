@@ -530,13 +530,10 @@ def create_excel_summary():
                     max_length = max(
                         max(len(str(val)) for val in included_transposed_df[col]),
                         len(col)
-                    ) + 5  # Add extra space for tag names
+                    ) + 2  # Add less extra space for tag names
                 else:
-                    # For text columns, use a fixed width or calculate from values
-                    max_length = max(
-                        max(len(str(val)) for val in included_transposed_df[col]),
-                        len(col)
-                    ) + 2
+                    # For data columns (novel titles), use a fixed width
+                    max_length = 12  # Fixed width for data columns
                 
                 col_letter = openpyxl.utils.get_column_letter(idx + 1)
                 included_trans_worksheet.column_dimensions[col_letter].width = max_length
@@ -555,7 +552,7 @@ def create_excel_summary():
                 cell.fill = header_fill
                 cell.font = header_font
                 cell.border = thin_border
-                cell.alignment = Alignment(horizontal='center')
+                cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
             
             # Apply borders and alternating row colors
             data_rows = included_trans_worksheet.max_row
@@ -596,13 +593,10 @@ def create_excel_summary():
                     max_length = max(
                         max(len(str(val)) for val in excluded_transposed_df[col]),
                         len(col)
-                    ) + 5  # Add extra space for tag names
+                    ) + 2  # Add less extra space for tag names
                 else:
-                    # For text columns, use a fixed width or calculate from values
-                    max_length = max(
-                        max(len(str(val)) for val in excluded_transposed_df[col]),
-                        len(col)
-                    ) + 2
+                    # For data columns (novel titles), use a fixed width
+                    max_length = 12  # Fixed width for data columns
                 
                 col_letter = openpyxl.utils.get_column_letter(idx + 1)
                 excluded_trans_worksheet.column_dimensions[col_letter].width = max_length
@@ -612,7 +606,7 @@ def create_excel_summary():
                 cell.fill = header_fill
                 cell.font = header_font
                 cell.border = thin_border
-                cell.alignment = Alignment(horizontal='center')
+                cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
             
             # Apply borders and alternating row colors
             data_rows = excluded_trans_worksheet.max_row
@@ -653,13 +647,10 @@ def create_excel_summary():
                 max_length = max(
                     max(len(str(val)) for val in all_transposed_df[col]),
                     len(col)
-                ) + 5  # Add extra space for tag names
+                ) + 2  # Add less extra space for tag names
             else:
-                # For text columns, use a fixed width or calculate from values
-                max_length = max(
-                    max(len(str(val)) for val in all_transposed_df[col]),
-                    len(col)
-                ) + 2
+                # For data columns (novel titles), use a fixed width
+                max_length = 12  # Fixed width for data columns
             
             col_letter = openpyxl.utils.get_column_letter(idx + 1)
             all_trans_worksheet.column_dimensions[col_letter].width = max_length
@@ -669,7 +660,7 @@ def create_excel_summary():
             cell.fill = header_fill
             cell.font = header_font
             cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center')
+            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
         
         # Apply borders and alternating row colors
         data_rows = all_trans_worksheet.max_row
@@ -803,13 +794,10 @@ def create_excel_summary():
                 max_length = max(
                     max(len(str(val)) for val in word_freq_df[col]),
                     len(col)
-                ) + 5  # Add extra space for tag names
+                ) + 2  # Add less extra space for tag names
             else:
-                # For text columns, use a fixed width or calculate from values
-                max_length = max(
-                    max(len(str(val)) for val in word_freq_df[col]),
-                    len(col)
-                ) + 2
+                # For data columns (novel titles), use a fixed width
+                max_length = 12  # Fixed width for data columns
             
             col_letter = openpyxl.utils.get_column_letter(idx + 1)
             word_freq_worksheet.column_dimensions[col_letter].width = max_length
@@ -819,7 +807,7 @@ def create_excel_summary():
             cell.fill = header_fill
             cell.font = header_font
             cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center')
+            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
         
         # Apply borders and alternating row colors
         data_rows = word_freq_worksheet.max_row
@@ -857,13 +845,10 @@ def create_excel_summary():
                 max_length = max(
                     max(len(str(val)) for val in tag_freq_df[col]),
                     len(col)
-                ) + 5  # Add extra space for tag names
+                ) + 2  # Add less extra space for tag names
             else:
-                # For text columns, use a fixed width or calculate from values
-                max_length = max(
-                    max(len(str(val)) for val in tag_freq_df[col]),
-                    len(col)
-                ) + 2
+                # For data columns (novel titles), use a fixed width
+                max_length = 12  # Fixed width for data columns
             
             col_letter = openpyxl.utils.get_column_letter(idx + 1)
             tag_freq_worksheet.column_dimensions[col_letter].width = max_length
@@ -873,7 +858,7 @@ def create_excel_summary():
             cell.fill = header_fill
             cell.font = header_font
             cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center')
+            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
         
         # Apply borders and alternating row colors
         data_rows = tag_freq_worksheet.max_row
