@@ -61,7 +61,7 @@ def read_existing_excluded_tags():
 # Function to read excluded_tags.tsv
 def read_excluded_tags():
     try:
-        # Try to read the excluded tags file first
+        # Read the excluded tags file which serves as our blacklist
         excluded_df = pd.read_csv('excluded_tags.tsv', sep='\t')
         excluded_tags = set(excluded_df['Excluded_Tag'].unique())
         print(f"Read {len(excluded_tags)} excluded tags from excluded_tags.tsv")
@@ -98,74 +98,79 @@ def read_excluded_tags():
         except Exception as inner_e:
             print(f"Error with fallback approach: {inner_e}")
             print("Continuing without tag filtering.")
-            return None
+            return set()
 
 # Save included and excluded tags to TSV files and identify removed tags
 def save_tag_lists(included_tags, excluded_tags):
-    # First read the existing tag lists to identify removed tags
+    # First read the existing tag lists 
     previous_included = read_existing_included_tags()
     previous_excluded = read_existing_excluded_tags()
     
-    # Write updated included tags
+    # Read existing removed tags (if any)
+    existing_removed_tags = []
+    try:
+        removed_df = pd.read_csv('removed_tags.tsv', sep='\t')
+        for _, row in removed_df.iterrows():
+            existing_removed_tags.append({'Tag': row['Tag'], 'Previous_Status': row['Previous_Status']})
+    except Exception as e:
+        print(f"Note: No existing removed_tags.tsv found or error reading it: {e}")
+    
+    # Step 1: Determine newly removed tags
+    # Tags that were previously included but are no longer in the corpus (not in included_tags or excluded_tags)
+    newly_removed_tags = []
+    for tag in previous_included:
+        if tag not in included_tags and tag not in excluded_tags:
+            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
+    
+    # Tags that were previously excluded but are no longer in the corpus
+    for tag in previous_excluded:
+        if tag not in included_tags and tag not in excluded_tags:
+            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
+    
+    # Step 2: Process the removed tags list
+    # - Keep existing removed tags that are still not in the corpus
+    # - Add newly removed tags
+    # - Remove any tags that have reappeared in the corpus
+    final_removed_tags = []
+    
+    # First add existing removed tags that are still not in the corpus
+    for item in existing_removed_tags:
+        if item['Tag'] not in included_tags and item['Tag'] not in excluded_tags:
+            final_removed_tags.append(item)
+    
+    # Add newly removed tags
+    for item in newly_removed_tags:
+        # Only add if not already in the list
+        if not any(existing['Tag'] == item['Tag'] for existing in final_removed_tags):
+            final_removed_tags.append(item)
+    
+    # Sort by tag name
+    final_removed_tags.sort(key=lambda x: x['Tag'])
+    
+    # Step 3: Write the updated tag files
+    # Write included tags
     with open('included_tags.tsv', 'w') as f:
         f.write("Included_Tag\n")
         for tag in sorted(included_tags):
             f.write(f"{tag}\n")
     
-    # Write updated excluded tags
+    # Write excluded tags
     with open('excluded_tags.tsv', 'w') as f:
         f.write("Excluded_Tag\n")
         for tag in sorted(excluded_tags):
             f.write(f"{tag}\n")
     
-    # Identify newly removed tags (tags that were in previous lists but are not in current lists)
-    newly_removed_tags = []
-    
-    # Check previous included tags
-    for tag in previous_included:
-        if tag not in included_tags and tag not in excluded_tags:
-            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
-    
-    # Check previous excluded tags
-    for tag in previous_excluded:
-        if tag not in included_tags and tag not in excluded_tags:
-            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
-    
-    # Read existing removed tags list (if it exists)
-    existing_removed_tags = []
-    try:
-        removed_df = pd.read_csv('removed_tags.tsv', sep='\t')
-        for _, row in removed_df.iterrows():
-            # Only keep tags that haven't reappeared in the corpus
-            if row['Tag'] not in included_tags and row['Tag'] not in excluded_tags:
-                existing_removed_tags.append({'Tag': row['Tag'], 'Previous_Status': row['Previous_Status']})
-    except Exception as e:
-        print(f"Note: No existing removed_tags.tsv found or error reading it: {e}")
-    
-    # Combine existing and newly removed tags
-    all_removed_tags = existing_removed_tags + newly_removed_tags
-    
-    # Remove duplicates while preserving order (keeping the first occurrence)
-    unique_removed_tags = []
-    seen_tags = set()
-    for item in all_removed_tags:
-        if item['Tag'] not in seen_tags:
-            unique_removed_tags.append(item)
-            seen_tags.add(item['Tag'])
-    
-    # Sort by tag name
-    unique_removed_tags.sort(key=lambda x: x['Tag'])
-    
-    # Save the combined removed tags
-    if unique_removed_tags:
-        removed_df = pd.DataFrame(unique_removed_tags)
+    # Write removed tags
+    if final_removed_tags:
+        removed_df = pd.DataFrame(final_removed_tags)
         removed_df.to_csv('removed_tags.tsv', sep='\t', index=False)
+        
         if newly_removed_tags:
             print(f"Updated removed_tags.tsv with {len(newly_removed_tags)} newly removed tags")
         else:
-            print(f"No new removed tags found - kept existing {len(unique_removed_tags)} tags in removed_tags.tsv")
+            print(f"No new removed tags found - kept existing {len(final_removed_tags)} tags in removed_tags.tsv")
     else:
-        # This should rarely happen, only if all previously removed tags have reappeared
+        # Write an empty file with just the header if no removed tags
         with open('removed_tags.tsv', 'w') as f:
             f.write("Tag\tPrevious_Status\n")
         print("All previously removed tags have reappeared in the corpus - removed_tags.tsv reset")
@@ -285,7 +290,7 @@ def create_excel_summary():
     counts_dir = "data/counts"
     output_file = "data/tag_counts_summary.xlsx"
     
-    # Read the excluded tags instead of included tags
+    # Read the excluded tags (our blacklist)
     excluded_tags_set = read_excluded_tags()
     
     # Create Excel writer
@@ -297,7 +302,7 @@ def create_excel_summary():
         all_unique_tags = set()
         all_tags_data = {}
         
-        # Process each CSV file first to create all sheets
+        # Process each CSV file first to create all sheets and gather all unique tags
         for csv_file in csv_files:
             df = pd.read_csv(csv_file)
             
@@ -489,7 +494,7 @@ def create_excel_summary():
                     all_cols.add(tag)
             
             # Special columns we always want to keep separate from tag filtering
-            special_cols = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count'}
+            special_cols = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count', 'totaldoctagswords'}
             
             # Everything not in excluded_tags_set and not a special column is included
             included_tags_set = all_cols - excluded_tags_set - special_cols
