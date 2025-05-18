@@ -270,24 +270,24 @@ To modify which tags are included or excluded in the "Summary Included Tags" and
 
 | Sheet | Total_Tags | Total_Words | Chapter_Count | SceneAction_Count | SceneAction_Words | SceneDia_Count | SceneDia_Words | Dialogue_Count | Dialogue_Words |
 |-------|------------|-------------|---------------|------------------|------------------|----------------|----------------|----------------|----------------|
-| [1808 An Monks 1_6_13000 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20An%20Monks%201_6_13000%20final%20no%20pages.html) | 192 | 12787 | 6 | 4 | 10122 | 1 | 2655 | 2 | 59 |
-| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 327 | 13113 | 3 | 1 | 1259 | 5 | 7592 | 65 | 3630 |
-| [1808 Montague 1_2_12825 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825%20Final%20no%20pages.html) | 141 | 12566 | 2 | 2 | 2351 | 4 | 3404 | 3 | 126 |
-| [1788 Wollstonecraft 1_16_12447 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Wollstonecraft%201_16_12447%20Final%20no%20pages.html) | 154 | 12530 | 16 | 1 | 313 | 2 | 1540 | 3 | 57 |
-| [1828 Derenz 1_9_14614 final no pages no footnotes](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Derenz%201_9_14614%20final%20no%20pages%20no%20footnotes.html) | 438 | 14550 | 9 | 5 | 4277 | 6 | 6505 | 25 | 990 |
-| [1828 Cunningham 1_2_12439 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439%20Final%20no%20pages.html) | 264 | 11983 | 2 | 1 | 5883 | 1 | 6015 | 2 | 172 |
 | [1788 Berkeley 1_14_12920 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Berkeley%201_14_12920%20final%20no%20pages.html) | 363 | 11970 | 14 | 1 | 566 | 0 | 0 | 1 | 49 |
-| [1828 Harvey 1_3_13500 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html) | 280 | 12876 | 3 | 2 | 4007 | 3 | 8135 | 12 | 550 |
+| [1828 Bray Protestant 1_2_14300 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Final%20no%20pages.html) | 434 | 13434 | 2 | 0 | 0 | 2 | 12020 | 1 | 95 |
+| [1788 Wollstonecraft 1_16_12447 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Wollstonecraft%201_16_12447%20Final%20no%20pages.html) | 154 | 12530 | 16 | 1 | 313 | 2 | 1540 | 3 | 57 |
+| [1788 Anon Amicable Q 1_3_13234 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%201_3_13234%20final.html) | 327 | 13113 | 3 | 1 | 1259 | 5 | 7592 | 65 | 3630 |
+| [1788 Anon Amicable Q chapter 1 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%20chapter%201%20TEST.html) | 69 | 3557 | 1 | 0 | 0 | 1 | 2392 | 29 | 1893 |
+| [1808 Anon_Master Passion 1_6_11555 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%201_6_11555%20final.html) | 271 | 11450 | 6 | 4 | 3185 | 6 | 3894 | 79 | 2430 |
+| [1788 Anon Oswald Castle 1_6_13800 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Final%20no%20pages.html) | 427 | 13744 | 7 | 3 | 3523 | 6 | 6755 | 25 | 433 |
+| [1828 Loudon 1_4_11057 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20final.html) | 307 | 14696 | 4 | 3 | 6191 | 3 | 3261 | 28 | 1187 |
+| [1828 Colburn 1_2_13824 FINAL no page](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824%20FINAL%20no%20page.html) | 238 | 13594 | 2 | 4 | 4388 | 3 | 1793 | 12 | 537 |
+| [1788 Nixon 1_7_11500 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html) | 374 | 11261 | 7 | 2 | 4783 | 0 | 0 | 1 | 16 |
 | [1788 Anon Helena 1_20_12500 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Helena%201_20_12500%20Final%20no%20pages.html) | 180 | 12052 | 20 | 3 | 3195 | 3 | 1700 | 1 | 11 |
 | [1808 Anon_Master Passion Chapter 1-2 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html) | 76 | 3499 | 2 | 1 | 303 | 1 | 893 | 22 | 388 |
-| [1828 Loudon 1_4_11057 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20final.html) | 307 | 14696 | 4 | 3 | 6191 | 3 | 3261 | 28 | 1187 |
-| [1788 Nixon 1_7_11500 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html) | 374 | 11261 | 7 | 2 | 4783 | 0 | 0 | 1 | 16 |
+| [1808 Montague 1_2_12825 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825%20Final%20no%20pages.html) | 141 | 12566 | 2 | 2 | 2351 | 4 | 3404 | 3 | 126 |
 | [1808 Norris 1_7_12512 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Norris%201_7_12512%20final%20no%20pages.html) | 331 | 12300 | 7 | 4 | 3869 | 6 | 3012 | 51 | 1087 |
-| [1828 Colburn 1_2_13824 FINAL no page](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824%20FINAL%20no%20page.html) | 238 | 13594 | 2 | 4 | 4388 | 3 | 1793 | 12 | 537 |
-| [1808 Anon_Master Passion 1_6_11555 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%201_6_11555%20final.html) | 271 | 11450 | 6 | 4 | 3185 | 6 | 3894 | 79 | 2430 |
-| [1788 Anon Amicable Q chapter 1 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Amicable%20Q%20chapter%201%20TEST.html) | 69 | 3557 | 1 | 0 | 0 | 1 | 2392 | 29 | 1893 |
-| [1828 Bray Protestant 1_2_14300 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Final%20no%20pages.html) | 434 | 13434 | 2 | 0 | 0 | 2 | 12020 | 1 | 95 |
-| [1788 Anon Oswald Castle 1_6_13800 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Anon%20Oswald%20Castle%201_6_13800%20Final%20no%20pages.html) | 427 | 13744 | 7 | 3 | 3523 | 6 | 6755 | 25 | 433 |
+| [1828 Harvey 1_3_13500 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html) | 280 | 12876 | 3 | 2 | 4007 | 3 | 8135 | 12 | 550 |
+| [1828 Derenz 1_9_14614 final no pages no footnotes](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Derenz%201_9_14614%20final%20no%20pages%20no%20footnotes.html) | 438 | 14550 | 9 | 5 | 4277 | 6 | 6505 | 25 | 990 |
+| [1808 An Monks 1_6_13000 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20An%20Monks%201_6_13000%20final%20no%20pages.html) | 192 | 12787 | 6 | 4 | 10122 | 1 | 2655 | 2 | 59 |
+| [1828 Cunningham 1_2_12439 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439%20Final%20no%20pages.html) | 264 | 11983 | 2 | 1 | 5883 | 1 | 6015 | 2 | 172 |
 
 
 ## Scene Samples
@@ -297,6 +297,84 @@ To modify which tags are included or excluded in the "Summary Included Tags" and
 # Scene Samples
 
 This document contains particularly rich examples of scene markup from each text, showing complex interactions between different types of scenes and their components. For each scene, we show interesting excerpts including openings, transitions, rich dialog sections, and endings.
+
+## [1828 Harvey 1_3_13500 final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html)
+
+### Complex Sceneaction (Lines 3-54)
+
+**Location:** [Lines 3-54](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L3-L54)
+
+**Complexity Metrics:**
+- Unique tag types: 12
+- Total nested tags: 56
+- Word count: 2047
+- Tag types present: arrivaldeparture, chapmarker, chnameintro, chportrait, dia, diam, diaother, diaq, i, m, quotedlit, quotesdoxa
+
+**Interesting Excerpts:**
+
+*Scene Opening:* [Lines 58-77](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L58-L77)
+```html
+<sceneaction>Nugent's letter, and a much more brief one from his gay companion, being concluded, the two young men turned their entire attention to their patient and their prisoners. General Colville now occupied the bed in the only retiring-room which the house contained; the wounded and captive ruffians were laid upon straw, in an out-house, under a guard of peasants; and the rest of the party, that is to say, Prankendahi, Nugent, the valet, the landlord, his daughter, her husband, and the boatmen, assembled in the kitchen to await the arrival of the surgeon, and of the <i>amt-mann</i>
+```
+
+*Scene Ending:* [Lines 58-77](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L58-L77)
+```html
+<sceneaction>Nugent's letter, and a much more brief one from his gay companion, being concluded, the two young men turned their entire attention to their patient and their prisoners. General Colville now occupied the bed in the only retiring-room which the house contained; the wounded and captive ruffians were laid upon straw, in an out-house, under a guard of peasants; and the rest of the party, that is to say, Prankendahi, Nugent, the valet, the landlord, his daughter, her husband, and the boatmen, assembled in the kitchen to await the arrival of the surgeon, and of the <i>amt-mann</i>, or rural magistrate, whose residence was about a mile distant, and to whom a peasant had been dispatched, to make a statement of the case.
+
+Dorothea now displayed the combined fare of her larder, dairy, and cellar —- sausages, eggs, milk, and <quotedlit>"bread of the coarsest sort, and meager wine,"</quotedlit> all of which the travellers were quite hungry enough to enjoy. In the intervals of eating, much conversation was carried on concerning the incidents of the night; many conjectures were formed; and Frankendahl and Nugent, in answer to their questions, were told several anecdotes of Stoblitz's villany; he was a boatman of the neighbourhood, and all united in giving him a very bad character. Ludwig stated, that general Colville had been several times at his house, on his way to and from Baden, and other places in the vicinity, describing him as a gentleman of respectability and honour, said to be rich, and by all acknowledged to be generous.
+
+<diam>"What family has general Colville?" <m>asked Nugent</m>.</diam>
+<diam>"Only himself and his wife," <m>replied the landlord</m>.</diam>
+<diam>"He has no wife — at least none here," <m>said Francis, the fisherman</m></diam>.
+
+<diam>"Who was that handsome lady who was here with him one day then?" <m>questioned Ludwig.</m></diam>
+<diam>"Dare say that was his daughter," <m>said Dorothea.</m></diam>
+<diam>"No, she is his niece," <m>rejoined Francis.</m></diam>
+<diam>"Dare say thou's wrong," <m>said his wife.</m></diam>
+<diam>"No, I have heard her call the general uncle more than once, when I have been at St. Severine with fish," <m>returned Francis; and the assertion of course concluded this part of the colloquy.</m></diam>
+
+Nugent was now impatiently expecting the arrival of the surgeon. -— <diam>"Is he a person of skill?" <m>he asked, but without a hope of having the question satisfactorily answered; for he supposed that those ignorant peasants had the same confidence in a wandering quack that savage tribes place in their conjurers.</m></diam>
+<diam>"He is a right good doctor, sir, and does many wonderful cure...
+```
+
+### Complex Scenedia (Lines 128-202)
+
+**Location:** [Lines 128-202](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L128-L202)
+
+**Complexity Metrics:**
+- Unique tag types: 11
+- Total nested tags: 82
+- Word count: 2544
+- Tag types present: arrivaldeparture, backstory, blend, descriptor, descriptorq, dia, diam, diaother, diaq, exclamation, m
+
+**Interesting Excerpts:**
+
+*Scene Opening:* [Lines 210-213](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L210-L213)
+```html
+<scenedia>The effect of doctor Sedgelake's opiate was not yet dissipated; the patient was still asleep; but Albert said he thought his rest would not last much longer.
+
+Nugent dispatched him on his errand, and seating himself by general Colville's bedside, contemplated his striking countenance: he could not be less than seventy; his hair was silvered; and the lines of time and reflection were on his forehead; but it was there alone that age seemed to have set her seal; his frame was still robust, and his teeth entire; and on his right cheek was a deep scar, the honourable badge of a soldier.
+
+Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came on tiptoe</arrivaldeparture>
+```
+
+*Scene Ending:* [Lines 210-229](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html#L210-L229)
+```html
+<scenedia>The effect of doctor Sedgelake's opiate was not yet dissipated; the patient was still asleep; but Albert said he thought his rest would not last much longer.
+
+Nugent dispatched him on his errand, and seating himself by general Colville's bedside, contemplated his striking countenance: he could not be less than seventy; his hair was silvered; and the lines of time and reflection were on his forehead; but it was there alone that age seemed to have set her seal; his frame was still robust, and his teeth entire; and on his right cheek was a deep scar, the honourable badge of a soldier.
+
+Beverley thought he would soon awake, and <arrivaldeparture>when Dorothea came on tiptoe</arrivaldeparture> to announce that the coffee was ready, he requested her to bring it in, cherishing the hope that the general would find himself sufficiently refreshed to partake of it. She soon returned, and either the effect of the medicine was over, or the noise made in placing the table, dispersed it, for general Colville started, and opened his eyes. Nugent bent anxiously forwards, so that his youthful countenance was the first object the general beheld. He gazed on him earnestly, yet with visible wildness of manner, and exclaimed — <diaq>"My Maria!"</diaq>
+<diam>"Dear heart, he calls on the Virgin," <m>said Dorothea.</m></diam>
+
+Nugent suffered her to think so; but he knew, from the manner in which the words were spoken, that they were not intended for a Catholic invocation. Some one had said, the preceding evening, that general Colville had a niece; and Beverley supposed that, in the first bewildered moment of returning recollection, he had mistaken him for her.
+
+"<diam>How do you feel yourself, my dear sir?" <m>said Nugent, in English.</m></diam>
+
+His voice seemed to dispel the illusion, and again starting, as if from a dream, Colville exclaimed — <diaq>"Where am I?"</diaq>
+<diam>"Safe, and amongst friends, sir, who will pay you every attention," <m>replied Beverley.</m></diam>
+<diam>"I remember it all," <m>he exclaimed</m>; "my villainous servant was about to murder me, when some one came to my rescue, and fired on the assassins: to you then, generous, noble young man, I owe my life;"</diam> and as he spoke he stretched out his hand, and fervently pressed that of Nugent, who modestly replied — <diaq>"No, indeed, my dear sir, I was only one, and not the most active, of your deliverers; it was a young German nobleman, with whom I travel, who so bravely fired on, and disabled your infamous valet; and the men in whose boat we happened to be...
+```
 
 ## [1788 Nixon 1_7_11500 Final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1788%20Nixon%201_7_11500%20Final%20no%20pages.html)
 
@@ -329,109 +407,6 @@ This their deliverer from perplexity and confusion, was coming down a narrow lan
 <sceneaction>They proceeded for a tedious length of time in a course of the most perplexing uncertainties -— one while thinking themselves perfectly right, and the next minute quite as confident they were utterly wrong, and that they had made no progress at all towards the inn. -— Woods, dingles, cross-paths, hills, and dales, continually offering themselves for their choice, they did not know what to do with such a numberless variety of difficulties, which frequently interrupted their view of the great mountains, their original guide, but were obliged to puzzle on at haphazard <trigger>until</trigger>, after much fatigue, turning and twisting, great loss of time and ground, the wavering vixen, <i>Fortune</i>, dropped upon them of a sudden, and when they were at their utmost need, in the likeness of a BUTTERWOMAN.
 
 This their deliverer from perplexity and confusion, was coming down a narrow lane within thirty yards of the very road they had lost, and was driving an <i>ass</i> before her, with panniers upon its back stuffed with butter, eggs, and other small wares, that she was conveying to a market, for the morrow, ten miles, she said, beyond the Inn they were going to. They would, in all probability, have crossed the road they wanted to find, from <i>Sturdy</i>'s imperfect knowledge of it, and from their falling in with it at the time both him and his master were impressed with a strong conviction they were by no means near it, had it not been for the <i>butterwoman</i>. So much, indeed, had <i>Sturdy</i>'s mind been all along distressed at his losing the road at all, that at first he could hardly believe their information; -— however, after going into it, and looking about him, and recollecting himself a little, he discovered sufficient tokens to satisfy him and his matter that their intelligence was good. They were, therefore, exceedingly pleased with the <i>butterwoman</i>, and as they had not eaten or drank during the course of so long and tiresome a walk, the <i>butterwoman</i> and her <i>ass</i> were invited to a repast with them under a hedge, which Thomas produced out of his wallet for his master, himself, and the <i>butterwoman</i>, and providence did the same for the <i>ass</i>, in a plentiful bank of thistles by their side; while a nice spring of clear water dropped down a little precipice, ready to dilute, in a tin can, some chearful and reviving spirits which <i>Thomas</...
-```
-
-## [1808 Anon_Master Passion Chapter 1-2 TEST.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html)
-
-### Complex Sceneaction (Lines 37-47)
-
-**Location:** [Lines 37-47](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L37-L47)
-
-**Complexity Metrics:**
-- Unique tag types: 7
-- Total nested tags: 10
-- Word count: 303
-- Tag types present: dia, diam, diaq, fidquotes, i, m, trigger
-
-**Interesting Excerpts:**
-
-*Scene Opening:* [Lines 37-47](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L37-L47)
-```html
-<sceneaction><diam>"O yes you will, Sir;" <m>said she, <trigger>one day</trigger>
-```
-
-*Scene Ending:* [Lines 37-47](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L37-L47)
-```html
-<sceneaction><diam>"O yes you will, Sir;" <m>said she, <trigger>one day</trigger></m>, "and, besides, I know you and Frederick will take care of me: — as for him, if poney does but trip the least in the world, he is always ten times more frightened than I am.”</diam>
-<dia>"But what could I, or even <i>Frederick</i> do, should Frolick run away with you ? He is but a foolish Frolick, and if we were to pursue him, would only scamper away the faster; and if you should fall off, and break your little neck, what would become of poor mamma ?”</dia>
-<dia>"O my pretty mamma! — well, now I will be very good indeed, if you will but put the bridle right once more.”</dia>
-
-Frederick was <fidquotes>"sure <i>he</i> could do that;"</fidquotes> —but before he had time to take hold of it, Frolick, with a sudden nod, had twitched it out of her hand. It fell, and entangled his foot, which both incommoded and alarmed him, and he began to wheel about, still treading on the bridle, and appearing to be every moment ready to fall, with his trembling little rider, to the ground; but Frederick, who in an instant had dismounted, seized his foot, and while Mr. Melcombe took charge of Helena, disentangled the bridle, and set poney on his legs again; — but, colouring with terror at what might have happened, cried out —
-
-<diaq>"Helena, Helena, why did you let it go ?”</diaq> — She mounted again with great composure, saying,
-
-<diaq>"So! now you are going to scold!”</diaq> At last, all was adjusted, and they rode peaceably on to Mrs. Villiers’s house, where she was anxiously watching for them at the parlour window. Mr. Melcombe took Helena from her steed with the greatest care, gave her an affectionate kiss, and away she ran to her mamma.</sceneaction>
-```
-
-### Complex Scenedia (Lines 51-124)
-
-**Location:** [Lines 51-124](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L51-L124)
-
-**Complexity Metrics:**
-- Unique tag types: 11
-- Total nested tags: 46
-- Word count: 893
-- Tag types present: chnonameintro, descriptor, dia, diam, diaq, fidquotes, i, italicsother, m, quotedlit, trigger
-
-**Interesting Excerpts:**
-
-*Scene Transition:* [Lines 51-70](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L51-L70)
-```html
-<scenedia>On the following morning, Mrs. Villiers, having spent some hours in the instruction of Helena, dismissed her to her amusements in the garden: and Helena, <trigger>perceiving</trigger> an <chnonameintro>old man</chnonameintro> who was frequently employed to work in it, and with whom she had formed the <i>strictest friendship</i>, was presently at his side. She would often stand near him, watching him at his occupation, and asking him a hundred pretty questions, which he was ever ready to answer, and sometimes would she busily employ herself, under his directions, and delight in fancying that she was of prodigious use to him in his labours. She had been thus engaged for about an hour, while Mrs. Villiers had been sitting at her work. Helena entered —
-
-<diaq>"Pray, mamma, what sort of a place is London ?”</diaq>
-<dia>"A large question, Helena: perhaps you may see one day or other; but what put London in your head just now ?”</dia>
-<dia>"Why, mamma, old Bernard says it’s the D—l’s Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it’s a very pretty story, mamma; do, let him tell it you himself.”</dia>
-<dia>"Old Bernard talks nonsense; — but my dear child, how you have heated yourself! what have you been about ?”</dia>
-<dia>"Hard at work, mamma, helping old Bernard.”</dia>
-<dia>"Well, now, go and take off your bonnet, and then come and help me; — for I am tired of this hearth-rug, and want it finished.”</dia>
-
-Away she flew, but <italicsother><i>flew</i></italicsother> not back. Mrs. Villiers began to wonder what was become of her. At last she appeared.
-
-<dia>"What have you been doing all this time, Helena ?”</dia>
-<dia>"Curling my hair nice, mamma. Old Bernard said it was very pretty; so, I was looking at it in the glass, and I quite forgot you were waiting for me.”</dia>
-<dia>"What should old Bernard know about hair, child ? do sit down, and shade that flower as I have done this.”</dia>
-<dia>"Yes, mamma.”</dia>
-
-At that moment entered Frederick, with his arm full of new books.
-
-<dia>"O mamma, look at Frederick!”</dia> — He approached, and, with whimsical gravity, dropped on one knee to Helena, and, tottering, presented the books,
-
-<diaq>"With Mr. Melcombe’s duty to Miss Villiers.”</diaq>
-<diam>"How kind is Mr. Melcombe!” <m>said Mrs. Villiers.</m></diam>
-<dia>"Mr. Melcombe’s <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
-```
-
-*Scene Opening:* [Lines 51-70](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L51-L70)
-```html
-<scenedia>On the following morning, Mrs. Villiers, having spent some hours in the instruction of Helena, dismissed her to her amusements in the garden: and Helena, <trigger>perceiving</trigger>
-```
-
-*Scene Ending:* [Lines 51-70](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html#L51-L70)
-```html
-<scenedia>On the following morning, Mrs. Villiers, having spent some hours in the instruction of Helena, dismissed her to her amusements in the garden: and Helena, <trigger>perceiving</trigger> an <chnonameintro>old man</chnonameintro> who was frequently employed to work in it, and with whom she had formed the <i>strictest friendship</i>, was presently at his side. She would often stand near him, watching him at his occupation, and asking him a hundred pretty questions, which he was ever ready to answer, and sometimes would she busily employ herself, under his directions, and delight in fancying that she was of prodigious use to him in his labours. She had been thus engaged for about an hour, while Mrs. Villiers had been sitting at her work. Helena entered —
-
-<diaq>"Pray, mamma, what sort of a place is London ?”</diaq>
-<dia>"A large question, Helena: perhaps you may see one day or other; but what put London in your head just now ?”</dia>
-<dia>"Why, mamma, old Bernard says it’s the D—l’s Country — naughty word you know! — he says he saw him there, and told me a great deal about it; it’s a very pretty story, mamma; do, let him tell it you himself.”</dia>
-<dia>"Old Bernard talks nonsense; — but my dear child, how you have heated yourself! what have you been about ?”</dia>
-<dia>"Hard at work, mamma, helping old Bernard.”</dia>
-<dia>"Well, now, go and take off your bonnet, and then come and help me; — for I am tired of this hearth-rug, and want it finished.”</dia>
-
-Away she flew, but <italicsother><i>flew</i></italicsother> not back. Mrs. Villiers began to wonder what was become of her. At last she appeared.
-
-<dia>"What have you been doing all this time, Helena ?”</dia>
-<dia>"Curling my hair nice, mamma. Old Bernard said it was very pretty; so, I was looking at it in the glass, and I quite forgot you were waiting for me.”</dia>
-<dia>"What should old Bernard know about hair, child ? do sit down, and shade that flower as I have done this.”</dia>
-<dia>"Yes, mamma.”</dia>
-
-At that moment entered Frederick, with his arm full of new books.
-
-<dia>"O mamma, look at Frederick!”</dia> — He approached, and, with whimsical gravity, dropped on one knee to Helena, and, tottering, presented the books,
-
-<diaq>"With Mr. Melcombe’s duty to Miss Villiers.”</diaq>
-<diam>"How kind is Mr. Melcombe!” <m>said Mrs. Villiers.</m></diam>
-<dia>"Mr. Melcombe’s <i>duty</i> to <i>me</i>, mamma!”</dia> <descriptor>— and she laughed, and chuckled, for a minute</descriptor>; and then, with assumed dignity, befitting the occasion, prepared to receive them graciously: when Frederick, having lost his gravity, — and his balance, tumbled them all on the floor. Not being in a sedate mood, he made anothe...
 ```
 
 ...
