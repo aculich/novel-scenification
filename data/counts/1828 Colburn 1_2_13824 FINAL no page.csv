@@ -17,8 +17,7 @@ diam_i,2,2
 diam_m,40,191
 diaq,8,198
 diaq_i,2,2
-doxaquote,1,8
-doxaquotes,4,13
+doxaquotes,5,21
 exclamation,5,116
 exclamation_authorwe,1,2
 fid,5,55
@@ -29,9 +28,8 @@ i,5,5
 m,43,208
 m_chnameintro,1,2
 metaphor,15,126
-monloguethought,1,54
-monloguethought_m,1,11
-monologuethought,1,51
+monologuethought,2,105
+monologuethought_m,1,11
 quotedlit,5,95
 reader,1,1
 sceneaction,4,4388
@@ -49,7 +47,7 @@ sceneaction_fidquotes,11,214
 sceneaction_i,4,4
 sceneaction_m,22,126
 sceneaction_metaphor,5,35
-sceneaction_monloguethought,1,54
+sceneaction_monologuethought,1,54
 sceneaction_quotedlit,3,79
 sceneaction_sententia,2,94
 sceneaction_speechimagined,1,10

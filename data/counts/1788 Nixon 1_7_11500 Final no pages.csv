@@ -2,10 +2,8 @@ tag,tag_count,word_count
 totaldoctagswords,374,11261
 apostrophe,1,48
 apostrophe_i,2,2
-auhorwe,12,24
-auhorwe_i,12,12
-authorwe,11,20
-authorwe_i,9,9
+authorwe,23,44
+authorwe_i,21,21
 chapmarker,7,14
 chaptitle,7,34
 characterdiction,1,3
@@ -25,7 +23,7 @@ doxaitalics,1,3
 doxaitalics_i,1,3
 doxaquotes,3,12
 exclamation,1,154
-exclamation_auhorwe,1,2
+exclamation_authorwe,1,2
 exclamation_i,6,6
 fid,1,91
 fid_i,1,2
@@ -41,8 +39,7 @@ monologuethought_i,1,1
 reader,10,27
 reader_i,1,1
 sceneaction,2,4783
-sceneaction_auhorwe,5,10
-sceneaction_authorwe,2,3
+sceneaction_authorwe,7,13
 sceneaction_cryptonym,2,2
 sceneaction_dia,1,16
 sceneaction_diam,7,1262
@@ -59,8 +56,7 @@ sceneother_diaq,1,17
 sceneother_i,9,9
 sceneother_reader,9,20
 scenequasi,2,920
-scenequasi_auhorwe,2,4
-scenequasi_authorwe,2,4
+scenequasi_authorwe,4,8
 scenequasi_doxaitalics,1,3
 scenequasi_doxaquotes,1,6
 scenequasi_i,28,31

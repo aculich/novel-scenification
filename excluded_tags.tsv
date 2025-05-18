@@ -1,9 +1,6 @@
 Excluded_Tag
 apostrophe_i
-arraivaldeparture
 arrivaldeparture
-auhorwe
-auhorwe_i
 backstory
 backstory_chportrait
 backstory_dia
@@ -19,7 +16,6 @@ backstory_sententia
 backstory_trigger
 blend
 blend_arrivaldeparture
-characterdictiion
 characterdiction
 characterdiction_fid
 characterdiction_i
@@ -31,7 +27,7 @@ chnameexternal
 chnameexternal_i
 chnameexternal_quotedlit
 chnameintro
-chnameintro_arraivaldeparture
+chnameintro_arrivaldeparture
 chnamenointro
 chnonameexternal
 chnonameexternal_arrivaldeparture
@@ -54,10 +50,8 @@ descriptorq
 diam_quotesother
 doxaitalics
 doxaitalics_i
-doxaquote
 doxaquotes
 doxaquotes_i
-exclamation_auhorwe
 exclamation_authorwe
 exclamation_fid
 exclamation_fidambig
@@ -95,9 +89,6 @@ m_metaphor
 m_quotedlit
 m_trigger
 metaphor
-metaphore
-monloguethought
-monloguethought_m
 quotedlit
 quotedlit_doxaquotes
 quotedlit_i
@@ -120,14 +111,8 @@ reportedspeechquotes
 rhetoricalq_authorwe
 rhetoricalq_i
 rhetoricalq_reader
-scenediaquasi
-scenediaquasi_authorialobservation
-scenediaquasi_descriptorq
-scenediaquasi_dia
-scenediaquasi_diaq
-scenediaquasi_exclamation
-scenediaquasi_i
-scenediaquasi_sententia
+scenequasi_authorialobservation
+scenequasi_descriptorq
 scenequasi_fiditalics
 sentenia
 sententia_authori
@@ -142,7 +127,6 @@ speechhabitual
 speechhabitual_m
 speechimagined
 speechimagined_quotedlit
-speechimangined
 speechinsert_descriptorq
 speechinsert_i
 speechinsert_m

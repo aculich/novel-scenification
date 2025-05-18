@@ -1,5 +1,5 @@
 tag,tag_count,word_count
-totaldoctagswords,328,13114
+totaldoctagswords,327,13113
 arrivaldeparture,5,25
 authori,1,1
 authorwe,1,1
@@ -37,12 +37,12 @@ fiditalics_i,6,12
 fiditalics_quotedlit,1,4
 fidquotes,1,4
 fidquotes_i,1,4
-footnote,2,8
+footnote,1,7
 i,114,237
 italicsother,5,6
 italicsother_i,5,6
 m,3,13
-metaphore,1,4
+metaphor,1,4
 monologuethought,2,337
 monologuethought_i,1,1
 monologuethought_m,1,7
@@ -58,7 +58,7 @@ sceneaction_dia,6,508
 sceneaction_diaq,2,103
 sceneaction_i,3,3
 sceneaction_italicsother,1,1
-sceneaction_metaphore,1,4
+sceneaction_metaphor,1,4
 sceneaction_trigger,1,3
 scenedia,5,7592
 scenedia_arrivaldeparture,4,23
