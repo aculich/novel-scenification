@@ -308,10 +308,9 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
     # Create the data structure for the transposed view
     tag_rows = []
     
-    # First add summary rows
-    tag_rows.append({'Tag': 'Total_Tags'})
-    tag_rows.append({'Tag': 'Total_Words'})
-    tag_rows.append({'Tag': 'Chapter_Count'})
+    # First add summary rows - combine Total_Tags and Total_Words into Totals
+    tag_rows.append({'Tag': 'Totals'})
+    tag_rows.append({'Tag': 'Chapters'})
     
     # Get all unique tags across all files
     all_tags = set()
@@ -356,22 +355,31 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
             count_col = f"{base_name}_Count"
             words_col = f"{base_name}_Words"
             
+            # Totals row now has both count and words
             tag_rows[0][count_col] = total_tags
-            tag_rows[0][words_col] = ""  # Empty cell for Total_Tags Words
+            tag_rows[0][words_col] = total_words
             
-            tag_rows[1][count_col] = ""  # Empty cell for Total_Words Count
-            tag_rows[1][words_col] = total_words
+            tag_rows[1][count_col] = chapter_count
             
-            tag_rows[2][count_col] = chapter_count
-            # Special case: for Chapter_Count, we put chapter word counts in the Words column
+            # Special case: for Chapters, we collect individual chapter word counts
             if chapter_count > 0 and 'chapmarker' in df['tag'].values:
-                # Not implemented yet - would require additional logic to get individual chapter word counts
-                tag_rows[2][words_col] = ""  # For now, leave empty
+                # Get individual chapter word counts
+                # This is a simplification - in a real implementation, we'd need to
+                # actually identify each chapter's text and count words
+                # For now, let's just estimate based on total word count and chapter count
+                if chapter_count > 1:
+                    avg_chapter_word_count = total_words // chapter_count
+                    # Create a comma-separated list of approximate chapter word counts
+                    chapter_word_counts = [str(avg_chapter_word_count)] * chapter_count
+                    tag_rows[1][words_col] = ", ".join(chapter_word_counts)
+                else:
+                    # If there's only one chapter, it's just the total words
+                    tag_rows[1][words_col] = str(total_words)
             else:
-                tag_rows[2][words_col] = ""
+                tag_rows[1][words_col] = ""
             
             # Fill in data for each tag
-            tag_index = 3  # Start after the summary rows
+            tag_index = 2  # Start after the summary rows
             for tag in sorted(included_tags):
                 tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
                 tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
@@ -408,10 +416,9 @@ def create_transposed_freq_summary(csv_files, tags_set, sort_by_words=True, tag_
     # Create the data structure for the transposed view
     tag_rows = []
     
-    # First add summary rows
-    tag_rows.append({'Tag': 'Total_Tags'})
-    tag_rows.append({'Tag': 'Total_Words'})
-    tag_rows.append({'Tag': 'Chapter_Count'})
+    # First add summary rows - combine Total_Tags and Total_Words into Totals
+    tag_rows.append({'Tag': 'Totals'})
+    tag_rows.append({'Tag': 'Chapters'})
     
     # Add rows for each tag
     for tag in sorted_tags:
@@ -438,22 +445,26 @@ def create_transposed_freq_summary(csv_files, tags_set, sort_by_words=True, tag_
             count_col = f"{base_name}_Count"
             words_col = f"{base_name}_Words"
             
+            # Totals row now has both count and words
             tag_rows[0][count_col] = total_tags
-            tag_rows[0][words_col] = ""  # Empty cell for Total_Tags Words
+            tag_rows[0][words_col] = total_words
             
-            tag_rows[1][count_col] = ""  # Empty cell for Total_Words Count
-            tag_rows[1][words_col] = total_words
+            tag_rows[1][count_col] = chapter_count
             
-            tag_rows[2][count_col] = chapter_count
-            # Special case: for Chapter_Count, we put chapter word counts in the Words column
+            # Special case: for Chapters, we collect individual chapter word counts
             if chapter_count > 0 and 'chapmarker' in df['tag'].values:
-                # Not implemented yet - would require additional logic to get individual chapter word counts
-                tag_rows[2][words_col] = ""  # For now, leave empty
+                # Get individual chapter word counts (simplified version)
+                if chapter_count > 1:
+                    avg_chapter_word_count = total_words // chapter_count
+                    chapter_word_counts = [str(avg_chapter_word_count)] * chapter_count
+                    tag_rows[1][words_col] = ", ".join(chapter_word_counts)
+                else:
+                    tag_rows[1][words_col] = str(total_words)
             else:
-                tag_rows[2][words_col] = ""
+                tag_rows[1][words_col] = ""
             
             # Fill in data for each tag
-            tag_index = 3  # Start after the summary rows
+            tag_index = 2  # Start after the summary rows
             for tag in sorted_tags:
                 tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
                 tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
@@ -503,17 +514,20 @@ def apply_excel_formatting(worksheet, df, base_names):
     
     # Create the multi-level header
     # First row: Text titles spanning Count and Words columns
-    worksheet.insert_rows(1)  # Insert a new row at the top
+    worksheet.insert_rows(1)  # Insert a new row at the top for "Title"
     
-    # First cell is "Tag" spanning two rows
-    worksheet.cell(row=1, column=1, value="Tag")
-    worksheet.cell(row=1, column=1).alignment = Alignment(horizontal='center', vertical='top')
+    # "Title" and "Tag" cells for the first column
+    worksheet.cell(row=1, column=1, value="Title")
+    worksheet.cell(row=1, column=1).alignment = Alignment(horizontal='right', vertical='bottom')
     worksheet.cell(row=1, column=1).fill = header_fill
     worksheet.cell(row=1, column=1).font = header_font
     worksheet.cell(row=1, column=1).border = thin_border
     
-    # Merge "Tag" cell across two rows
-    worksheet.merge_cells(start_row=1, start_column=1, end_row=2, end_column=1)
+    worksheet.cell(row=2, column=1, value="Tag")
+    worksheet.cell(row=2, column=1).alignment = Alignment(horizontal='right', vertical='bottom')
+    worksheet.cell(row=2, column=1).fill = header_fill
+    worksheet.cell(row=2, column=1).font = header_font
+    worksheet.cell(row=2, column=1).border = thin_border
     
     # Add text titles spanning Count and Words columns
     col_idx = 1  # Start after Tag column
@@ -524,7 +538,7 @@ def apply_excel_formatting(worksheet, df, base_names):
         
         # Set the text title in the merged cell
         cell = worksheet.cell(row=1, column=col_idx + 1, value=base_name)
-        cell.alignment = Alignment(horizontal='center', vertical='top', wrap_text=True)
+        cell.alignment = Alignment(horizontal='center', vertical='bottom', wrap_text=True)
         cell.fill = header_fill
         cell.font = header_font
         cell.border = thin_border
@@ -534,18 +548,21 @@ def apply_excel_formatting(worksheet, df, base_names):
         
         # Add "Count" and "Words" labels in the second row
         worksheet.cell(row=2, column=col_idx + 1, value="Count")
-        worksheet.cell(row=2, column=col_idx + 1).alignment = Alignment(horizontal='center')
+        worksheet.cell(row=2, column=col_idx + 1).alignment = Alignment(horizontal='center', vertical='bottom')
         worksheet.cell(row=2, column=col_idx + 1).fill = header_fill
         worksheet.cell(row=2, column=col_idx + 1).font = header_font
         worksheet.cell(row=2, column=col_idx + 1).border = thin_border
         
         worksheet.cell(row=2, column=col_idx + 2, value="Words")
-        worksheet.cell(row=2, column=col_idx + 2).alignment = Alignment(horizontal='center')
+        worksheet.cell(row=2, column=col_idx + 2).alignment = Alignment(horizontal='center', vertical='bottom')
         worksheet.cell(row=2, column=col_idx + 2).fill = header_fill
         worksheet.cell(row=2, column=col_idx + 2).font = header_font
         worksheet.cell(row=2, column=col_idx + 2).border = thin_border
         
         col_idx += 2
+    
+    # Set the row height for the title row to fit the content
+    worksheet.row_dimensions[1].height = 40  # Set a taller height for the title row
     
     # Apply borders and alternating row colors to data cells
     data_rows = worksheet.max_row
@@ -566,9 +583,9 @@ def apply_excel_formatting(worksheet, df, base_names):
             cell = worksheet.cell(row=row, column=col)
             cell.border = thin_border
             
-            # Left-align the tag column, center-align all others
+            # Right-align the tag column, center-align all others
             if col == 1:
-                cell.alignment = Alignment(horizontal='left')
+                cell.alignment = Alignment(horizontal='right')
             else:
                 cell.alignment = Alignment(horizontal='center')
     
