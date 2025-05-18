@@ -11,13 +11,6 @@ authorialobservation_sententia
 authorwe
 authorwe_i
 authorwe_sententia
-body
-body_chapmarker
-body_dia
-body_diam
-body_m
-body_newtag
-body_sceneaction
 book
 chapepigraph
 chapmarker
@@ -80,14 +73,6 @@ diatheater_cryptonym
 diatheater_i
 exclamation
 graft
-html
-html_body
-html_chapmarker
-html_dia
-html_diam
-html_m
-html_newtag
-html_sceneaction
 m
 monologue
 monologue_m
@@ -96,7 +81,6 @@ monologuethought_descriptor
 monologuethought_i
 monologuethought_m
 monologuethought_quotedlit
-newtag
 reader
 rhetoricalq
 sceneaction
@@ -136,7 +120,6 @@ sceneaction_m
 sceneaction_metaphor
 sceneaction_monologue
 sceneaction_monologuethought
-sceneaction_newtag
 sceneaction_quotedlit
 sceneaction_quotedtext
 sceneaction_quotesdoxa
