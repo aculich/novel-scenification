@@ -81,7 +81,6 @@ monologuethought_descriptor
 monologuethought_i
 monologuethought_m
 monologuethought_quotedlit
-newtag
 reader
 rhetoricalq
 sceneaction
@@ -121,7 +120,6 @@ sceneaction_m
 sceneaction_metaphor
 sceneaction_monologue
 sceneaction_monologuethought
-sceneaction_newtag
 sceneaction_quotedlit
 sceneaction_quotedtext
 sceneaction_quotesdoxa
