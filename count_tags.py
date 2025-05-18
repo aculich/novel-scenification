@@ -36,6 +36,28 @@ def read_included_tags():
         print("Continuing without tag filtering.")
         return None
 
+# Function to read existing included_tags.tsv file
+def read_existing_included_tags():
+    try:
+        included_df = pd.read_csv('included_tags.tsv', sep='\t')
+        included_tags = set(included_df['Included_Tag'].unique())
+        print(f"Read {len(included_tags)} tags from existing included_tags.tsv")
+        return included_tags
+    except Exception as e:
+        print(f"No existing included_tags.tsv found or error reading it: {e}")
+        return set()
+
+# Function to read existing excluded_tags.tsv file
+def read_existing_excluded_tags():
+    try:
+        excluded_df = pd.read_csv('excluded_tags.tsv', sep='\t')
+        excluded_tags = set(excluded_df['Excluded_Tag'].unique())
+        print(f"Read {len(excluded_tags)} tags from existing excluded_tags.tsv")
+        return excluded_tags
+    except Exception as e:
+        print(f"No existing excluded_tags.tsv found or error reading it: {e}")
+        return set()
+
 # Function to read excluded_tags.tsv
 def read_excluded_tags():
     try:
@@ -78,17 +100,47 @@ def read_excluded_tags():
             print("Continuing without tag filtering.")
             return None
 
-# Save included and excluded tags to TSV files
+# Save included and excluded tags to TSV files and identify removed tags
 def save_tag_lists(included_tags, excluded_tags):
+    # First read the existing tag lists to identify removed tags
+    previous_included = read_existing_included_tags()
+    previous_excluded = read_existing_excluded_tags()
+    
+    # Write updated included tags
     with open('included_tags.tsv', 'w') as f:
         f.write("Included_Tag\n")
         for tag in sorted(included_tags):
             f.write(f"{tag}\n")
-            
+    
+    # Write updated excluded tags
     with open('excluded_tags.tsv', 'w') as f:
         f.write("Excluded_Tag\n")
         for tag in sorted(excluded_tags):
             f.write(f"{tag}\n")
+    
+    # Identify removed tags (tags that were in previous lists but are not in current lists)
+    removed_tags = []
+    
+    # Check previous included tags
+    for tag in previous_included:
+        if tag not in included_tags and tag not in excluded_tags:
+            removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
+    
+    # Check previous excluded tags
+    for tag in previous_excluded:
+        if tag not in included_tags and tag not in excluded_tags:
+            removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
+    
+    # Save removed tags if there are any
+    if removed_tags:
+        removed_df = pd.DataFrame(removed_tags)
+        removed_df.to_csv('removed_tags.tsv', sep='\t', index=False)
+        print(f"Created removed_tags.tsv with {len(removed_tags)} tags that no longer appear in the corpus")
+    else:
+        # Write an empty file with just the header if no removed tags
+        with open('removed_tags.tsv', 'w') as f:
+            f.write("Tag\tPrevious_Status\n")
+        print("No removed tags found - created empty removed_tags.tsv file")
     
     print(f"Created included_tags.tsv with {len(included_tags)} tags")
     print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
