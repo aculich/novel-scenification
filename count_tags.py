@@ -295,7 +295,7 @@ def extract_year_from_filename(filename):
     return 0  # Return 0 if no year found for sorting purposes
 
 def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_set=None, sheet_name="Transposed Tags"):
-    """Create a transposed summary sheet with tags as rows and texts as columns."""
+    """Create a transposed summary sheet with tags as rows and texts as columns with side-by-side Count/Words."""
     # Get base names of all CSV files for columns
     base_names = []
     for csv_file in csv_files:
@@ -330,12 +330,92 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
     else:
         included_tags = all_tags
     
-    # Add rows for each tag - both count and words 
+    # Add rows for each tag (no longer need separate count and words rows)
     for tag in sorted(included_tags):
-        # Add count row
-        tag_rows.append({'Tag': f"{tag}_Count"})
-        # Add word count row 
-        tag_rows.append({'Tag': f"{tag}_Words"})
+        tag_rows.append({'Tag': tag})
+    
+    # Now fill in the data for each column (text)
+    # We now need two columns per text: one for count and one for words
+    for base_name in base_names:
+        # Find the corresponding CSV file
+        csv_file = None
+        for f in csv_files:
+            if os.path.splitext(os.path.basename(f))[0] == base_name:
+                csv_file = f
+                break
+        
+        if csv_file:
+            df = pd.read_csv(csv_file)
+            
+            # Fill in summary data
+            total_tags = df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
+            total_words = df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
+            chapter_count = df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0
+            
+            # For each text, create Count and Words columns
+            count_col = f"{base_name}_Count"
+            words_col = f"{base_name}_Words"
+            
+            tag_rows[0][count_col] = total_tags
+            tag_rows[0][words_col] = ""  # Empty cell for Total_Tags Words
+            
+            tag_rows[1][count_col] = ""  # Empty cell for Total_Words Count
+            tag_rows[1][words_col] = total_words
+            
+            tag_rows[2][count_col] = chapter_count
+            # Special case: for Chapter_Count, we put chapter word counts in the Words column
+            if chapter_count > 0 and 'chapmarker' in df['tag'].values:
+                # Not implemented yet - would require additional logic to get individual chapter word counts
+                tag_rows[2][words_col] = ""  # For now, leave empty
+            else:
+                tag_rows[2][words_col] = ""
+            
+            # Fill in data for each tag
+            tag_index = 3  # Start after the summary rows
+            for tag in sorted(included_tags):
+                tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
+                tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
+                
+                tag_rows[tag_index][count_col] = tag_count
+                tag_rows[tag_index][words_col] = tag_words
+                
+                tag_index += 1  # Move to the next tag
+    
+    # Convert to DataFrame
+    transposed_df = pd.DataFrame(tag_rows)
+    
+    return transposed_df
+
+def create_transposed_freq_summary(csv_files, tags_set, sort_by_words=True, tag_frequency=None, tag_word_total=None):
+    """Create a transposed summary with tags sorted by frequency with side-by-side Count/Words."""
+    # Get base names of all CSV files for columns
+    base_names = []
+    for csv_file in csv_files:
+        base_name = os.path.splitext(os.path.basename(csv_file))[0]
+        base_names.append(base_name)
+    
+    # Sort base names by year and then alphabetically
+    base_names.sort(key=lambda x: (extract_year_from_filename(x), x))
+    
+    # Sort tags by word count or tag frequency
+    if sort_by_words:
+        # Sort by word count (highest to lowest)
+        sorted_tags = sorted(tags_set, key=lambda x: (tag_word_total.get(x, 0), tag_frequency.get(x, 0)), reverse=True)
+    else:
+        # Sort by tag frequency (highest to lowest)
+        sorted_tags = sorted(tags_set, key=lambda x: (tag_frequency.get(x, 0), tag_word_total.get(x, 0)), reverse=True)
+    
+    # Create the data structure for the transposed view
+    tag_rows = []
+    
+    # First add summary rows
+    tag_rows.append({'Tag': 'Total_Tags'})
+    tag_rows.append({'Tag': 'Total_Words'})
+    tag_rows.append({'Tag': 'Chapter_Count'})
+    
+    # Add rows for each tag
+    for tag in sorted_tags:
+        tag_rows.append({'Tag': tag})
     
     # Now fill in the data for each column (text)
     for base_name in base_names:
@@ -354,25 +434,146 @@ def create_transposed_summary(csv_files, included_tags_set=None, excluded_tags_s
             total_words = df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
             chapter_count = df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0
             
-            tag_rows[0][base_name] = total_tags
-            tag_rows[1][base_name] = total_words  
-            tag_rows[2][base_name] = chapter_count
+            # For each text, create Count and Words columns
+            count_col = f"{base_name}_Count"
+            words_col = f"{base_name}_Words"
+            
+            tag_rows[0][count_col] = total_tags
+            tag_rows[0][words_col] = ""  # Empty cell for Total_Tags Words
+            
+            tag_rows[1][count_col] = ""  # Empty cell for Total_Words Count
+            tag_rows[1][words_col] = total_words
+            
+            tag_rows[2][count_col] = chapter_count
+            # Special case: for Chapter_Count, we put chapter word counts in the Words column
+            if chapter_count > 0 and 'chapmarker' in df['tag'].values:
+                # Not implemented yet - would require additional logic to get individual chapter word counts
+                tag_rows[2][words_col] = ""  # For now, leave empty
+            else:
+                tag_rows[2][words_col] = ""
             
             # Fill in data for each tag
             tag_index = 3  # Start after the summary rows
-            for tag in sorted(included_tags):
+            for tag in sorted_tags:
                 tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
                 tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
                 
-                tag_rows[tag_index][base_name] = tag_count
-                tag_rows[tag_index + 1][base_name] = tag_words
+                tag_rows[tag_index][count_col] = tag_count
+                tag_rows[tag_index][words_col] = tag_words
                 
-                tag_index += 2  # Move to the next tag (skip both count and words rows)
+                tag_index += 1  # Move to the next tag
     
     # Convert to DataFrame
     transposed_df = pd.DataFrame(tag_rows)
     
     return transposed_df
+
+# This function needs to be substantially modified to apply the new format with
+# multi-level headers and merged cells
+def apply_excel_formatting(worksheet, df, base_names):
+    """Apply formatting to the Excel worksheet with the new multi-level header structure."""
+    # Create header fill and font styles
+    header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
+    header_font = Font(bold=True)
+    thin_border = Border(
+        left=Side(style='thin'), 
+        right=Side(style='thin'), 
+        top=Side(style='thin'), 
+        bottom=Side(style='thin')
+    )
+    
+    # Set column widths
+    # Tag column (first column)
+    worksheet.column_dimensions['A'].width = max(
+        max(len(str(val)) for val in df['Tag']),
+        len('Tag')
+    ) + 2
+    
+    # Set data column widths (fixed width for all Count/Words columns)
+    col_idx = 1  # Start after Tag column
+    for base_name in base_names:
+        # Two columns per text (Count and Words)
+        count_col = openpyxl.utils.get_column_letter(col_idx + 1)
+        words_col = openpyxl.utils.get_column_letter(col_idx + 2)
+        
+        worksheet.column_dimensions[count_col].width = 8  # Width for Count columns
+        worksheet.column_dimensions[words_col].width = 8  # Width for Words columns
+        
+        col_idx += 2
+    
+    # Create the multi-level header
+    # First row: Text titles spanning Count and Words columns
+    worksheet.insert_rows(1)  # Insert a new row at the top
+    
+    # First cell is "Tag" spanning two rows
+    worksheet.cell(row=1, column=1, value="Tag")
+    worksheet.cell(row=1, column=1).alignment = Alignment(horizontal='center', vertical='top')
+    worksheet.cell(row=1, column=1).fill = header_fill
+    worksheet.cell(row=1, column=1).font = header_font
+    worksheet.cell(row=1, column=1).border = thin_border
+    
+    # Merge "Tag" cell across two rows
+    worksheet.merge_cells(start_row=1, start_column=1, end_row=2, end_column=1)
+    
+    # Add text titles spanning Count and Words columns
+    col_idx = 1  # Start after Tag column
+    for base_name in base_names:
+        # Add the text title spanning two columns
+        col_letter1 = openpyxl.utils.get_column_letter(col_idx + 1)
+        col_letter2 = openpyxl.utils.get_column_letter(col_idx + 2)
+        
+        # Set the text title in the merged cell
+        cell = worksheet.cell(row=1, column=col_idx + 1, value=base_name)
+        cell.alignment = Alignment(horizontal='center', vertical='top', wrap_text=True)
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.border = thin_border
+        
+        # Merge the title cell across Count and Words columns
+        worksheet.merge_cells(f"{col_letter1}1:{col_letter2}1")
+        
+        # Add "Count" and "Words" labels in the second row
+        worksheet.cell(row=2, column=col_idx + 1, value="Count")
+        worksheet.cell(row=2, column=col_idx + 1).alignment = Alignment(horizontal='center')
+        worksheet.cell(row=2, column=col_idx + 1).fill = header_fill
+        worksheet.cell(row=2, column=col_idx + 1).font = header_font
+        worksheet.cell(row=2, column=col_idx + 1).border = thin_border
+        
+        worksheet.cell(row=2, column=col_idx + 2, value="Words")
+        worksheet.cell(row=2, column=col_idx + 2).alignment = Alignment(horizontal='center')
+        worksheet.cell(row=2, column=col_idx + 2).fill = header_fill
+        worksheet.cell(row=2, column=col_idx + 2).font = header_font
+        worksheet.cell(row=2, column=col_idx + 2).border = thin_border
+        
+        col_idx += 2
+    
+    # Apply borders and alternating row colors to data cells
+    data_rows = worksheet.max_row
+    data_cols = worksheet.max_column
+    
+    # Create light gray fill for alternating rows
+    light_gray = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+    
+    # Apply formatting to data rows (starting from row 3, after the two header rows)
+    for row in range(3, data_rows + 1):
+        # Apply alternating row colors
+        if row % 2 == 1:  # Odd rows (after headers)
+            for col in range(1, data_cols + 1):
+                worksheet.cell(row=row, column=col).fill = light_gray
+        
+        # Apply borders to all cells
+        for col in range(1, data_cols + 1):
+            cell = worksheet.cell(row=row, column=col)
+            cell.border = thin_border
+            
+            # Left-align the tag column, center-align all others
+            if col == 1:
+                cell.alignment = Alignment(horizontal='left')
+            else:
+                cell.alignment = Alignment(horizontal='center')
+    
+    # Freeze the header rows and tag column
+    worksheet.freeze_panes = "B3"
 
 def create_excel_summary():
     counts_dir = "data/counts"
@@ -512,180 +713,15 @@ def create_excel_summary():
         # Special columns we always want to keep separate from tag filtering
         special_cols = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count', 'totaldoctagswords'}
         
-        # If we have excluded tags, use them to determine which tags to include
-        if excluded_tags_set is not None:
-            # Everything not in excluded_tags_set and not a special column is included
-            included_tags_set = all_unique_tags_set - excluded_tags_set - special_cols
-            
-            # Create transposed summary for included tags - this will be our primary view
-            included_transposed_df = create_transposed_summary(csv_files, included_tags_set, excluded_tags_set, "Summary Included Tags")
-            included_transposed_df.to_excel(writer, sheet_name='Summary Included Tags', index=False)
-            
-            # Apply formatting to the transposed included sheet
-            included_trans_worksheet = writer.sheets['Summary Included Tags']
-            
-            # Apply column width adjustment
-            for idx, col in enumerate(included_transposed_df.columns):
-                if idx == 0:  # Tag column
-                    max_length = max(
-                        max(len(str(val)) for val in included_transposed_df[col]),
-                        len(col)
-                    ) + 2  # Add less extra space for tag names
-                else:
-                    # For data columns (novel titles), use a fixed width
-                    max_length = 12  # Fixed width for data columns
-                
-                col_letter = openpyxl.utils.get_column_letter(idx + 1)
-                included_trans_worksheet.column_dimensions[col_letter].width = max_length
-            
-            # Apply header formatting
-            header_fill = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
-            header_font = Font(bold=True)
-            thin_border = Border(
-                left=Side(style='thin'), 
-                right=Side(style='thin'), 
-                top=Side(style='thin'), 
-                bottom=Side(style='thin')
-            )
-            
-            for cell in included_trans_worksheet[1]:
-                cell.fill = header_fill
-                cell.font = header_font
-                cell.border = thin_border
-                cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
-            
-            # Apply borders and alternating row colors
-            data_rows = included_trans_worksheet.max_row
-            data_cols = included_trans_worksheet.max_column
-            
-            # Create light gray fill for alternating rows
-            light_gray = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
-            
-            for row in range(2, data_rows + 1):
-                # Apply alternating row colors
-                if row % 2 == 0:  # Even rows
-                    for col in range(1, data_cols + 1):
-                        included_trans_worksheet.cell(row=row, column=col).fill = light_gray
-                
-                for col in range(1, data_cols + 1):
-                    cell = included_trans_worksheet.cell(row=row, column=col)
-                    cell.border = thin_border
-                    
-                    # Left-align the tag column, center-align all others
-                    if col == 1:
-                        cell.alignment = Alignment(horizontal='left')
-                    else:
-                        cell.alignment = Alignment(horizontal='center')
-            
-            # Freeze the first column and header row
-            included_trans_worksheet.freeze_panes = "B2"
-            
-            # Create transposed sheet for excluded tags
-            excluded_transposed_df = create_transposed_summary(csv_files, excluded_tags_set, None, "Summary Excluded Tags")
-            excluded_transposed_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
-            
-            # Apply formatting to the transposed excluded sheet
-            excluded_trans_worksheet = writer.sheets['Summary Excluded Tags']
-            
-            # Apply column width adjustment
-            for idx, col in enumerate(excluded_transposed_df.columns):
-                if idx == 0:  # Tag column
-                    max_length = max(
-                        max(len(str(val)) for val in excluded_transposed_df[col]),
-                        len(col)
-                    ) + 2  # Add less extra space for tag names
-                else:
-                    # For data columns (novel titles), use a fixed width
-                    max_length = 12  # Fixed width for data columns
-                
-                col_letter = openpyxl.utils.get_column_letter(idx + 1)
-                excluded_trans_worksheet.column_dimensions[col_letter].width = max_length
-            
-            # Apply header formatting
-            for cell in excluded_trans_worksheet[1]:
-                cell.fill = header_fill
-                cell.font = header_font
-                cell.border = thin_border
-                cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
-            
-            # Apply borders and alternating row colors
-            data_rows = excluded_trans_worksheet.max_row
-            data_cols = excluded_trans_worksheet.max_column
-            
-            for row in range(2, data_rows + 1):
-                # Apply alternating row colors
-                if row % 2 == 0:  # Even rows
-                    for col in range(1, data_cols + 1):
-                        excluded_trans_worksheet.cell(row=row, column=col).fill = light_gray
-                
-                for col in range(1, data_cols + 1):
-                    cell = excluded_trans_worksheet.cell(row=row, column=col)
-                    cell.border = thin_border
-                    
-                    # Left-align the tag column, center-align all others
-                    if col == 1:
-                        cell.alignment = Alignment(horizontal='left')
-                    else:
-                        cell.alignment = Alignment(horizontal='center')
-            
-            # Freeze the first column and header row
-            excluded_trans_worksheet.freeze_panes = "B2"
-            
-            # Save the list of included and excluded tags to TSV files
-            save_tag_lists(included_tags_set, excluded_tags_set)
+        # Get base names for all CSV files
+        base_names = []
+        for csv_file in csv_files:
+            base_name = os.path.splitext(os.path.basename(csv_file))[0]
+            base_names.append(base_name)
         
-        # Create transposed summary sheet for all tags
-        all_transposed_df = create_transposed_summary(csv_files, all_unique_tags_set, None, "Summary All Tags")
-        all_transposed_df.to_excel(writer, sheet_name='Summary All Tags', index=False)
+        # Sort by year and then alphabetically
+        base_names.sort(key=lambda x: (extract_year_from_filename(x), x))
         
-        # Apply formatting to the all tags transposed sheet
-        all_trans_worksheet = writer.sheets['Summary All Tags']
-        
-        # Apply column width adjustment
-        for idx, col in enumerate(all_transposed_df.columns):
-            if idx == 0:  # Tag column
-                max_length = max(
-                    max(len(str(val)) for val in all_transposed_df[col]),
-                    len(col)
-                ) + 2  # Add less extra space for tag names
-            else:
-                # For data columns (novel titles), use a fixed width
-                max_length = 12  # Fixed width for data columns
-            
-            col_letter = openpyxl.utils.get_column_letter(idx + 1)
-            all_trans_worksheet.column_dimensions[col_letter].width = max_length
-        
-        # Apply header formatting
-        for cell in all_trans_worksheet[1]:
-            cell.fill = header_fill
-            cell.font = header_font
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
-        
-        # Apply borders and alternating row colors
-        data_rows = all_trans_worksheet.max_row
-        data_cols = all_trans_worksheet.max_column
-        
-        for row in range(2, data_rows + 1):
-            # Apply alternating row colors
-            if row % 2 == 0:  # Even rows
-                for col in range(1, data_cols + 1):
-                    all_trans_worksheet.cell(row=row, column=col).fill = light_gray
-            
-            for col in range(1, data_cols + 1):
-                cell = all_trans_worksheet.cell(row=row, column=col)
-                cell.border = thin_border
-                
-                # Left-align the tag column, center-align all others
-                if col == 1:
-                    cell.alignment = Alignment(horizontal='left')
-                else:
-                    cell.alignment = Alignment(horizontal='center')
-        
-        # Freeze the first column and header row
-        all_trans_worksheet.freeze_panes = "B2"
-        
-        # Create transposed summary sheet for frequency by word count
         # First get tag frequency and word count data across all files
         tag_frequency = {}
         tag_word_total = {}
@@ -709,179 +745,53 @@ def create_excel_summary():
                 tag_frequency[tag] += tag_count
                 tag_word_total[tag] += tag_words
         
-        # Create a modified version of create_transposed_summary that sorts by word count
-        def create_transposed_freq_summary(csv_files, tags_set, sort_by_words=True):
-            """Create a transposed summary with tags sorted by frequency"""
-            # Get base names of all CSV files for columns
-            base_names = []
-            for csv_file in csv_files:
-                base_name = os.path.splitext(os.path.basename(csv_file))[0]
-                base_names.append(base_name)
+        # If we have excluded tags, use them to determine which tags to include
+        if excluded_tags_set is not None:
+            # Everything not in excluded_tags_set and not a special column is included
+            included_tags_set = all_unique_tags_set - excluded_tags_set - special_cols
             
-            # Sort base names by year and then alphabetically
-            base_names.sort(key=lambda x: (extract_year_from_filename(x), x))
+            # Create transposed summary for included tags - this will be our primary view
+            included_transposed_df = create_transposed_summary(csv_files, included_tags_set, excluded_tags_set, "Summary Included Tags")
+            included_transposed_df.to_excel(writer, sheet_name='Summary Included Tags', index=False)
             
-            # Sort tags by word count or tag frequency
-            if sort_by_words:
-                # Sort by word count (highest to lowest)
-                sorted_tags = sorted(tags_set, key=lambda x: (tag_word_total.get(x, 0), tag_frequency.get(x, 0)), reverse=True)
-            else:
-                # Sort by tag frequency (highest to lowest)
-                sorted_tags = sorted(tags_set, key=lambda x: (tag_frequency.get(x, 0), tag_word_total.get(x, 0)), reverse=True)
+            # Apply custom formatting to the included tags sheet
+            included_trans_worksheet = writer.sheets['Summary Included Tags']
+            apply_excel_formatting(included_trans_worksheet, included_transposed_df, base_names)
             
-            # Create the data structure for the transposed view
-            tag_rows = []
+            # Create transposed sheet for excluded tags
+            excluded_transposed_df = create_transposed_summary(csv_files, excluded_tags_set, None, "Summary Excluded Tags")
+            excluded_transposed_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
             
-            # First add summary rows
-            tag_rows.append({'Tag': 'Total_Tags'})
-            tag_rows.append({'Tag': 'Total_Words'})
-            tag_rows.append({'Tag': 'Chapter_Count'})
+            # Apply custom formatting to the excluded tags sheet  
+            excluded_trans_worksheet = writer.sheets['Summary Excluded Tags']
+            apply_excel_formatting(excluded_trans_worksheet, excluded_transposed_df, base_names)
             
-            # Add rows for each tag - both count and words
-            for tag in sorted_tags:
-                # Add count row
-                tag_rows.append({'Tag': f"{tag}_Count"})
-                # Add word count row
-                tag_rows.append({'Tag': f"{tag}_Words"})
-            
-            # Now fill in the data for each column (text)
-            for base_name in base_names:
-                # Find the corresponding CSV file
-                csv_file = None
-                for f in csv_files:
-                    if os.path.splitext(os.path.basename(f))[0] == base_name:
-                        csv_file = f
-                        break
-                
-                if csv_file:
-                    df = pd.read_csv(csv_file)
-                    
-                    # Fill in summary data
-                    total_tags = df[df['tag'] == 'totaldoctagswords']['tag_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
-                    total_words = df[df['tag'] == 'totaldoctagswords']['word_count'].iloc[0] if 'totaldoctagswords' in df['tag'].values else 0
-                    chapter_count = df[df['tag'] == 'chapmarker']['tag_count'].sum() if 'chapmarker' in df['tag'].values else 0
-                    
-                    tag_rows[0][base_name] = total_tags
-                    tag_rows[1][base_name] = total_words
-                    tag_rows[2][base_name] = chapter_count
-                    
-                    # Fill in data for each tag
-                    tag_index = 3  # Start after the summary rows
-                    for tag in sorted_tags:
-                        tag_count = df[df['tag'] == tag]['tag_count'].sum() if tag in df['tag'].values else 0
-                        tag_words = df[df['tag'] == tag]['word_count'].sum() if tag in df['tag'].values else 0
-                        
-                        tag_rows[tag_index][base_name] = tag_count
-                        tag_rows[tag_index + 1][base_name] = tag_words
-                        
-                        tag_index += 2  # Move to the next tag (skip both count and words rows)
-            
-            # Convert to DataFrame
-            transposed_df = pd.DataFrame(tag_rows)
-            
-            return transposed_df
+            # Save the list of included and excluded tags to TSV files
+            save_tag_lists(included_tags_set, excluded_tags_set)
+        
+        # Create transposed summary sheet for all tags
+        all_transposed_df = create_transposed_summary(csv_files, all_unique_tags_set, None, "Summary All Tags")
+        all_transposed_df.to_excel(writer, sheet_name='Summary All Tags', index=False)
+        
+        # Apply custom formatting to the all tags sheet
+        all_trans_worksheet = writer.sheets['Summary All Tags']
+        apply_excel_formatting(all_trans_worksheet, all_transposed_df, base_names)
         
         # Create and format the Summary Freq Words tab (sorted by word count)
-        word_freq_df = create_transposed_freq_summary(csv_files, all_unique_tags_set - special_cols, sort_by_words=True)
+        word_freq_df = create_transposed_freq_summary(csv_files, all_unique_tags_set - special_cols, sort_by_words=True, tag_frequency=tag_frequency, tag_word_total=tag_word_total)
         word_freq_df.to_excel(writer, sheet_name='Summary Freq Words', index=False)
         
-        # Apply formatting to the frequency by words sheet
+        # Apply custom formatting to the frequency by words sheet
         word_freq_worksheet = writer.sheets['Summary Freq Words']
-        
-        # Apply column width adjustment
-        for idx, col in enumerate(word_freq_df.columns):
-            if idx == 0:  # Tag column
-                max_length = max(
-                    max(len(str(val)) for val in word_freq_df[col]),
-                    len(col)
-                ) + 2  # Add less extra space for tag names
-            else:
-                # For data columns (novel titles), use a fixed width
-                max_length = 12  # Fixed width for data columns
-            
-            col_letter = openpyxl.utils.get_column_letter(idx + 1)
-            word_freq_worksheet.column_dimensions[col_letter].width = max_length
-        
-        # Apply header formatting
-        for cell in word_freq_worksheet[1]:
-            cell.fill = header_fill
-            cell.font = header_font
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
-        
-        # Apply borders and alternating row colors
-        data_rows = word_freq_worksheet.max_row
-        data_cols = word_freq_worksheet.max_column
-        
-        for row in range(2, data_rows + 1):
-            # Apply alternating row colors
-            if row % 2 == 0:  # Even rows
-                for col in range(1, data_cols + 1):
-                    word_freq_worksheet.cell(row=row, column=col).fill = light_gray
-            
-            for col in range(1, data_cols + 1):
-                cell = word_freq_worksheet.cell(row=row, column=col)
-                cell.border = thin_border
-                
-                # Left-align the tag column, center-align all others
-                if col == 1:
-                    cell.alignment = Alignment(horizontal='left')
-                else:
-                    cell.alignment = Alignment(horizontal='center')
-        
-        # Freeze the first column and header row
-        word_freq_worksheet.freeze_panes = "B2"
+        apply_excel_formatting(word_freq_worksheet, word_freq_df, base_names)
         
         # Create and format the Summary Freq Tags tab (sorted by tag frequency)
-        tag_freq_df = create_transposed_freq_summary(csv_files, all_unique_tags_set - special_cols, sort_by_words=False)
+        tag_freq_df = create_transposed_freq_summary(csv_files, all_unique_tags_set - special_cols, sort_by_words=False, tag_frequency=tag_frequency, tag_word_total=tag_word_total)
         tag_freq_df.to_excel(writer, sheet_name='Summary Freq Tags', index=False)
         
-        # Apply formatting to the frequency by tags sheet
+        # Apply custom formatting to the frequency by tags sheet
         tag_freq_worksheet = writer.sheets['Summary Freq Tags']
-        
-        # Apply column width adjustment
-        for idx, col in enumerate(tag_freq_df.columns):
-            if idx == 0:  # Tag column
-                max_length = max(
-                    max(len(str(val)) for val in tag_freq_df[col]),
-                    len(col)
-                ) + 2  # Add less extra space for tag names
-            else:
-                # For data columns (novel titles), use a fixed width
-                max_length = 12  # Fixed width for data columns
-            
-            col_letter = openpyxl.utils.get_column_letter(idx + 1)
-            tag_freq_worksheet.column_dimensions[col_letter].width = max_length
-        
-        # Apply header formatting
-        for cell in tag_freq_worksheet[1]:
-            cell.fill = header_fill
-            cell.font = header_font
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal='center', wrap_text=True)  # Enable text wrapping
-        
-        # Apply borders and alternating row colors
-        data_rows = tag_freq_worksheet.max_row
-        data_cols = tag_freq_worksheet.max_column
-        
-        for row in range(2, data_rows + 1):
-            # Apply alternating row colors
-            if row % 2 == 0:  # Even rows
-                for col in range(1, data_cols + 1):
-                    tag_freq_worksheet.cell(row=row, column=col).fill = light_gray
-            
-            for col in range(1, data_cols + 1):
-                cell = tag_freq_worksheet.cell(row=row, column=col)
-                cell.border = thin_border
-                
-                # Left-align the tag column, center-align all others
-                if col == 1:
-                    cell.alignment = Alignment(horizontal='left')
-                else:
-                    cell.alignment = Alignment(horizontal='center')
-        
-        # Freeze the first column and header row
-        tag_freq_worksheet.freeze_panes = "B2"
+        apply_excel_formatting(tag_freq_worksheet, tag_freq_df, base_names)
         
         # Organize sheets in the proper order:
         # 1. Summary Included Tags
