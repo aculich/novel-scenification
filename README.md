@@ -161,68 +161,85 @@ Alternatively, GitHub Actions will automatically process new input files when th
 
 The `tag_counts_summary.xlsx` file contains a comprehensive analysis of tags used across your HTML corpus. We've organized it with four summary tabs:
 
-#### 1. Summary Tab
-This is the original summary tab that provides a concise overview:
+#### 1. Summary Tabs
+All of the Summary tabs provide this basic overview in each:
 - **Sheet column**: Links to individual sheets for each document
 - **Total_Tags**: Total number of tags in the document
 - **Total_Words**: Total word count for the entire document
 - **Chapter_Count**: Number of chapter markers
 - **Selected tag metrics**: Pre-selected important tags (SceneAction, SceneDia, Dialogue) with both count and word columns
 
-This tab answers: "What are the basic metrics for each document?"
-
-![Summary Tab](./images/1-summary.png)
-
 #### 1a. Summary Included Tags Tab
 This tab displays only the tags that are included in the [included_tags.tsv](./included_tags.tsv) file:
-- Follows the same format as the Summary tab but limited to the specified included tags
+
 - Shows counts and word counts for each included tag across all documents
 - Useful for focusing on a specific subset of tags that are most relevant to your analysis
+- For chapters, the count column shows the number of chapter markers, while the words column is intentionally left blank
 
 This tab answers: "How do my specifically selected tags distribute across documents?"
+
+![Summary Included Tags Tab](./images/1-summary.png)
 
 #### 1b. Summary Excluded Tags Tab
 This tab displays only the tags that are excluded (listed in [excluded_tags.tsv](./excluded_tags.tsv)):
 - Follows the same format as the Summary tab but limited to tags not in the included tags list
 - Shows counts and word counts for excluded tags across all documents
 - Useful for reviewing tags that might be less relevant or for quality control
+- Like in other tabs, chapter word count cells are intentionally left blank
 
 This tab answers: "What tags am I currently not focusing on in my analysis?"
 
-#### 2. Summary Freq Words Tab
+![Summary Exlucded Tags Tab](./images/1b-summary.png)
+
+#### 2. Summary All Tags Tab
+This tab shows all tags in alphabetical order:
+- Provides a consistent reference layout regardless of frequency
+- Each column pair shows Count and Words for each tag
+- Chapter word count cells are intentionally left blank
+
+This tab answers: "What are all the tags used and their metrics?"
+
+![Summary All Tags Tab](./images/2-summary-all-tags.png)
+
+#### 3. Summary Freq Words Tab
 This tab shows all tags sorted by their total word count across the corpus:
 - Tags that contain the most words appear leftmost
 - Secondary sorting is by tag count when word counts are equal
 - Each column pair shows Count and Words for each tag
+- Chapter word count cells are intentionally left blank
 
 This tab answers: "Which tags contain the most textual content?"
 
-![Summary Freq Words Tab](./images/2-summary-freq-words.png)
+![Summary Freq Words Tab](./images/3-summary-freq-words.png)
 
-#### 3. Summary Freq Tags Tab
+#### 4. Summary Freq Tags Tab
 This tab arranges tags by their frequency (count) across the corpus:
 - The most frequently used tags appear leftmost
 - Secondary sorting is by word count when tag counts are equal
 - Each column pair shows Count and Words for each tag
+- Chapter word count cells are intentionally left blank
 
 This tab answers: "Which tags are used most frequently?"
 
-![Summary Freq Tags Tab](./images/3-summary-freq-tags.png)
-
-#### 4. Summary All Tags Tab
-This tab shows all tags in alphabetical order:
-- Provides a consistent reference layout regardless of frequency
-- Each column pair shows Count and Words for each tag
-
-This tab answers: "What are all the tags used and their metrics?"
-
-![Summary All Tags Tab](./images/4-summary-all-tags.png)
+![Summary Freq Tags Tab](./images/4-summary-freq-tags.png)
 
 #### Individual Document Sheets
 Following the summary tabs, each document has its own sheet showing:
 - Individual tag metrics including compound/nested tags
 - Full breakdown of all tags used in that specific document
 - Word counts for each tag and tag combination
+
+![Individual Tabs](./images/5-individual-tabs.png)
+
+### Chapter Word Counts
+
+The chapter word counts are intentionally left blank in all summary tabs. This design choice was made to:
+
+1. Avoid displaying potentially misleading information
+2. Prevent confusion with the actual word counts in other cells
+3. Allow users to focus on the verified tag counts and word counts without distraction
+
+This approach ensures that all displayed data in the Excel file is accurate and directly derived from the source documents, rather than relying on simulations or estimations.
 
 ### Requirements
 
