@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'data/input/**'
+      - 'excluded_tags.tsv'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
