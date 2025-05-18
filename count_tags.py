@@ -118,29 +118,57 @@ def save_tag_lists(included_tags, excluded_tags):
         for tag in sorted(excluded_tags):
             f.write(f"{tag}\n")
     
-    # Identify removed tags (tags that were in previous lists but are not in current lists)
-    removed_tags = []
+    # Identify newly removed tags (tags that were in previous lists but are not in current lists)
+    newly_removed_tags = []
     
     # Check previous included tags
     for tag in previous_included:
         if tag not in included_tags and tag not in excluded_tags:
-            removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
+            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
     
     # Check previous excluded tags
     for tag in previous_excluded:
         if tag not in included_tags and tag not in excluded_tags:
-            removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
+            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
     
-    # Save removed tags if there are any
-    if removed_tags:
-        removed_df = pd.DataFrame(removed_tags)
+    # Read existing removed tags list (if it exists)
+    existing_removed_tags = []
+    try:
+        removed_df = pd.read_csv('removed_tags.tsv', sep='\t')
+        for _, row in removed_df.iterrows():
+            # Only keep tags that haven't reappeared in the corpus
+            if row['Tag'] not in included_tags and row['Tag'] not in excluded_tags:
+                existing_removed_tags.append({'Tag': row['Tag'], 'Previous_Status': row['Previous_Status']})
+    except Exception as e:
+        print(f"Note: No existing removed_tags.tsv found or error reading it: {e}")
+    
+    # Combine existing and newly removed tags
+    all_removed_tags = existing_removed_tags + newly_removed_tags
+    
+    # Remove duplicates while preserving order (keeping the first occurrence)
+    unique_removed_tags = []
+    seen_tags = set()
+    for item in all_removed_tags:
+        if item['Tag'] not in seen_tags:
+            unique_removed_tags.append(item)
+            seen_tags.add(item['Tag'])
+    
+    # Sort by tag name
+    unique_removed_tags.sort(key=lambda x: x['Tag'])
+    
+    # Save the combined removed tags
+    if unique_removed_tags:
+        removed_df = pd.DataFrame(unique_removed_tags)
         removed_df.to_csv('removed_tags.tsv', sep='\t', index=False)
-        print(f"Created removed_tags.tsv with {len(removed_tags)} tags that no longer appear in the corpus")
+        if newly_removed_tags:
+            print(f"Updated removed_tags.tsv with {len(newly_removed_tags)} newly removed tags")
+        else:
+            print(f"No new removed tags found - kept existing {len(unique_removed_tags)} tags in removed_tags.tsv")
     else:
-        # Write an empty file with just the header if no removed tags
+        # This should rarely happen, only if all previously removed tags have reappeared
         with open('removed_tags.tsv', 'w') as f:
             f.write("Tag\tPrevious_Status\n")
-        print("No removed tags found - created empty removed_tags.tsv file")
+        print("All previously removed tags have reappeared in the corpus - removed_tags.tsv reset")
     
     print(f"Created included_tags.tsv with {len(included_tags)} tags")
     print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
