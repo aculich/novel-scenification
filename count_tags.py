@@ -766,8 +766,11 @@ def create_excel_summary():
             included_transposed_df = create_transposed_summary(csv_files, included_tags_set, excluded_tags_set, "Summary Included Tags")
             included_transposed_df.to_excel(writer, sheet_name='Summary Included Tags', index=False)
             
+            # Apply custom formatting to the included tags sheet
+            included_trans_worksheet = writer.sheets['Summary Included Tags']
+            apply_excel_formatting(included_trans_worksheet, included_transposed_df, base_names)
+            
             # Create transposed sheet for excluded tags - FIX: Only use excluded_tags_set here, not all tags
-            # We need to ensure we're only showing the excluded tags in this sheet
             if excluded_tags_set:
                 excluded_transposed_df = create_transposed_summary(csv_files, excluded_tags_set, None, "Summary Excluded Tags")
                 excluded_transposed_df.to_excel(writer, sheet_name='Summary Excluded Tags', index=False)
