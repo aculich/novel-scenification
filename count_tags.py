@@ -26,6 +26,10 @@ import sys
 import random
 import argparse
 
+# Add at the beginning of the file (right after imports)
+included_tags_to_use = None
+excluded_tags_to_use = None
+
 # Function to read a list of included tags from a CSV or TSV file
 def read_included_tags_from_file(file_path):
     try:
@@ -43,25 +47,18 @@ def read_included_tags_from_file(file_path):
                 else:
                     delimiter = ','
         
-        # Read the file with detected delimiter
-        df = pd.read_csv(file_path, delimiter=delimiter)
+        # For single column files like included.tags.desired.csv, read lines directly
+        # This ensures we get EXACTLY what's in the file
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            # Clean each line (remove whitespace, newlines)
+            tags = [line.strip() for line in lines if line.strip()]
         
-        # The file should have either a 'Tag' column or just be a single column list
-        if 'Tag' in df.columns:
-            tag_column = 'Tag'
-        elif 'Included_Tag' in df.columns:
-            tag_column = 'Included_Tag'
-        elif 'Total_Tags' in df.columns:
-            tag_column = df.columns[0]  # Use the first column
-        else:
-            tag_column = df.columns[0]  # Use the first column
-        
-        included_tags = set(df[tag_column].dropna().astype(str).tolist())
-        print(f"Read {len(included_tags)} included tags from {file_path}")
-        return included_tags
+        print(f"Read {len(tags)} desired tags from inclusion file")
+        return tags
     except Exception as e:
         print(f"Error reading included tags file {file_path}: {e}")
-        return set()
+        return []
 
 # Function to read tag_matches_detailed.tsv and get included tags
 def read_included_tags():
@@ -141,86 +138,26 @@ def read_excluded_tags():
 
 # Save included and excluded tags to TSV files and identify removed tags
 def save_tag_lists(included_tags, excluded_tags, missing_included_tags=None):
-    # First read the existing tag lists 
-    previous_included = read_existing_included_tags()
-    previous_excluded = read_existing_excluded_tags()
-    
-    # Read existing removed tags (if any)
-    existing_removed_tags = []
-    try:
-        removed_df = pd.read_csv('removed_tags.tsv', sep='\t')
-        for _, row in removed_df.iterrows():
-            existing_removed_tags.append({'Tag': row['Tag'], 'Previous_Status': row['Previous_Status']})
-    except Exception as e:
-        print(f"Note: No existing removed_tags.tsv found or error reading it: {e}")
-    
-    # Step 1: Determine newly removed tags
-    # Tags that were previously included but are no longer in the corpus (not in included_tags or excluded_tags)
-    newly_removed_tags = []
-    for tag in previous_included:
-        if tag not in included_tags and tag not in excluded_tags:
-            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'included'})
-    
-    # Tags that were previously excluded but are no longer in the corpus
-    for tag in previous_excluded:
-        if tag not in included_tags and tag not in excluded_tags:
-            newly_removed_tags.append({'Tag': tag, 'Previous_Status': 'excluded'})
-    
-    # Step 2: Process the removed tags list
-    # - Keep existing removed tags that are still not in the corpus
-    # - Add newly removed tags
-    # - Remove any tags that have reappeared in the corpus
-    final_removed_tags = []
-    
-    # First add existing removed tags that are still not in the corpus
-    for item in existing_removed_tags:
-        if item['Tag'] not in included_tags and item['Tag'] not in excluded_tags:
-            final_removed_tags.append(item)
-    
-    # Add newly removed tags
-    for item in newly_removed_tags:
-        # Only add if not already in the list
-        if not any(existing['Tag'] == item['Tag'] for existing in final_removed_tags):
-            final_removed_tags.append(item)
-    
-    # Sort by tag name
-    final_removed_tags.sort(key=lambda x: x['Tag'])
-    
-    # Step 3: Write the updated tag files
-    # Write included tags
+    """Save tag lists to TSV files."""
+    # Step 1: Write included tags - these are ONLY the ones explicitly provided
     with open('included_tags.tsv', 'w') as f:
         f.write("Included_Tag\n")
         for tag in sorted(included_tags):
             f.write(f"{tag}\n")
     
-    # Write excluded tags
+    # Step 2: Write excluded tags - everything else found in the corpus
     with open('excluded_tags.tsv', 'w') as f:
         f.write("Excluded_Tag\n")
         for tag in sorted(excluded_tags):
             f.write(f"{tag}\n")
     
-    # Write missing included tags if provided
+    # Step 3: Write missing included tags if provided
     if missing_included_tags:
         with open('missing-included-tags.tsv', 'w') as f:
             f.write("Missing_Tag\n")
             for tag in sorted(missing_included_tags):
                 f.write(f"{tag}\n")
         print(f"Created missing-included-tags.tsv with {len(missing_included_tags)} tags")
-    
-    # Write removed tags
-    if final_removed_tags:
-        removed_df = pd.DataFrame(final_removed_tags)
-        removed_df.to_csv('removed_tags.tsv', sep='\t', index=False)
-        
-        if newly_removed_tags:
-            print(f"Updated removed_tags.tsv with {len(newly_removed_tags)} newly removed tags")
-        else:
-            print(f"No new removed tags found - kept existing {len(final_removed_tags)} tags in removed_tags.tsv")
-    else:
-        # Write an empty file with just the header if no removed tags
-        with open('removed_tags.tsv', 'w') as f:
-            f.write("Tag\tPrevious_Status\n")
-        print("All previously removed tags have reappeared in the corpus - removed_tags.tsv reset")
     
     print(f"Created included_tags.tsv with {len(included_tags)} tags")
     print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
@@ -644,8 +581,18 @@ def create_excel_summary():
     counts_dir = "data/counts"
     output_file = "data/tag_counts_summary.xlsx"
     
-    # Read the excluded tags (our blacklist)
-    excluded_tags_set = read_excluded_tags()
+    # Use global variables if set by --included-only
+    global included_tags_to_use
+    global excluded_tags_to_use
+    
+    # If we're in --included-only mode, use those tag sets
+    if included_tags_to_use is not None and excluded_tags_to_use is not None:
+        included_tags_set = included_tags_to_use
+        excluded_tags_set = excluded_tags_to_use
+        print(f"Using strict tag inclusion mode with {len(included_tags_set)} included tags and {len(excluded_tags_set)} excluded tags")
+    else:
+        # Otherwise read from excluded_tags.tsv (original behavior)
+        excluded_tags_set = read_excluded_tags()
     
     # Create Excel writer
     with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
@@ -818,10 +765,6 @@ def create_excel_summary():
             # Create transposed summary for included tags - this will be our primary view
             included_transposed_df = create_transposed_summary(csv_files, included_tags_set, excluded_tags_set, "Summary Included Tags")
             included_transposed_df.to_excel(writer, sheet_name='Summary Included Tags', index=False)
-            
-            # Apply custom formatting to the included tags sheet
-            included_trans_worksheet = writer.sheets['Summary Included Tags']
-            apply_excel_formatting(included_trans_worksheet, included_transposed_df, base_names)
             
             # Create transposed sheet for excluded tags - FIX: Only use excluded_tags_set here, not all tags
             # We need to ensure we're only showing the excluded tags in this sheet
@@ -1514,40 +1457,128 @@ def process_all_files():
 
 def main():
     """Process all HTML files and generate summary files."""
+    # Declare globals at the beginning of the function
+    global included_tags_to_use
+    global excluded_tags_to_use
+    
     parser = argparse.ArgumentParser(description="Process HTML files and generate tag count summaries.")
     parser.add_argument("--included-only", type=str, help="Path to a file containing a list of tags to include. All other tags found in the corpus will be excluded.")
     args = parser.parse_args()
     
-    included_tags_set = None
-    excluded_tags_set = None
-    missing_included_tags = None
-    
     if args.included_only:
-        # Read the included tags from the specified file
-        desired_included_tags = read_included_tags_from_file(args.included_only)
+        print(f"\n--included-only mode: Using {args.included_only} as strict inclusion list")
+        print("Any tags not in this file will be excluded, and any tags in this file but not found will be listed as missing")
         
-        # Get all tags from the corpus
-        all_corpus_tags = get_all_tags_from_corpus()
-        
-        # Tags in included list that don't appear in the corpus
-        missing_included_tags = desired_included_tags - all_corpus_tags
-        if missing_included_tags:
-            print(f"Warning: {len(missing_included_tags)} tags from the inclusion file were not found in the corpus")
-        
-        # Set included tags to those from the file that are actually in the corpus
-        included_tags_set = desired_included_tags & all_corpus_tags
-        
-        # Set excluded tags to all other tags found in the corpus
-        excluded_tags_set = all_corpus_tags - included_tags_set
-        
-        print(f"Using {len(included_tags_set)} included tags from {args.included_only}")
-        print(f"Excluding {len(excluded_tags_set)} tags not in the inclusion list")
-        
-        # Save the tag lists to output files
-        save_tag_lists(included_tags_set, excluded_tags_set, missing_included_tags)
+        # Use the filter_tags module to process the inclusion file
+        try:
+            # Import the filter_tags module
+            import filter_tags
+            
+            # Get all tags from the corpus 
+            corpus_tags = filter_tags.get_all_tags_from_corpus()
+            
+            # Read and process the inclusion file
+            inclusion_lines = filter_tags.read_inclusion_file(args.included_only)
+            original_lines, included_tags, missing_tags, excluded_tags = filter_tags.process_tags(inclusion_lines, corpus_tags)
+            
+            # Save the output files
+            filter_tags.save_tag_files(original_lines, included_tags, missing_tags, excluded_tags)
+            
+            # Set these globally for use in create_excel_summary
+            included_tags_to_use = included_tags
+            excluded_tags_to_use = excluded_tags
+            
+            print(f"DEBUG: included_tags_to_use is a {type(included_tags_to_use)} with {len(included_tags_to_use)} items")
+            print(f"DEBUG: excluded_tags_to_use is a {type(excluded_tags_to_use)} with {len(excluded_tags_to_use)} items")
+            print(f"DEBUG: First 5 items in included_tags_to_use: {list(included_tags_to_use)[:5]}")
+            
+            print(f"Using {len(included_tags)} included tags and {len(excluded_tags)} excluded tags for filtering")
+        except ImportError:
+            print("Warning: filter_tags.py module not found. Falling back to built-in filtering logic.")
+            # If filter_tags module is not available, use the original approach
+            # Read the included tags from the specified file
+            with open(args.included_only, 'r', encoding='utf-8') as f:
+                desired_included_tags = [line.strip() for line in f.readlines()]
+            
+            # Create a set version for comparisons (skip header row)
+            desired_included_tags_set = set([tag for i, tag in enumerate(desired_included_tags) if i > 0])
+            print(f"Read {len(desired_included_tags_set)} unique desired tags from inclusion file")
+            
+            # Get all tags from the corpus
+            all_corpus_tags = get_all_tags_from_corpus()
+            print(f"Found {len(all_corpus_tags)} total unique tags in the corpus")
+            
+            # Tags in included list that don't appear in the corpus
+            missing_included_tags = desired_included_tags_set - all_corpus_tags
+            if missing_included_tags:
+                print(f"Warning: {len(missing_included_tags)} tags from the inclusion file were not found in the corpus")
+                print(f"These will be saved to missing-included-tags.tsv")
+            
+            # STRICT ENFORCEMENT: included_tags_set will ONLY contain tags from the input file
+            # that are also found in the corpus
+            included_tags_set = desired_included_tags_set & all_corpus_tags
+            
+            # All other tags found in the corpus go to excluded_tags_set
+            excluded_tags_set = all_corpus_tags - included_tags_set
+            
+            print(f"Using {len(included_tags_set)} included tags that are both in corpus and inclusion list")
+            print(f"Excluding {len(excluded_tags_set)} tags that are in corpus but not in inclusion list")
+            
+            # Save the inclusion file contents to TSV files - keeping exact format of original file
+            save_inclusion_lists(desired_included_tags, included_tags_set, missing_included_tags)
+            
+            # Save the processing tags to their own files (for backwards compatibility)
+            save_processing_tags(included_tags_set, excluded_tags_set)
+            
+            # Set these globally so they're used by create_excel_summary
+            included_tags_to_use = included_tags_set
+            excluded_tags_to_use = excluded_tags_set
     
     # Process all files and generate CSV files in data/counts
     process_all_files()
+
+# New function to save the input file's tags to included_tags.tsv and missing-included-tags.tsv
+def save_inclusion_lists(desired_tags, found_tags_set, missing_tags_set=None):
+    """Save tags from the inclusion file.
+    - desired_tags: All tags from the input file (in original order)
+    - found_tags_set: Set of tags from the input file that were found in corpus
+    - missing_tags_set: Set of tags from the input file that were not found in corpus
+    """
+    # Step 1: Write included_tags.tsv - This should be EXACT MATCH for input file
+    with open('included_tags.tsv', 'w') as f:
+        # Write the original header (first line)
+        f.write(desired_tags[0] + "\n")
+        # Write the rest of the file contents
+        for i in range(1, len(desired_tags)):
+            f.write(desired_tags[i] + "\n")
+    
+    # Step 2: Write missing included tags
+    if missing_tags_set:
+        with open('missing-included-tags.tsv', 'w') as f:
+            f.write("Missing_Tag\n")
+            for tag in sorted(missing_tags_set):
+                f.write(f"{tag}\n")
+        print(f"Created missing-included-tags.tsv with {len(missing_tags_set)} tags")
+    
+    print(f"Created included_tags.tsv with {len(desired_tags)} tags (exact copy of input file)")
+
+# New function to save corpus tags for processing
+def save_processing_tags(included_tags, excluded_tags):
+    """Save tags used for processing to their own files (for backwards compatibility)."""
+    # Write processing included tags
+    with open('processing_included_tags.tsv', 'w') as f:
+        f.write("Included_Tag\n")
+        for tag in sorted(included_tags):
+            f.write(f"{tag}\n")
+    
+    # Write excluded tags - everything else found in the corpus
+    with open('excluded_tags.tsv', 'w') as f:
+        f.write("Excluded_Tag\n")
+        for tag in sorted(excluded_tags):
+            f.write(f"{tag}\n")
+    
+    print(f"Created processing_included_tags.tsv with {len(included_tags)} tags")
+    print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
 
 if __name__ == "__main__":
     main()
