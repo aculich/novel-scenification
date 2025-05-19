@@ -1,26 +1,34 @@
-# GitPod Configuration
+# .gitpod.yml
 image: gitpod/workspace-python-3.10
 
-# Configure ports for Jupyter if needed
 ports:
   - port: 8888
     onOpen: ignore
     visibility: public
 
 tasks:
-  - name: Setup Python Environment
+  - name: Setup & register kernel
     init: |
-      # Install Python dependencies
-      pip install -r requirements.txt
-      # Create an ipykernel for this environment
-      pip install ipykernel
-      python -m ipykernel install --user --name novel-scenification --display-name "Python (Novel Scenification)"
+      # 1) create a virtual environment
+      python -m venv .venv
+      # 2) install requirements + ipykernel into that venv
+      . .venv/bin/activate
+      pip install --upgrade pip
+      pip install -r requirements.txt ipykernel
+      # 3) register a kernel pointing at .venv/python
+      python -m ipykernel install \
+        --user \
+        --name novel-scenification \
+        --display-name "Python (Novel Scenification)"
     command: |
-      # Open the notebook directly in VS Code
+      # Once setup is done, just open the notebook
       code notebook.ipynb
 
 # Configure VS Code
 vscode:
   extensions:
     - ms-python.python
-    - ms-toolsai.jupyter 
+    - ms-toolsai.jupyter
+  settings:
+    # point the Python extension at the same venv you just made
+    python.defaultInterpreterPath: "${workspaceFolder}/.venv/bin/python"
