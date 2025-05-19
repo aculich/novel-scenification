@@ -1,5 +1,6 @@
 {
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.jupyter.defaultKernel": "novel-scenification",
     "jupyter.kernels.filter": [
         {
             "path": "novel-scenification",
@@ -10,5 +11,7 @@
     "jupyter.notebookFileRoot": "${workspaceFolder}",
     "python.analysis.extraPaths": [],
     "jupyter.jupyterServerType": "local",
-    "jupyter.notebookFileRoot": "${workspaceFolder}"
-} 
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    // don’t show “The git repository at '…' has too many active changes…” again
+    "git.warningOnLargeChangeCount": false
+}

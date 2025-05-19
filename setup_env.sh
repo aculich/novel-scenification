@@ -28,6 +28,6 @@ echo "Registering Jupyter kernel..."
 python -m ipykernel install \
   --user \
   --name novel-scenification \
-  --display-name "Python (Novel Scenification)"
+  --display-name "novel-scenification"
 
 echo "Setup complete!" 
