@@ -24,3 +24,5 @@ vscode:
   extensions:
     - ms-python.python
     - ms-toolsai.jupyter
+    - donjayamanne.vscode-default-python-kernel
+

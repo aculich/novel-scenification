@@ -12,6 +12,6 @@
     "python.analysis.extraPaths": [],
     "jupyter.jupyterServerType": "local",
     "jupyter.notebookFileRoot": "${workspaceFolder}",
-    // don’t show “The git repository at '…' has too many active changes…” again
-    "git.warningOnLargeChangeCount": false
+    "git.warningOnLargeChangeCount": false,
+    "git.statusLimit": 0
 }
