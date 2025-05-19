@@ -1,5 +1,10 @@
 Tag	Previous_Status
 Chapter	included
+arraivaldeparture	excluded
+auhorwe	excluded
+auhorwe_i	excluded
+characterdictiion	excluded
+chnameintro_arraivaldeparture	excluded
 dia_diamparenthesis	included
 diainset1p_diainset1p	included
 diainsetnarrative	included
@@ -8,6 +13,11 @@ diainsetnarrative_m	included
 diainsetnarrative_quotesother	included
 dialogueother	included
 diamparenthesis	included
+doxaquote	excluded
+exclamation_auhorwe	excluded
+metaphore	excluded
+monloguethought	excluded
+monloguethought_m	excluded
 sceneaction_auhorwe	included
 sceneaction_metaphore	included
 sceneaction_monloguethought	included
@@ -17,6 +27,14 @@ scenedia_diainsetnarrative	included
 scenedia_dialogueother	included
 scenedia_diamparenthesis	included
 scenedia_speechimangined	included
+scenediaquasi	excluded
+scenediaquasi_authorialobservation	excluded
+scenediaquasi_descriptorq	excluded
+scenediaquasi_dia	excluded
+scenediaquasi_diaq	excluded
+scenediaquasi_exclamation	excluded
+scenediaquasi_i	excluded
+scenediaquasi_sententia	excluded
 scenemonologue_chapmarker	included
 scenemonologue_cryptonym	included
 scenemonologue_monologue	included
@@ -29,3 +47,6 @@ scenequasidia_diaq	included
 scenequasidia_m	included
 scenequasidia_reportedspeechquotes	included
 scenequasidia_trigger	included
+sentenia	excluded
+speechimangined	excluded
+speechinsert_descriptorq	excluded
