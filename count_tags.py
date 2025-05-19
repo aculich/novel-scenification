@@ -24,6 +24,44 @@ from urllib.parse import quote
 import openpyxl.utils
 import sys
 import random
+import argparse
+
+# Function to read a list of included tags from a CSV or TSV file
+def read_included_tags_from_file(file_path):
+    try:
+        # Auto-detect if file is CSV or TSV based on extension and content
+        if file_path.endswith('.tsv'):
+            delimiter = '\t'
+        elif file_path.endswith('.csv'):
+            delimiter = ','
+        else:
+            # If extension doesn't indicate format, try to detect from content
+            with open(file_path, 'r', encoding='utf-8') as f:
+                first_line = f.readline()
+                if '\t' in first_line:
+                    delimiter = '\t'
+                else:
+                    delimiter = ','
+        
+        # Read the file with detected delimiter
+        df = pd.read_csv(file_path, delimiter=delimiter)
+        
+        # The file should have either a 'Tag' column or just be a single column list
+        if 'Tag' in df.columns:
+            tag_column = 'Tag'
+        elif 'Included_Tag' in df.columns:
+            tag_column = 'Included_Tag'
+        elif 'Total_Tags' in df.columns:
+            tag_column = df.columns[0]  # Use the first column
+        else:
+            tag_column = df.columns[0]  # Use the first column
+        
+        included_tags = set(df[tag_column].dropna().astype(str).tolist())
+        print(f"Read {len(included_tags)} included tags from {file_path}")
+        return included_tags
+    except Exception as e:
+        print(f"Error reading included tags file {file_path}: {e}")
+        return set()
 
 # Function to read tag_matches_detailed.tsv and get included tags
 def read_included_tags():
@@ -102,7 +140,7 @@ def read_excluded_tags():
             return set()
 
 # Save included and excluded tags to TSV files and identify removed tags
-def save_tag_lists(included_tags, excluded_tags):
+def save_tag_lists(included_tags, excluded_tags, missing_included_tags=None):
     # First read the existing tag lists 
     previous_included = read_existing_included_tags()
     previous_excluded = read_existing_excluded_tags()
@@ -161,6 +199,14 @@ def save_tag_lists(included_tags, excluded_tags):
         for tag in sorted(excluded_tags):
             f.write(f"{tag}\n")
     
+    # Write missing included tags if provided
+    if missing_included_tags:
+        with open('missing-included-tags.tsv', 'w') as f:
+            f.write("Missing_Tag\n")
+            for tag in sorted(missing_included_tags):
+                f.write(f"{tag}\n")
+        print(f"Created missing-included-tags.tsv with {len(missing_included_tags)} tags")
+    
     # Write removed tags
     if final_removed_tags:
         removed_df = pd.DataFrame(final_removed_tags)
@@ -178,6 +224,25 @@ def save_tag_lists(included_tags, excluded_tags):
     
     print(f"Created included_tags.tsv with {len(included_tags)} tags")
     print(f"Created excluded_tags.tsv with {len(excluded_tags)} tags")
+
+# Function to gather all tags from HTML files
+def get_all_tags_from_corpus():
+    input_dir = "data/input"
+    html_files = glob.glob(os.path.join(input_dir, "*.html"))
+    all_tags = set()
+    
+    print("Scanning input files to determine all tags in corpus...")
+    for html_file in html_files:
+        with open(html_file, 'r', encoding='utf-8') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+        all_tags.update([tag.name for tag in soup.find_all()])
+    
+    # Exclude special tags that aren't relevant
+    special_tags = {'Sheet', 'Total_Tags', 'Total_Words', 'Chapter_Count', 'totaldoctagswords'}
+    all_tags = all_tags - special_tags
+    
+    print(f"Found {len(all_tags)} unique tags in the corpus")
+    return all_tags
 
 def parse_html_to_csv(html_file, csv_file):
     # Read and parse the HTML file
@@ -1449,10 +1514,37 @@ def process_all_files():
 
 def main():
     """Process all HTML files and generate summary files."""
-    import argparse
-    
     parser = argparse.ArgumentParser(description="Process HTML files and generate tag count summaries.")
+    parser.add_argument("--included-only", type=str, help="Path to a file containing a list of tags to include. All other tags found in the corpus will be excluded.")
     args = parser.parse_args()
+    
+    included_tags_set = None
+    excluded_tags_set = None
+    missing_included_tags = None
+    
+    if args.included_only:
+        # Read the included tags from the specified file
+        desired_included_tags = read_included_tags_from_file(args.included_only)
+        
+        # Get all tags from the corpus
+        all_corpus_tags = get_all_tags_from_corpus()
+        
+        # Tags in included list that don't appear in the corpus
+        missing_included_tags = desired_included_tags - all_corpus_tags
+        if missing_included_tags:
+            print(f"Warning: {len(missing_included_tags)} tags from the inclusion file were not found in the corpus")
+        
+        # Set included tags to those from the file that are actually in the corpus
+        included_tags_set = desired_included_tags & all_corpus_tags
+        
+        # Set excluded tags to all other tags found in the corpus
+        excluded_tags_set = all_corpus_tags - included_tags_set
+        
+        print(f"Using {len(included_tags_set)} included tags from {args.included_only}")
+        print(f"Excluding {len(excluded_tags_set)} tags not in the inclusion list")
+        
+        # Save the tag lists to output files
+        save_tag_lists(included_tags_set, excluded_tags_set, missing_included_tags)
     
     # Process all files and generate CSV files in data/counts
     process_all_files()
