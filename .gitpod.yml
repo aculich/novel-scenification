@@ -9,17 +9,7 @@ ports:
 tasks:
   - name: Setup & register kernel
     init: |
-      # 1) create a virtual environment
-      python -m venv .venv
-      # 2) install requirements + ipykernel into that venv
-      . .venv/bin/activate
-      pip install --upgrade pip
-      pip install -r requirements.txt ipykernel
-      # 3) register a kernel pointing at .venv/python
-      python -m ipykernel install \
-        --user \
-        --name novel-scenification \
-        --display-name "Python (Novel Scenification)"
+      ./setup_env.sh
     command: |
       # Once setup is done, just open the notebook
       code notebook.ipynb
@@ -29,6 +19,3 @@ vscode:
   extensions:
     - ms-python.python
     - ms-toolsai.jupyter
-  settings:
-    # point the Python extension at the same venv you just made
-    python.defaultInterpreterPath: "${workspaceFolder}/.venv/bin/python"
