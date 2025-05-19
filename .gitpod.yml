@@ -10,6 +10,12 @@ ports:
     onOpen: ignore
   - port: 9002
     onOpen: ignore
+  - port: 9003  
+    onOpen: ignore
+  - port: 9004
+    onOpen: ignore
+  - port: 9005
+    onOpen: ignore
 
 tasks:
   - name: Setup & register kernel
