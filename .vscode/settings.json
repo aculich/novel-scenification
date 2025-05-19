@@ -1,6 +1,11 @@
 {
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
     "python.jupyter.defaultKernel": "novel-scenification",
+    "jupyter.jupyterServerType": "local",
+    "jupyter.defaultKernel": "novel-scenification",
+    "jupyter.kernels.default": "novel-scenification",
+    "python.venvFolders": [".venv"],  
+    "terminal.activateEnvironment": true,
     "jupyter.kernels.filter": [
         {
             "path": "novel-scenification",
@@ -10,8 +15,6 @@
     "jupyter.interactiveWindow.textEditor.executeSelection.addNewCell": false,
     "jupyter.notebookFileRoot": "${workspaceFolder}",
     "python.analysis.extraPaths": [],
-    "jupyter.jupyterServerType": "local",
-    "jupyter.notebookFileRoot": "${workspaceFolder}",
     "git.warningOnLargeChangeCount": false,
     "git.statusLimit": 0
 }
