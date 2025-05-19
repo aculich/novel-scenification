@@ -1,20 +1,27 @@
 {
+    // 1) Pin your venv for Python features
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  
+    // 2) Jupyter via Python extension
     "python.jupyter.defaultKernel": "novel-scenification",
+  
+    // 3) Jupyter via Jupyter extension
     "jupyter.jupyterServerType": "local",
     "jupyter.defaultKernel": "novel-scenification",
     "jupyter.kernels.default": "novel-scenification",
-    "python.venvFolders": [".venv"],  
-    "terminal.activateEnvironment": true,
-    "jupyter.kernels.filter": [
-        {
-            "path": "novel-scenification",
-            "type": "jupyterKernelspec"
-        }
+  
+    // 4) (Optional) hide all other envs so only .venv remains
+    "jupyter.kernels.excludePythonEnvironments": [
+      "/usr/bin/python3",
+      "/usr/local/bin/python3",
     ],
+  
+    // 5) Other workflow helpers
+    "python.venvFolders": [".venv"],
+    "terminal.activateEnvironment": true,
     "jupyter.interactiveWindow.textEditor.executeSelection.addNewCell": false,
     "jupyter.notebookFileRoot": "${workspaceFolder}",
-    "python.analysis.extraPaths": [],
     "git.warningOnLargeChangeCount": false,
     "git.statusLimit": 0
-}
+  }
+  
