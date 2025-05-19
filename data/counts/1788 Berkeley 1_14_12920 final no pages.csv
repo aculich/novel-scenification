@@ -4,10 +4,9 @@ authorialobservation,1,28
 authorialobservation_i,1,1
 chapmarker,14,28
 chportrait,1,51
-descriptorq,2,34
-dia,1,49
-dia_descriptorq,1,27
-dia_i,2,22
+diam,1,49
+diam_i,2,22
+diam_m,1,27
 diaq,5,307
 diaq_i,22,105
 diaq_m,1,2
@@ -20,7 +19,7 @@ fiditalics,12,226
 fiditalics_i,28,56
 i,294,641
 i_quotedlit,1,4
-m,1,2
+m,3,36
 quotedlit,2,16
 reportedspeechquotes,2,40
 rhetoricalq,1,13
@@ -29,13 +28,12 @@ sceneaction,1,566
 sceneaction_i,4,6
 scenequasi,6,1720
 scenequasi_authorialobservation,1,28
-scenequasi_descriptorq,1,27
-scenequasi_dia,1,49
+scenequasi_diam,1,49
 scenequasi_diaq,5,307
 scenequasi_exclamation,1,1
 scenequasi_fiditalics,4,203
 scenequasi_i,59,180
-scenequasi_m,1,2
+scenequasi_m,2,29
 scenequasi_reportedspeechquotes,1,6
 scenequasi_sententia,1,48
 scenequasi_trigger,1,2
@@ -44,6 +42,6 @@ sententia_i,24,31
 sententiacharacter,1,23
 sententiacharacter_i,1,23
 speechinsert,2,160
-speechinsert_descriptorq,1,7
 speechinsert_i,6,17
+speechinsert_m,1,7
 trigger,1,2
