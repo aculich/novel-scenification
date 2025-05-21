@@ -17,6 +17,7 @@ cryptonym
 description
 dia
 diainset1p
+diainset1p_emscenequasi
 diam
 diam_m
 diaother
@@ -25,6 +26,12 @@ diaq_m
 diatheater
 doxaitalics
 doxaquotes
+emscenedia
+emscenedia_diam
+emscenedia_diaq
+emscenedia_i
+emscenedia_m
+emscenequasi
 exclamation
 fid
 fidambig
@@ -37,6 +44,7 @@ monologue
 monologuethought
 quotedlit
 quotedtext
+quotedtext_emscenedia
 reader
 reportedspeechquotes
 rhetoricalq
@@ -61,6 +69,7 @@ scenedia_diainsetinterruptiondia
 scenedia_diam
 scenedia_diaq
 scenedia_diatheater
+scenedia_emscenequasi
 scenedia_graft
 scenedia_m
 scenedia_monologuethought
@@ -93,6 +102,7 @@ scenereadingwriting_chapmarker
 scenereadingwriting_chaptitle
 scenereadingwriting_diam
 scenereadingwriting_diaq
+scenereadingwriting_emscenedia
 scenereadingwriting_m
 scenereadingwriting_monologue
 scenereadingwriting_monologuethought
@@ -106,4 +116,5 @@ thoughtsummary
 trigger
 writentextread
 writtennarrative1p
+writtennarrative1p_emscenedia
 writtentextread

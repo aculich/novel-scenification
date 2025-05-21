@@ -25,6 +25,11 @@ diam_quotedlit,3,92
 diaq,35,974
 diaq_i,4,4
 diaq_m,1,8
+emscenedia,1,602
+emscenedia_diam,7,388
+emscenedia_diaq,2,10
+emscenedia_i,4,4
+emscenedia_m,8,32
 exclamation,3,51
 fid,3,164
 fid_i,2,2
@@ -42,11 +47,11 @@ quotedtext,2,2431
 quotedtext_cryptonym,1,1
 quotedtext_diam,7,388
 quotedtext_diaq,2,10
+quotedtext_emscenedia,1,602
 quotedtext_i,8,8
 quotedtext_m,8,32
 quotedtext_quotedlit,3,93
 quotedtext_reportedspeechquotes,1,32
-quotedtext_scenedia,1,602
 quotedtext_writtennarrative1p,1,2270
 quotesother,1,4
 reportedspeechquotes,4,70
@@ -66,7 +71,7 @@ sceneaction_trigger,1,4
 sceneconsciousness,2,462
 sceneconsciousness_fid,3,164
 sceneconsciousness_i,2,2
-scenedia,6,6755
+scenedia,5,6153
 scenedia_arrivaldeparture,9,37
 scenedia_blend,6,39
 scenedia_chapmarker,1,2
@@ -75,10 +80,10 @@ scenedia_characterdiction,1,6
 scenedia_chnameintro,2,5
 scenedia_dia,23,403
 scenedia_diainset1p,2,278
-scenedia_diam,79,2668
-scenedia_diaq,23,784
-scenedia_i,21,30
-scenedia_m,93,419
+scenedia_diam,72,2280
+scenedia_diaq,21,774
+scenedia_i,17,26
+scenedia_m,85,387
 scenedia_monologuethought,1,26
 scenedia_quotedlit,4,117
 scenedia_reportedspeechquotes,1,30
@@ -96,6 +101,7 @@ scenereadingwriting_chaptitle,2,4
 scenereadingwriting_cryptonym,1,1
 scenereadingwriting_diam,7,388
 scenereadingwriting_diaq,2,10
+scenereadingwriting_emscenedia,1,602
 scenereadingwriting_exclamation,2,46
 scenereadingwriting_fidambig,1,19
 scenereadingwriting_i,8,8
@@ -103,7 +109,6 @@ scenereadingwriting_m,8,32
 scenereadingwriting_quotedlit,3,93
 scenereadingwriting_quotedtext,2,2431
 scenereadingwriting_reportedspeechquotes,1,32
-scenereadingwriting_scenedia,1,602
 scenereadingwriting_trigger,1,8
 scenereadingwriting_writtennarrative1p,1,2270
 speechimagined,1,8
@@ -112,8 +117,8 @@ writtennarrative1p,1,2270
 writtennarrative1p_cryptonym,1,1
 writtennarrative1p_diam,7,388
 writtennarrative1p_diaq,2,10
+writtennarrative1p_emscenedia,1,602
 writtennarrative1p_i,6,6
 writtennarrative1p_m,8,32
 writtennarrative1p_quotedlit,3,93
 writtennarrative1p_reportedspeechquotes,1,32
-writtennarrative1p_scenedia,1,602
