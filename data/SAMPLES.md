@@ -1197,7 +1197,7 @@ Upon this quiet and happy land, war, even as he ...
 - Unique tag types: 9
 - Total nested tags: 115
 - Word count: 6015
-- Tag types present: chnonameminor, dia, diainset1p, diam, diaq, fid, m, metaphor, quotedtext
+- Tag types present: chnonameminor, dia, diainset1p, diam, diaq, fid, m, metaphor, song
 
 **Interesting Excerpts:**
 

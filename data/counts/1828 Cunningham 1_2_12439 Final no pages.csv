@@ -24,7 +24,6 @@ m_chnonameminor,2,4
 metaphor,7,65
 monologue,3,257
 monologue_m,2,5
-quotedtext,1,193
 sceneaction,1,5884
 sceneaction_chnonameexternal,2,4
 sceneaction_chnonameintro,21,63
@@ -44,5 +43,6 @@ scenedia_diaq,17,683
 scenedia_fid,1,31
 scenedia_m,45,171
 scenedia_metaphor,1,31
-scenedia_quotedtext,1,193
+scenedia_song,1,193
+song,1,193
 trigger,1,1
