@@ -549,6 +549,121 @@ As soon as dinner was over, and the ladies could leave the table, the Miss Percy
 <dia>"That mirror of elegance and fashionable acquirement is Miss Isabel...
 ```
 
+## [1808 Thompson.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html)
+
+### Complex Sceneaction (Lines 33-41)
+
+**Location:** [Lines 33-41](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L33-L41)
+
+**Complexity Metrics:**
+- Unique tag types: 6
+- Total nested tags: 67
+- Word count: 881
+- Tag types present: arrivaldeparture, diam, i, m, monologuethought, trigger
+
+**Interesting Excerpts:**
+
+*Scene Transition:* [Lines 134-153](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L134-L153)
+```html
+<sceneaction>Theodore and Ludovico were returning from a ramble, and had almost readied the villa, <trigger>when</trigger> their attention was arrested by a vicious horse, which suddenly plunging from one side of the road to the other, not only threatened destruction to its rider, but to every neighbouring passenger. The animal, as if conscious of, and glorying in, the terror he inspired, foamed with fury, reared high in the air, and redoubled every effort to disengage himself from the constraint of the curb. This he at length effected, and the traveller was thrown at the feet of our young friends. Theodore instantly stooped to assist him, while the fiery Ludovico sprung forward at the same moment, seized the bridle of the prancing beast, and vaulted upon his back.
+
+Amazement struck the numerous spectators, who were now assembled on the spot; and this amazement increased as they beheld the skill and resolution with which he combated the efforts of the furious animal; at one time holding him in tight subjection, at another suffering him to waste his strength by unavailing plunges.
+
+<diam>"Strange!" <m>said the original rider, as he stood by the side of Theodore, and coolly eyed his intrepid friend</m>.</diam>
+<diam>"You are not much hurt, I hope," <m>observed Theodore</m>.</diam>
+<diam>"No," <m>answered he</m>.</diam>
+<diam>"I don't like your horse at all," <m>rejoined Theodore</m>.</diam>
+<diam>"I do," <m>replied the stranger</m>.</diam>
+<diam>"What! after trying by all the means in his power to kick your brains out?" <m>exclaimed the youth</m>.</diam>
+<diam>"Yes," <m>said the traveller</m>.</diam>
+
+Ludovico now rode up to them, and alighted.
+
+<diam>"There's your nag, my honest fellow," <m>exclaimed he, delivering the bridle</m>: "he's rather more quietly disposed than when I took him in hand."</diam>
+<diam>"True," <m>replied the man</m>.</diam>
+<diam>"What's your opinion of my manage?" <m>demanded Ludovico</m>.</diam>
+<diam>"Good," <m>answered Michael, for Michael it was who came with the promised summons, and who, being more merciful to his horse than Alberto formerly was, when hastening to the border of Bohemia, had on the road thought oftener about the food than the speed of his beast; and had several times nearly fallen a victim to his mistaken kindness</m>.</diam>
+<diam>"Follow us, friend," <m>said Ludovico</m>, "the crowd will only be troublesome to you."</diam>
+<diam>"Can't," <m>answered he, rolling his eyes around</m>.</diam>
+<diam>"You seem to be looking for the house of some particular person," <m>observed Ludovico</m>. "We can direct you."</diam>
+<diam>"Salviati," <m>said Michael</m>.</diam>
+<diam>"Indeed!" <m>cried Theodore, with a look of sudden anxiety</m>. "And your foreign habit! Come you from Germany? Whom seek you?"</diam>
+
+Michael turned towards him at the question, and beheld at once every feature of his master, as he well could recollect them many ...
+```
+
+*Scene Opening:* [Lines 134-153](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L134-L153)
+```html
+<sceneaction>Theodore and Ludovico were returning from a ramble, and had almost readied the villa, <trigger>when</trigger>
+```
+
+*Scene Ending:* [Lines 134-153](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L134-L153)
+```html
+<sceneaction>Theodore and Ludovico were returning from a ramble, and had almost readied the villa, <trigger>when</trigger> their attention was arrested by a vicious horse, which suddenly plunging from one side of the road to the other, not only threatened destruction to its rider, but to every neighbouring passenger. The animal, as if conscious of, and glorying in, the terror he inspired, foamed with fury, reared high in the air, and redoubled every effort to disengage himself from the constraint of the curb. This he at length effected, and the traveller was thrown at the feet of our young friends. Theodore instantly stooped to assist him, while the fiery Ludovico sprung forward at the same moment, seized the bridle of the prancing beast, and vaulted upon his back.
+
+Amazement struck the numerous spectators, who were now assembled on the spot; and this amazement increased as they beheld the skill and resolution with which he combated the efforts of the furious animal; at one time holding him in tight subjection, at another suffering him to waste his strength by unavailing plunges.
+
+<diam>"Strange!" <m>said the original rider, as he stood by the side of Theodore, and coolly eyed his intrepid friend</m>.</diam>
+<diam>"You are not much hurt, I hope," <m>observed Theodore</m>.</diam>
+<diam>"No," <m>answered he</m>.</diam>
+<diam>"I don't like your horse at all," <m>rejoined Theodore</m>.</diam>
+<diam>"I do," <m>replied the stranger</m>.</diam>
+<diam>"What! after trying by all the means in his power to kick your brains out?" <m>exclaimed the youth</m>.</diam>
+<diam>"Yes," <m>said the traveller</m>.</diam>
+
+Ludovico now rode up to them, and alighted.
+
+<diam>"There's your nag, my honest fellow," <m>exclaimed he, delivering the bridle</m>: "he's rather more quietly disposed than when I took him in hand."</diam>
+<diam>"True," <m>replied the man</m>.</diam>
+<diam>"What's your opinion of my manage?" <m>demanded Ludovico</m>.</diam>
+<diam>"Good," <m>answered Michael, for Michael it was who came with the promised summons, and who, being more merciful to his horse than Alberto formerly was, when hastening to the border of Bohemia, had on the road thought oftener about the food than the speed of his beast; and had several times nearly fallen a victim to his mistaken kindness</m>.</diam>
+<diam>"Follow us, friend," <m>said Ludovico</m>, "the crowd will only be troublesome to you."</diam>
+<diam>"Can't," <m>answered he, rolling his eyes around</m>.</diam>
+<diam>"You seem to be looking for the house of some particular person," <m>observed Ludovico</m>. "We can direct you."</diam>
+<diam>"Salviati," <m>said Michael</m>.</diam>
+<diam>"Indeed!" <m>cried Theodore, with a look of sudden anxiety</m>. "And your foreign habit! Come you from Germany? Whom seek you?"</diam>
+
+Michael turned towards him at the question, and beheld at once every feature of his master, as he well could recollect them many ...
+```
+
+### Complex Scenedia (Lines 5-29)
+
+**Location:** [Lines 5-29](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L5-L29)
+
+**Complexity Metrics:**
+- Unique tag types: 7
+- Total nested tags: 40
+- Word count: 1130
+- Tag types present: arrivaldeparture, diam, diaq, i, m, quotedtext, trigger
+
+**Interesting Excerpts:**
+
+*Scene Transition:* [Lines 5-29](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L5-L29)
+```html
+<scenedia><trigger>One evening</trigger> Salviati was enjoying the breeze in his garden at Pisa —- his daughter Amelia was harmlessly plucking a rose-bud here and there, while Theodore and Ludovico were engaged by more manly employment. A servant appeared, and delivered to Salviati what was at all times one of his highest gratifications —- a letter from Alberto. It treated of the subject just alluded to; but let it speak for itself.
+
+<quotedtext>My dear friend,
+I no longer need assure you with what sincere pleasure I read every line which is traced by your pen. This day, after a portion of fatigue, which would play the devil with some of our less hardened countrymen, I found at the guard-house your welcome letter. Yes, my good Salviati, you are right as to Theodore —- he is now sixteen years of age, and it is time that he learnt to wield a sabre. What a delight it affords to me, that his propensities so exactly accord with my wishes as to his future life! It cannot be long before I have an opportunity of procuring for him a desirable post —- expect, therefore, a sudden signal. I would not for the world that he should leave your roof, and lose your invaluable counsel, till summoned to a camp, and to a father's fond embrace. I know what will be your feelings, and you, who were so Well acquainted with the eager impatience, which you used to laugh at in former days, may guess at mine —- expect, therefore, a sudden signal. Would that your mercantile concerns might allow you to be the companion ef my Theodore! Can you not contrive it? I have some stronger reasons for the wish than I now can mention; they particularly relate to the future destination of your own son, towards whose welfare, if in my power, I should be the most ungrateful of mortals if I did not endeavour to provide. Salviati, observe my words. I form this opinion partly from you own letters.
+Immense as are the riches you have acquired by commerce, and enviable as is your pre-eminence among that respectable body of the community, which have been at once the chief props and ornaments of Florence, I mean its merchants -— he is not destined to be one. Theodore's letters also convince me that such is the case; for his companion Ludovico's frolics are a constant topic of them. But no more of this at present. We must give the matter a fair discussion over a bottle of hock in my tent —- were it possible, I would say in your house. We take the field at day-break to-morrow. God bless you! Shake hands withthe young warrior for me. I send you inclosed a draft for a thousand rixdollars.
+Your's till death, 
+ALBERTO DE C**.
+Colonel of the Fifth Austrian Hussars.</quotedtext>
+<diam>"Boys!" <m>called Salviati, as soon as he had read this letter</m>.</diam> The...
+```
+
+*Scene Ending:* [Lines 5-29](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html#L5-L29)
+```html
+<scenedia><trigger>One evening</trigger> Salviati was enjoying the breeze in his garden at Pisa —- his daughter Amelia was harmlessly plucking a rose-bud here and there, while Theodore and Ludovico were engaged by more manly employment. A servant appeared, and delivered to Salviati what was at all times one of his highest gratifications —- a letter from Alberto. It treated of the subject just alluded to; but let it speak for itself.
+
+<quotedtext>My dear friend,
+I no longer need assure you with what sincere pleasure I read every line which is traced by your pen. This day, after a portion of fatigue, which would play the devil with some of our less hardened countrymen, I found at the guard-house your welcome letter. Yes, my good Salviati, you are right as to Theodore —- he is now sixteen years of age, and it is time that he learnt to wield a sabre. What a delight it affords to me, that his propensities so exactly accord with my wishes as to his future life! It cannot be long before I have an opportunity of procuring for him a desirable post —- expect, therefore, a sudden signal. I would not for the world that he should leave your roof, and lose your invaluable counsel, till summoned to a camp, and to a father's fond embrace. I know what will be your feelings, and you, who were so Well acquainted with the eager impatience, which you used to laugh at in former days, may guess at mine —- expect, therefore, a sudden signal. Would that your mercantile concerns might allow you to be the companion ef my Theodore! Can you not contrive it? I have some stronger reasons for the wish than I now can mention; they particularly relate to the future destination of your own son, towards whose welfare, if in my power, I should be the most ungrateful of mortals if I did not endeavour to provide. Salviati, observe my words. I form this opinion partly from you own letters.
+Immense as are the riches you have acquired by commerce, and enviable as is your pre-eminence among that respectable body of the community, which have been at once the chief props and ornaments of Florence, I mean its merchants -— he is not destined to be one. Theodore's letters also convince me that such is the case; for his companion Ludovico's frolics are a constant topic of them. But no more of this at present. We must give the matter a fair discussion over a bottle of hock in my tent —- were it possible, I would say in your house. We take the field at day-break to-morrow. God bless you! Shake hands withthe young warrior for me. I send you inclosed a draft for a thousand rixdollars.
+Your's till death, 
+ALBERTO DE C**.
+Colonel of the Fifth Austrian Hussars.</quotedtext>
+<diam>"Boys!" <m>called Salviati, as soon as he had read this letter</m>.</diam> The...
+```
+
 ## [1808 Montague 1_2_12825 Final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825%20Final%20no%20pages.html)
 
 ### Complex Sceneaction (Lines 244-256)

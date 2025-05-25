@@ -185,6 +185,7 @@ To modify which tags are included or excluded in the "Summary Included Tags" and
 | [1808 Anon_Master Passion Chapter 1-2 TEST](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Anon_Master%20Passion%20Chapter%201-2%20TEST.html) | 76 | 3499 | 2 | 1 | 303 | 1 | 893 | 22 | 388 |
 | [1808 Montague 1_2_12825 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Montague%201_2_12825%20Final%20no%20pages.html) | 141 | 12566 | 2 | 2 | 2351 | 4 | 3404 | 3 | 126 |
 | [1808 Norris 1_7_12512 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Norris%201_7_12512%20final%20no%20pages.html) | 329 | 12300 | 7 | 4 | 3869 | 6 | 3012 | 54 | 1126 |
+| [1808 Thompson](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thompson.html) | 522 | 13089 | 5 | 6 | 2926 | 6 | 3615 | 10 | 47 |
 | [1828 Bray Protestant 1_2_14300 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Bray%20Protestant%201_2_14300%20Final%20no%20pages.html) | 434 | 13434 | 2 | 0 | 0 | 2 | 12020 | 1 | 95 |
 | [1828 Colburn 1_2_13824 FINAL no page](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824%20FINAL%20no%20page.html) | 219 | 13594 | 2 | 5 | 5721 | 3 | 1793 | 12 | 537 |
 | [1828 Cunningham 1_2_12439 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439%20Final%20no%20pages.html) | 263 | 11984 | 2 | 1 | 5884 | 1 | 6015 | 2 | 172 |
