@@ -1060,6 +1060,86 @@ Sir Ambro...
 <diam>"I thought," <m>said Edric</m>, "that I was wandering in a thick gloomy wood, through which I had the utmost difficulty to make my way. The black trees, frowning in awful majesty above my head, twined together in masses, so as almost to obstruct my path. Suddenly, a fearful light flashed upon me, and I saw at my feet a horrid charnel house, where the dying mingl...
 ```
 
+## [1808 Thomas.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html)
+
+### Complex Sceneaction (Lines 95-121)
+
+**Location:** [Lines 95-121](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L95-L121)
+
+**Complexity Metrics:**
+- Unique tag types: 6
+- Total nested tags: 38
+- Word count: 1340
+- Tag types present: authorwe, dia, diam, diaq, i, m
+
+**Interesting Excerpts:**
+
+*Scene Opening:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L339-L358)
+```html
+<sceneaction>The breakfast being concluded, the younger part of the family began to concert plans for the morning's amusement, if two hours after mid-day could be so called.
+
+<diam>"You can ride, can't you?" <m>asked Miss Clarion</m>
+```
+
+*Scene Ending:* [Lines 339-358](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L339-L358)
+```html
+<sceneaction>The breakfast being concluded, the younger part of the family began to concert plans for the morning's amusement, if two hours after mid-day could be so called.
+
+<diam>"You can ride, can't you?" <m>asked Miss Clarion</m>. "I am sure I have seen you on horseback."</diam>
+<diam>"Yes, very well," <m>replied Glaphyra</m>.</diam>
+<dia>"Oh! but that sha'n't be it neither; you shall ride -— I mean you shall go in Lady Horneck's curricle; Miss Lawson shall have your horse; I am engaged to drive Lessingham in his phaeton; Mr. Isola and Captain Dashwood will attend the two ladies on horseback; and perhaps Sir James and Mr. Lawson will join our party: Lawson, how will you go?"</dia>
+<dia>"O! I will drive my phaeton against your's -— you know I have vowed to outdo you."</dia>
+<diam>"I hope Emily will stay at home this one day at least," <m>said Lady Lawson</m>.</diam>
+<diam>"O! but I am sure she wont," <m>replied her loquacious daughter</m>; "you know my sister never minds trifles, and she said she would be here at two this morning; and see," <m>continued she, pulling out her watch</m>, "it wants only ten minutes. Miss Laviton, you must hasten to prepare yourself."</diam>
+
+Glaphyra would have excused herself; but no excuse was allowed; and she then hastened to acquaint her parents of her intention, and to slip on a riding-dress.
+
+On her re-entrance at the house of Lady Lawson, she found Lady Horneck's carriage at the door; Mr. Lessingham, at the distance of a few paces, in his phaeton; and the different servants, with the horses, in waiting.
+
+Lessingham, as soon as he saw Glaphyra, gave the reins to his servant; and joining her, he said -— <diaq>"Miss Laviton, how unfortunate, that I cannot have the pleasure of offering you a seat in my carriage -— this foolish engagement -— yet I rejoice to see you intend being of our party: I hope your amiable sensibility towards Lady Horneck has done you no injury."</diaq>
+
+Glaphyra smiled: <dia>"I was happy in the little assistance I was able to afford her; but you will scarcely believe me when I tell you that she is to be of the party this morning, and to drive me in her curricle."</dia>
+<diam>"I need no ghost to tell me this," <m>retorted Lessingham</m>; "and I only regret that I am condemned to the purgatory of knowing myself within the reach of your voice, and yet by fashion confined to the misery of Tantalus."</diam>
+<diam>"Is it impossible to converse with your sex rationally, and is one of mine never to hear the language of sincerity?" <m>said Glaphyra, with severity, as she opened the door of the breakfast-room</...
+```
+
+### Complex Scenedia (Lines 140-186)
+
+**Location:** [Lines 140-186](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L140-L186)
+
+**Complexity Metrics:**
+- Unique tag types: 12
+- Total nested tags: 76
+- Word count: 2483
+- Tag types present: arrivaldeparture, authori, authorwe, auyhorwe, blend, dia, diam, diaq, i, m, quotedlit, reader
+
+**Interesting Excerpts:**
+
+*Scene Opening:* [Lines 194-213](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L194-L213)
+```html
+<scenedia>The day of Glaphyra's public appearance at Clifton was settled for the following Tuesday; and, that she might not disturb the repose of her father, she consented to spend the night at Lady Lawson's.
+
+At five o'clock, then, <authori>our heroine</authori>
+```
+
+*Scene Ending:* [Lines 194-213](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L194-L213)
+```html
+<scenedia>The day of Glaphyra's public appearance at Clifton was settled for the following Tuesday; and, that she might not disturb the repose of her father, she consented to spend the night at Lady Lawson's.
+
+At five o'clock, then, <authori>our heroine</authori> entered the drawing-room of her Ladyship, who was the only person attired for the day. She apologized for the absence of her son and daughter, and then sent to inform her sister that Miss Laviton was come, which soon brought that lady from her toilet.
+
+Arrayed in the extreme of fashion, Miss Pollet made her <i>entré</i>.
+
+Glaphyra looked at her with astonishment.
+
+Her flaxen locks (for which she was un-indebted to nature) were drawn up in a point at the top of her head, with a profusion of combs and bows, every one of which was ornamented with an arrow; beneath these luxuriant tresses projected a thin narrow face, a sharp nose, a long pointed chin, with a pair of little grey eyes, which were continually upon the stretch to gather information; her complexion was sallow; her form thin, spare, and inelegant; and a dress, rather fine than clean or neat, contributed in no small degree to render her person disgusting: yet so little had Miss Pollet studied self-knowledge, that <authorwe>we verily believe</authorwe>, of all her acquaintance, she was the only person inclined to allow that the sister of Lady Lawson might still be considered handsome, and that what she had lost in youth she had gained in dignity of manners -— an agreeableness in that <i>je ne sçai quoi</i> generally yeleped knowledge of the world. With a kind of studied negligence, she curtsied slightly to our heroine, walked slowly up to a sofa by the fire, and throwing one leg, gracefully, as she thought, over the other, she complained of excessive fatigue -— <diam>"These girls are enough to ruin the strongest constitution," <m>exclaimed she</m>; "I am wearied to death, and yet I consider myself as an extremely good walker: Lady Horneck was done up in half the time."</diam>
+<diam>"Was my daughter Horneck with you?" <m>asked Lady Lawson, in a tone of anxiety</m>.</diam>
+<diam>"She was," <m>replied Miss Pollet</m>.</diam>
+<diam>"Did Sir James know of her going? no, I am sure he did not," <m>repeated Lady Lawson.</m> "I am convinced that Emilia will ruin her health by such a continued round of rioting, morning, noon, and night: the best health could not stand it, and my poor Emilia is as delicate as infancy."</diam>
+
+A loud knocking at the street door announced the arrival of the family; and Miss Law...
+```
+
 ## [1828 Harvey 1_3_13500 final no pages.html](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html)
 
 ### Complex Sceneaction (Lines 3-54)

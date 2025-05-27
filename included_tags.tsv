@@ -5,6 +5,7 @@ arrivaldeparture
 authori
 authorialobservation
 authorwe
+auyhorwe
 backstory
 backstory_authorwe
 backstory_speechinsert
@@ -67,6 +68,7 @@ sceneaction_trigger
 sceneconsciousness
 scenedia
 scenedia_arrivaldeparture
+scenedia_auyhorwe
 scenedia_blend
 scenedia_chapmarker
 scenedia_chaptitle
@@ -80,10 +82,12 @@ scenedia_emscenequasi
 scenedia_graft
 scenedia_m
 scenedia_monologuethought
+scenedia_reader
 scenedia_rhetoricalq
 scenedia_song
 scenefragment
 scenefragment_authori
+scenefragment_cryptonym
 scenefragment_dia
 scenefragment_diam
 scenefragment_diaq
@@ -105,6 +109,7 @@ scenequasi_chapmarker
 scenequasi_dia
 scenequasi_diam
 scenequasi_diaq
+scenequasi_graft
 scenequasi_m
 scenequasi_monologue
 scenequasi_monologuethought
