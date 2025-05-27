@@ -2,8 +2,7 @@ tag,tag_count,word_count
 totaldoctagswords,352,13185
 arrivaldeparture,4,24
 authori,5,13
-authorwe,7,15
-auyhorwe,1,2
+authorwe,8,17
 blend,2,18
 book,2,4
 chapepigraph,4,87
@@ -38,8 +37,7 @@ sceneaction_m,26,103
 scenedia,4,5871
 scenedia_arrivaldeparture,4,24
 scenedia_authori,2,4
-scenedia_authorwe,2,5
-scenedia_auyhorwe,1,2
+scenedia_authorwe,3,7
 scenedia_blend,2,18
 scenedia_dia,12,268
 scenedia_diam,85,2877

@@ -1108,10 +1108,10 @@ Glaphyra smiled: <dia>"I was happy in the little assistance I was able to afford
 **Location:** [Lines 140-186](https://github.com/aculich/novel-scenification/blob/main/data/input/1808%20Thomas.html#L140-L186)
 
 **Complexity Metrics:**
-- Unique tag types: 12
+- Unique tag types: 11
 - Total nested tags: 76
 - Word count: 2483
-- Tag types present: arrivaldeparture, authori, authorwe, auyhorwe, blend, dia, diam, diaq, i, m, quotedlit, reader
+- Tag types present: arrivaldeparture, authori, authorwe, blend, dia, diam, diaq, i, m, quotedlit, reader
 
 **Interesting Excerpts:**
 
