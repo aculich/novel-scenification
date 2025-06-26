@@ -20,5 +20,6 @@
 | [1828 Colburn 1_2_13824 FINAL no page](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Colburn%201_2_13824%20FINAL%20no%20page.html) | 219 | 13594 | 2 | 5 | 5721 | 3 | 1793 | 12 | 537 |
 | [1828 Cunningham 1_2_12439 Final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Cunningham%201_2_12439%20Final%20no%20pages.html) | 263 | 11984 | 2 | 1 | 5884 | 1 | 6015 | 2 | 172 |
 | [1828 Derenz 1_9_14614 final no pages no footnotes](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Derenz%201_9_14614%20final%20no%20pages%20no%20footnotes.html) | 438 | 14550 | 9 | 5 | 4277 | 6 | 6505 | 24 | 822 |
+| [1828 Harding](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harding.html) | 618 | 12921 | 4 | 0 | 0 | 4 | 12913 | 321 | 7501 |
 | [1828 Harvey 1_3_13500 final no pages](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Harvey%201_3_13500%20final%20no%20pages.html) | 280 | 12876 | 3 | 2 | 4007 | 3 | 8135 | 10 | 489 |
 | [1828 Loudon 1_4_11057 final](https://github.com/aculich/novel-scenification/blob/main/data/input/1828%20Loudon%201_4_11057%20final.html) | 305 | 14696 | 4 | 3 | 6191 | 3 | 3261 | 28 | 1187 |
