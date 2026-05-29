@@ -4,7 +4,7 @@
 
 This repository contains tools for analyzing scenes and tags in literary texts, particularly focusing on the evolution of scenic techniques in English novels from 1788-1828.
 
-This repository supports the following paper, currently in preprint form being prepared for publication:
+This repository supports the following paper, presented at [CMN '25](https://tecfa.unige.ch/cmn25/program.html) (Computational Models of Narrative, Université de Genève, May 29, 2025) and being prepared for publication:
 
 > # Scenification of the Novel in the Time of Jane Austen
 >
@@ -20,6 +20,16 @@ This repository supports the following paper, currently in preprint form being p
 > ## Keywords
 >
 > Narratology, novel, fiction, scene, summary
+
+![The Scenification of the Novel in the Time of Jane Austen — CMN '25](./scenification_CMN_cover.png)
+
+### CMN '25 materials
+
+`"The Scenification of the Novel in the Time of Jane Austen." CMN '25 (Computational Models of Narrative), Université de Genève, May 29, 2025.`
+
+- **Conference program:** [tecfa.unige.ch/cmn25/program.html](https://tecfa.unige.ch/cmn25/program.html)
+- **Conference paper:** [official PDF](https://tecfa.unige.ch/cmn25/19papers/CMN25_paper_22_Paige.pdf) · [in-repo copy](./CMN25_paper_22_Paige.pdf)
+- **Slides:** [CMN_slides_Paige.pptx](./CMN_slides_Paige.pptx)
 
 ## Tag Schema
 
